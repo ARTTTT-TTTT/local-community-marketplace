@@ -95,7 +95,8 @@ class ProductCard extends StatelessWidget {
                   children: [
                     // Price and Name Row
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment
+                          .center, // Align items vertically centered
                       children: [
                         // Price (Left side)
                         Text(
@@ -113,7 +114,7 @@ class ProductCard extends StatelessWidget {
                             product.name,
                             style: const TextStyle(
                               fontSize: 12,
-                              color: Colors.grey,
+                              color: Colors.black,
                               height: 1.2,
                             ),
                             maxLines: 2,

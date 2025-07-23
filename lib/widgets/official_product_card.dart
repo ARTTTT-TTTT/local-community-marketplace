@@ -109,7 +109,8 @@ class OfficialProductCard extends StatelessWidget {
 
                     // Rating and Price Row
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment
+                          .center, // Align items vertically centered
                       children: [
                         // Rating (Left side)
                         Expanded(
