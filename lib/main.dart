@@ -2,6 +2,7 @@
 // TODO: Login
 
 import 'package:flutter/material.dart';
+import 'screens/email_verification_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -548,10 +549,30 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Home')),
-      body: const Center(
-        child: Text(
-          'ยินดีต้อนรับสู่ Community Marketplace!',
-          style: TextStyle(fontSize: 20),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'ยินดีต้อนรับสู่ Community Marketplace!',
+              style: TextStyle(fontSize: 20),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const EmailVerificationScreen(
+                      email: 'register@gmail.com',
+                      referenceCode: 'XYLP',
+                    ),
+                  ),
+                );
+              },
+              child: const Text('Test Email Verification'),
+            ),
+          ],
         ),
       ),
     );
