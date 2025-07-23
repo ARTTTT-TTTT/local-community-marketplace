@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
+import '../utils/app_constants.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/password_field.dart';
-import '../utils/app_constants.dart';
 
 class SignupScreen extends StatefulWidget {
   final String email;
@@ -85,7 +86,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: Colors.blue,
                   ),
                 ),
 
