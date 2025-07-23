@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'screens/signup_screen.dart';
 
 import 'package:community_marketplace/screens/splash_screen.dart';
 
@@ -16,26 +17,33 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
-        fontFamily: 'Arial',
+        fontFamily: 'Noto Sans Thai', // Support Thai fonts
       ),
-      home: const SplashScreen(),
+      home: const DemoHomeScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
-// 4. HomeScreen
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class DemoHomeScreen extends StatelessWidget {
+  const DemoHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
-      body: const Center(
-        child: Text(
-          'ยินดีต้อนรับสู่ Community Marketplace!',
-          style: TextStyle(fontSize: 20),
+      appBar: AppBar(title: const Text('Demo - Signup Screen')),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    const SignupScreen(email: 'register@gmail.com'),
+              ),
+            );
+          },
+          child: const Text('Open Signup Screen'),
         ),
       ),
     );
