@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/signup_screen.dart';
 
-import 'package:community_marketplace/screens/splash_screen.dart';
-
 void main() {
   runApp(const MyApp());
 }
