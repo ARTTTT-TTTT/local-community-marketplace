@@ -48,9 +48,7 @@ class _DashboardScreenContent extends StatelessWidget {
                           // Hot Products Section (Close to user)
                           _buildSectionHeader(
                             context,
-                            'สินค้าแนะนำจากแรงจูงใจ',
-                            Icons.local_fire_department,
-                            Colors.orange,
+                            'สินค้ายอดนิยมของวันนี้',
                           ),
                           const SizedBox(height: 12),
                           _buildProductGrid(
@@ -64,9 +62,7 @@ class _DashboardScreenContent extends StatelessWidget {
                           // Regular Products Section (Far from user)
                           _buildSectionHeader(
                             context,
-                            'สินค้าแนะนำนะคำทำหาไหม',
-                            Icons.location_on,
-                            AppConstants.primaryColor,
+                            'สินค้าแนะนำเพิ่มเติมจากร้านค้าที่ไกลออกไป',
                           ),
                           const SizedBox(height: 12),
                           _buildProductGrid(
@@ -94,15 +90,9 @@ class _DashboardScreenContent extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionHeader(
-    BuildContext context,
-    String title,
-    IconData icon,
-    Color iconColor,
-  ) {
+  Widget _buildSectionHeader(BuildContext context, String title) {
     return Row(
       children: [
-        Icon(icon, color: iconColor, size: 24),
         const SizedBox(width: 8),
         Text(
           title,
@@ -118,7 +108,8 @@ class _DashboardScreenContent extends StatelessWidget {
             // TODO: Navigate to see all products
           },
           child: Text(
-            'ดูทั้งหมด',
+            'เทศบาลนครหาดใหญ่',
+
             style: TextStyle(
               color: AppConstants.primaryColor,
               fontWeight: FontWeight.w500,

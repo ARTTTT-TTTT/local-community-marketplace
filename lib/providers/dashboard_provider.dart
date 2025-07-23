@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/product.dart';
+import '../widgets/filter_drawer.dart';
 
 class DashboardProvider extends ChangeNotifier {
   List<Product> _allProducts = [];
@@ -8,6 +9,7 @@ class DashboardProvider extends ChangeNotifier {
   bool _isLoading = false;
   String _searchQuery = '';
   String _selectedFilter = 'ทั้งหมด';
+  FilterSelection _currentFilters = FilterSelection();
 
   // Getters
   List<Product> get allProducts => _allProducts;
@@ -16,6 +18,7 @@ class DashboardProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String get searchQuery => _searchQuery;
   String get selectedFilter => _selectedFilter;
+  FilterSelection get currentFilters => _currentFilters;
 
   // Load products (mock data for now)
   Future<void> loadProducts() async {
@@ -48,6 +51,22 @@ class DashboardProvider extends ChangeNotifier {
       _categorizeProducts();
       notifyListeners();
     }
+  }
+
+  // Apply advanced filters
+  void applyFilters(FilterSelection filters) {
+    _currentFilters = filters;
+    _filterProducts();
+    notifyListeners();
+  }
+
+  // Clear all filters
+  void clearFilters() {
+    _currentFilters = FilterSelection();
+    _searchQuery = '';
+    _selectedFilter = 'ทั้งหมด';
+    _filterProducts();
+    notifyListeners();
   }
 
   // Search products
@@ -91,6 +110,41 @@ class DashboardProvider extends ChangeNotifier {
       }).toList();
     }
 
+    // Apply advanced filters from FilterSelection
+    if (_currentFilters.hasFilters) {
+      filteredProducts = filteredProducts.where((product) {
+        // Price filter
+        if (_currentFilters.minPrice != null &&
+            product.price < _currentFilters.minPrice!) {
+          return false;
+        }
+        if (_currentFilters.maxPrice != null &&
+            product.price > _currentFilters.maxPrice!) {
+          return false;
+        }
+
+        // Status filter (we'll map product properties to statuses)
+        if (_currentFilters.selectedStatuses.isNotEmpty) {
+          String productStatus = _getProductStatus(product);
+          if (!_currentFilters.selectedStatuses.contains(productStatus)) {
+            return false;
+          }
+        }
+
+        // Seller type filter
+        if (_currentFilters.selectedSellers.isNotEmpty) {
+          String sellerType = product.isOfficialShop
+              ? 'ร้านค้าเป็นทางการ'
+              : 'บุคคลทั่วไป';
+          if (!_currentFilters.selectedSellers.contains(sellerType)) {
+            return false;
+          }
+        }
+
+        return true;
+      }).toList();
+    }
+
     // Apply category filter
     if (_selectedFilter != 'ทั้งหมด') {
       // You can add more specific filtering logic here based on your categories
@@ -110,6 +164,21 @@ class DashboardProvider extends ChangeNotifier {
     _regularProducts = filteredProducts
         .where((product) => !product.isNearUser)
         .toList();
+  }
+
+  // Helper method to get product status based on product properties
+  String _getProductStatus(Product product) {
+    // This is a simplified mapping - you can make this more sophisticated
+    // based on actual product properties you have
+    if (product.price > 5000) {
+      return 'ใหม่';
+    } else if (product.price > 2000) {
+      return 'มือสอง-สภาพเหมือนใหม่';
+    } else if (product.price > 1000) {
+      return 'มือสอง-สภาพดี';
+    } else {
+      return 'มือสอง-สภาพพอใช้ได้';
+    }
   }
 
   // Generate mock product data

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/dashboard_provider.dart';
 import '../utils/app_constants.dart';
+import '../widgets/filter_drawer.dart';
 
 class DashboardHeader extends StatelessWidget {
   const DashboardHeader({super.key});
@@ -16,7 +17,7 @@ class DashboardHeader extends StatelessWidget {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.1),
+                color: Colors.grey.withValues(alpha: 0.1),
                 spreadRadius: 1,
                 blurRadius: 4,
                 offset: const Offset(0, 2),
@@ -268,15 +269,16 @@ class DashboardHeader extends StatelessWidget {
     );
   }
 
-  void _showAdvancedFilter(BuildContext context) {
-    // TODO: Show advanced filter bottom sheet
-    showModalBottomSheet(
+  void _showAdvancedFilter(BuildContext context) async {
+    final provider = Provider.of<DashboardProvider>(context, listen: false);
+
+    final result = await showFilterBottomSheet(
       context: context,
-      builder: (context) => Container(
-        height: 400,
-        padding: const EdgeInsets.all(16),
-        child: const Center(child: Text('Advanced Filter - To be implemented')),
-      ),
+      initialFilters: provider.currentFilters,
     );
+
+    if (result != null) {
+      provider.applyFilters(result);
+    }
   }
 }
