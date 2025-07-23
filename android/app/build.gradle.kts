@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.chanom.community_marketplace"
+    namespace = "com.chanom.community_marketplace1"
     compileSdk = flutter.compileSdkVersion
     // ndkVersion = flutter.ndkVersion  // Commented out to avoid NDK issues
 
@@ -22,7 +22,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.chanom.community_marketplace"
+        applicationId = "com.chanom.community_marketplace1"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 23  // Updated for Firebase Auth compatibility

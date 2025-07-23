@@ -491,7 +491,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     });
                   },
                 );
-              }).toList(),
+              }),
             ],
           ),
         ),
@@ -546,7 +546,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     });
                   },
                 );
-              }).toList(),
+              }),
             ],
           ),
         ),
