@@ -53,10 +53,10 @@ class OfficialProductCard extends StatelessWidget {
                       child: _buildProductImage(),
                     ),
                   ),
-                  // Favorite Button (Top Left)
+                  // Favorite Button (Top Right)
                   Positioned(
                     top: 8,
-                    left: 8,
+                    right: 8,
                     child: GestureDetector(
                       onTap: onFavoriteToggle,
                       child: Container(

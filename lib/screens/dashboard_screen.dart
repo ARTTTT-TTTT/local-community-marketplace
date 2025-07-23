@@ -63,6 +63,7 @@ class _DashboardScreenContent extends StatelessWidget {
                           _buildSectionHeader(
                             context,
                             'สินค้าแนะนำเพิ่มเติมจากร้านค้าที่ไกลออกไป',
+                            showLocationButton: false,
                           ),
                           const SizedBox(height: 12),
                           _buildProductGrid(
@@ -90,7 +91,11 @@ class _DashboardScreenContent extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionHeader(BuildContext context, String title) {
+  Widget _buildSectionHeader(
+    BuildContext context,
+    String title, {
+    bool showLocationButton = true,
+  }) {
     return Row(
       children: [
         const SizedBox(width: 8),
@@ -103,19 +108,30 @@ class _DashboardScreenContent extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        TextButton(
-          onPressed: () {
-            // TODO: Navigate to see all products
-          },
-          child: Text(
-            'เทศบาลนครหาดใหญ่',
-
-            style: TextStyle(
-              color: AppConstants.primaryColor,
-              fontWeight: FontWeight.w500,
+        if (showLocationButton)
+          TextButton(
+            onPressed: () {
+              // TODO: Navigate to see all products
+            },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.location_on,
+                  size: 16,
+                  color: AppConstants.primaryColor,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  'เทศบาลนครหาดใหญ่',
+                  style: TextStyle(
+                    color: AppConstants.primaryColor,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
           ),
-        ),
       ],
     );
   }

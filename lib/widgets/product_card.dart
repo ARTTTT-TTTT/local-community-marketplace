@@ -56,7 +56,7 @@ class ProductCard extends StatelessWidget {
                   // Favorite Button (Top Left)
                   Positioned(
                     top: 8,
-                    left: 8,
+                    right: 8,
                     child: GestureDetector(
                       onTap: onFavoriteToggle,
                       child: Container(
