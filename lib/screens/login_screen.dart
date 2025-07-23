@@ -40,7 +40,7 @@ class _LoginScreenContent extends StatelessWidget {
                     Row(
                       children: [
                         const Text(
-                          'OurIconProduction',
+                          'Community Marketplace',
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w600,
