@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/firebase_auth_service.dart';
 
 class SignupProvider extends ChangeNotifier {
   // Form controllers
@@ -6,6 +7,9 @@ class SignupProvider extends ChangeNotifier {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  // Email property
+  String _email = '';
 
   // Password visibility states
   bool _isPasswordVisible = false;
@@ -17,17 +21,49 @@ class SignupProvider extends ChangeNotifier {
   // Loading state
   bool _isLoading = false;
 
+  // Constructor
+  SignupProvider() {
+    // Add listeners to update UI when text changes
+    passwordController.addListener(_updateState);
+    confirmPasswordController.addListener(_updateState);
+  }
+
+  void _updateState() {
+    // Update password validation state when text changes
+    _isPasswordValid = _isValidPassword(passwordController.text);
+    notifyListeners();
+  }
+
   // Getters
+  String get email => _email;
   bool get isPasswordVisible => _isPasswordVisible;
   bool get isConfirmPasswordVisible => _isConfirmPasswordVisible;
   bool get isPasswordValid => _isPasswordValid;
   bool get isLoading => _isLoading;
 
-  bool get canProceed =>
-      _isPasswordValid &&
-      passwordController.text.isNotEmpty &&
-      confirmPasswordController.text.isNotEmpty &&
-      !_isLoading;
+  bool get canProceed {
+    // Check if both fields have content
+    if (passwordController.text.isEmpty ||
+        confirmPasswordController.text.isEmpty ||
+        _isLoading) {
+      return false;
+    }
+
+    // Check if password is valid
+    bool passwordValid = _isValidPassword(passwordController.text);
+
+    // Check if passwords match
+    bool passwordsMatch =
+        passwordController.text == confirmPasswordController.text;
+
+    return passwordValid && passwordsMatch;
+  }
+
+  // Set email
+  void setEmail(String email) {
+    _email = email;
+    notifyListeners();
+  }
 
   // Toggle password visibility
   void togglePasswordVisibility() {
@@ -81,7 +117,20 @@ class SignupProvider extends ChangeNotifier {
 
   // Submit signup
   Future<void> submitSignup() async {
-    if (!formKey.currentState!.validate() || !_isPasswordValid) {
+    if (!formKey.currentState!.validate()) {
+      //print('Form validation failed');
+      return;
+    }
+
+    // Double-check password validity
+    bool passwordValid = _isValidPassword(passwordController.text);
+    bool passwordsMatch =
+        passwordController.text == confirmPasswordController.text;
+
+    if (!passwordValid || !passwordsMatch) {
+      // print(
+      //   'Password validation failed: valid=$passwordValid, match=$passwordsMatch',
+      // )
       return;
     }
 
@@ -89,17 +138,24 @@ class SignupProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 2));
+      //print('🔥 Attempting to create user with email: $_email');
+      // Create user with Firebase Authentication
+      final userCredential = await FirebaseAuthService.signUpWithEmail(
+        email: _email,
+        password: passwordController.text,
+      );
 
-      // TODO: Implement actual signup logic here
-      // await AuthService.signup(email, password);
+      //print('✅ User created successfully: ${userCredential?.user?.uid}');
+      //print(
+      //   '📧 Email verification sent: ${userCredential?.user?.emailVerified}',
+      // )
 
       _isLoading = false;
       notifyListeners();
 
       // Return success - UI will handle navigation
     } catch (error) {
+      //print('❌ Signup error: $error');
       _isLoading = false;
       notifyListeners();
 
@@ -121,6 +177,8 @@ class SignupProvider extends ChangeNotifier {
 
   @override
   void dispose() {
+    passwordController.removeListener(_updateState);
+    confirmPasswordController.removeListener(_updateState);
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.dispose();

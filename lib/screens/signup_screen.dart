@@ -14,7 +14,7 @@ class SignupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SignupProvider(),
+      create: (_) => SignupProvider()..setEmail(email),
       child: _SignupScreenContent(email: email),
     );
   }
@@ -37,8 +37,8 @@ class _SignupScreenContent extends StatelessWidget {
           ),
         );
 
-        // TODO: Navigate to next screen
-        // Navigator.pushReplacementNamed(context, '/home');
+        // Return to login screen with success result
+        Navigator.pop(context, true);
       }
     } catch (error) {
       if (context.mounted) {
@@ -67,14 +67,16 @@ class _SignupScreenContent extends StatelessWidget {
             ),
           ),
           body: SafeArea(
-            child: Padding(
+            child: SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               padding: const EdgeInsets.all(24.0),
               child: Form(
                 key: provider.formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 20),
+                    // Remove the first SizedBox to give more space
+                    // const SizedBox(height: 20),
 
                     // Title
                     const Text(
@@ -82,7 +84,7 @@ class _SignupScreenContent extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
-                        color: Colors.blue,
+                        color: Colors.black,
                       ),
                     ),
 
@@ -98,7 +100,7 @@ class _SignupScreenContent extends StatelessWidget {
                         ),
                         children: [
                           TextSpan(
-                            text: 'Dime!',
+                            text: 'Community Marketplace',
                             style: TextStyle(
                               fontSize: 16,
                               color: AppConstants.primaryColor,
@@ -125,7 +127,7 @@ class _SignupScreenContent extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
 
                     // Password requirements
                     Container(
@@ -141,8 +143,7 @@ class _SignupScreenContent extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(height: 32),
-
+                    const SizedBox(height: 20), // Reduced from 32
                     // Password field
                     PasswordField(
                       controller: provider.passwordController,
@@ -150,12 +151,10 @@ class _SignupScreenContent extends StatelessWidget {
                       hintText: 'รหัสผ่าน',
                       isPasswordVisible: provider.isPasswordVisible,
                       onVisibilityToggle: provider.togglePasswordVisibility,
-                      onChanged: provider.validatePassword,
                       validator: provider.validatePasswordField,
                     ),
 
-                    const SizedBox(height: 20),
-
+                    const SizedBox(height: 16), // Reduced from 20
                     // Confirm password field
                     PasswordField(
                       controller: provider.confirmPasswordController,
@@ -167,8 +166,7 @@ class _SignupScreenContent extends StatelessWidget {
                       validator: provider.validateConfirmPasswordField,
                     ),
 
-                    const Spacer(),
-
+                    const SizedBox(height: 24), // Reduced from 40
                     // Next button
                     CustomButton(
                       text: provider.isLoading ? 'กำลังสร้างบัญชี...' : 'ถัดไป',
@@ -178,7 +176,10 @@ class _SignupScreenContent extends StatelessWidget {
                       isEnabled: provider.canProceed,
                     ),
 
-                    const SizedBox(height: 20),
+                    // Add bottom safe area padding
+                    SizedBox(
+                      height: MediaQuery.of(context).padding.bottom + 20,
+                    ),
                   ],
                 ),
               ),
