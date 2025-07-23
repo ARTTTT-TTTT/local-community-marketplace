@@ -1,136 +1,111 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import 'package:community_marketplace/models/onboarding_model.dart';
 import 'package:community_marketplace/main.dart';
+import 'package:community_marketplace/providers/onboarding_provider.dart';
 
-class OnboardingScreen extends StatefulWidget {
+class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => OnboardingProvider(),
+      child: const _OnboardingScreenContent(),
+    );
+  }
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
-
-  final List<OnboardingModel> _pages = [
-    OnboardingModel(
-      title: "ยินดีต้อนรับสู่ Community Marketplace",
-      description:
-          "ตลาดออนไลน์สำหรับคนในชุมชนเดียวกัน เพื่อซื้อ ขาย และแลกเปลี่ยนบริการแบบใกล้บ้าน",
-      icon: Icons.groups_rounded,
-    ),
-    OnboardingModel(
-      title: "ลงขายสินค้าได้ง่าย ๆ",
-      description:
-          "แค่ถ่ายภาพ ตั้งราคา และบรรยายสินค้า ทุกคนในละแวกจะเห็นสินค้าของคุณทันที",
-      icon: Icons.add_business_rounded,
-    ),
-    OnboardingModel(
-      title: "ค้นหาและสื่อสารได้ทันที",
-      description: "ค้นหาสินค้าด้วยคำค้น ระบบกรองละเอียด และแชทกับผู้ขายโดยตรง",
-      icon: Icons.search_rounded,
-    ),
-    OnboardingModel(
-      title: "ปลอดภัยด้วยรีวิวและคะแนน",
-      description:
-          "ดูประวัติผู้ขาย รีวิวจากเพื่อนบ้าน และทำรายการได้อย่างมั่นใจ",
-      icon: Icons.star_rate_rounded,
-    ),
-    OnboardingModel(
-      title: "ติดตามทุกการแจ้งเตือน",
-      description:
-          "ไม่พลาดทุกโอกาส เพราะเรามีการแจ้งเตือนเมื่อมีคนสนใจสินค้าคุณ",
-      icon: Icons.notifications_active_rounded,
-    ),
-  ];
-
-  void _onNextTap() {
-    if (_currentPage < _pages.length - 1) {
-      _pageController.nextPage(
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.ease,
-      );
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const DemoHomeScreen()),
-      );
-    }
-  }
+class _OnboardingScreenContent extends StatelessWidget {
+  const _OnboardingScreenContent();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          // Progress Bar บนสุด
-          Positioned(
-            top: 60,
-            left: 20,
-            right: 20,
-            child: Row(
-              children: _pages.asMap().entries.map((entry) {
-                int index = entry.key;
-                return Expanded(
-                  child: Container(
-                    height: 4,
-                    margin: const EdgeInsets.symmetric(horizontal: 2),
-                    decoration: BoxDecoration(
-                      color: _currentPage >= index
-                          ? Colors.blue
-                          : Colors.grey[300],
-                      borderRadius: BorderRadius.circular(2),
-                    ),
+    return Consumer<OnboardingProvider>(
+      builder: (context, provider, child) {
+        return Scaffold(
+          body: Stack(
+            children: [
+              // Progress Bar บนสุด
+              Positioned(
+                top: 60,
+                left: 20,
+                right: 20,
+                child: Row(
+                  children: provider.pages.asMap().entries.map((entry) {
+                    int index = entry.key;
+                    return Expanded(
+                      child: Container(
+                        height: 4,
+                        margin: const EdgeInsets.symmetric(horizontal: 2),
+                        decoration: BoxDecoration(
+                          color: provider.currentPage >= index
+                              ? Colors.blue
+                              : Colors.grey[300],
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+
+              // ภาษา (ไทย | EN)
+              Positioned(
+                top: 80,
+                right: 20,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
                   ),
-                );
-              }).toList(),
-            ),
-          ),
-
-          // ภาษา (ไทย | EN)
-          Positioned(
-            top: 80,
-            right: 20,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey, width: 1),
-                borderRadius: BorderRadius.circular(16),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey, width: 1),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: const Text(
+                    "ไทย | EN",
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                  ),
+                ),
               ),
-              child: const Text(
-                "ไทย | EN",
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-              ),
-            ),
-          ),
 
-          // PageView
-          PageView.builder(
-            controller: _pageController,
-            itemCount: _pages.length,
-            onPageChanged: (index) => setState(() => _currentPage = index),
-            itemBuilder: (context, index) {
-              final page = _pages[index];
-              return OnboardingContent(page: page);
-            },
-          ),
-
-          // ปุ่ม Next / Done ด้านล่าง
-          Positioned(
-            bottom: 40,
-            left: 20,
-            right: 20,
-            child: FilledButton(
-              onPressed: _onNextTap,
-              child: Text(
-                _currentPage == _pages.length - 1 ? "เริ่มใช้งาน" : "ถัดไป",
+              // PageView
+              PageView.builder(
+                controller: provider.pageController,
+                itemCount: provider.pages.length,
+                onPageChanged: provider.onPageChanged,
+                itemBuilder: (context, index) {
+                  final page = provider.pages[index];
+                  return OnboardingContent(page: page);
+                },
               ),
-            ),
+
+              // ปุ่ม Next / Done ด้านล่าง
+              Positioned(
+                bottom: 40,
+                left: 20,
+                right: 20,
+                child: FilledButton(
+                  onPressed: () {
+                    if (provider.isLastPage) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const DemoHomeScreen(),
+                        ),
+                      );
+                    } else {
+                      provider.nextPage();
+                    }
+                  },
+                  child: Text(provider.isLastPage ? "เริ่มใช้งาน" : "ถัดไป"),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
