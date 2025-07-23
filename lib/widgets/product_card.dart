@@ -23,7 +23,7 @@ class ProductCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
+              color: Colors.grey.withValues(alpha: 0.1),
               spreadRadius: 1,
               blurRadius: 4,
               offset: const Offset(0, 2),
@@ -33,9 +33,9 @@ class ProductCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Product Image with Favorite Button
-            Expanded(
-              flex: 3,
+            // Product Image with Favorite Button (Fixed Height)
+            SizedBox(
+              height: 120, // Fixed image height
               child: Stack(
                 children: [
                   Container(
@@ -62,11 +62,11 @@ class ProductCard extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.9),
+                          color: Colors.white.withValues(alpha: 0.9),
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
+                              color: Colors.black.withValues(alpha: 0.1),
                               blurRadius: 4,
                               offset: const Offset(0, 2),
                             ),
@@ -86,9 +86,8 @@ class ProductCard extends StatelessWidget {
               ),
             ),
 
-            // Product Details
+            // Product Details (Flexible Height)
             Expanded(
-              flex: 2,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(

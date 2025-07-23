@@ -187,7 +187,7 @@ class DashboardProvider extends ChangeNotifier {
       // Hot products (near user)
       Product(
         id: '1',
-        name: 'Essential Men\'s Short-Sleeve Crewneck T-Shirt',
+        name: 'Product Name',
         description: 'Comfortable cotton t-shirt',
         price: 890,
         imageUrl: 'assets/images/product_placeholder.png',
@@ -199,7 +199,7 @@ class DashboardProvider extends ChangeNotifier {
       ),
       Product(
         id: '2',
-        name: 'Product Name',
+        name: 'Essential Men\'s Short-Sleeve Crewneck T-Shirt',
         description: 'High quality product',
         price: 2000,
         imageUrl: 'assets/images/product_placeholder.png',

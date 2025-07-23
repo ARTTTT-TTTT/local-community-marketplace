@@ -20,8 +20,8 @@ class _FloatingNavigationBarState extends State<FloatingNavigationBar> {
       route: '/dashboard',
     ),
     NavigationItem(
-      icon: Icons.shopping_bag_outlined,
-      activeIcon: Icons.shopping_bag,
+      icon: Icons.paid_outlined,
+      activeIcon: Icons.paid,
       label: 'ร้าน',
       route: '/shop',
     ),

@@ -148,34 +148,80 @@ class _DashboardScreenContent extends StatelessWidget {
       );
     }
 
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
-        childAspectRatio: 0.75, // Adjusted for proper card proportions
-      ),
-      itemCount: products.length,
-      itemBuilder: (context, index) {
-        final product = products[index];
+    // Separate products into left and right columns
+    List<Product> leftColumnProducts = [];
+    List<Product> rightColumnProducts = [];
 
-        // Choose card type based on seller type
+    for (int i = 0; i < products.length; i++) {
+      if (i % 2 == 0) {
+        leftColumnProducts.add(products[i]);
+      } else {
+        rightColumnProducts.add(products[i]);
+      }
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Left Column
+        Expanded(
+          child: _buildColumn(context, leftColumnProducts, isLeftColumn: true),
+        ),
+
+        const SizedBox(width: 12), // Space between columns
+        // Right Column
+        Expanded(
+          child: _buildColumn(
+            context,
+            rightColumnProducts,
+            isLeftColumn: false,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildColumn(
+    BuildContext context,
+    List<Product> products, {
+    required bool isLeftColumn,
+  }) {
+    return Column(
+      children: products.asMap().entries.map((entry) {
+        final index = entry.key;
+        final product = entry.value;
+
+        // Determine different heights for variety
+        double cardHeight;
         if (product.isOfficialShop) {
-          return OfficialProductCard(
-            product: product,
-            onTap: () => _onProductTapped(context, product),
-            onFavoriteToggle: () => _onFavoriteToggle(context, product),
-          );
+          // Official shop cards - taller height (more content: rating, reviews)
+          cardHeight = 250;
         } else {
-          return ProductCard(
-            product: product,
-            onTap: () => _onProductTapped(context, product),
-            onFavoriteToggle: () => _onFavoriteToggle(context, product),
-          );
+          // Regular cards - shorter height, with some variation
+          // Use different patterns for left and right columns
+          if (isLeftColumn) {
+            cardHeight = index % 3 == 0 ? 200 : (index % 2 == 0 ? 180 : 220);
+          } else {
+            cardHeight = index % 3 == 0 ? 220 : (index % 2 == 0 ? 200 : 180);
+          }
         }
-      },
+
+        return Container(
+          height: cardHeight,
+          margin: const EdgeInsets.only(bottom: 12), // Vertical spacing
+          child: product.isOfficialShop
+              ? OfficialProductCard(
+                  product: product,
+                  onTap: () => _onProductTapped(context, product),
+                  onFavoriteToggle: () => _onFavoriteToggle(context, product),
+                )
+              : ProductCard(
+                  product: product,
+                  onTap: () => _onProductTapped(context, product),
+                  onFavoriteToggle: () => _onFavoriteToggle(context, product),
+                ),
+        );
+      }).toList(),
     );
   }
 

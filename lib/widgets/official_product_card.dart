@@ -33,9 +33,9 @@ class OfficialProductCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Product Image with Favorite Button
-            Expanded(
-              flex: 3,
+            // Product Image with Favorite Button (Fixed Height)
+            SizedBox(
+              height: 120, // Fixed image height
               child: Stack(
                 children: [
                   Container(
@@ -86,9 +86,8 @@ class OfficialProductCard extends StatelessWidget {
               ),
             ),
 
-            // Product Details for Official Shop
+            // Product Details for Official Shop (Flexible Height)
             Expanded(
-              flex: 2,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
