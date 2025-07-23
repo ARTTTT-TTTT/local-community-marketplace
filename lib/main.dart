@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'screens/signup_screen.dart';
 import 'screens/onboarding_screen.dart';
 import 'screens/splash_screen.dart';
+import 'screens/email_verification_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -72,6 +73,21 @@ class DemoHomeScreen extends StatelessWidget {
               },
               child: const Text('Open Splash Screen'),
             ),  
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const EmailVerificationScreen(
+                      email: 'register@gmail.com',
+                      referenceCode: 'XYLP',
+                    ),
+                  ),
+                );
+              },
+              child: const Text('Open Terms Screen'),
+            ),
           ],
         ),
       ),
