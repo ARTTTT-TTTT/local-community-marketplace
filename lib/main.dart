@@ -66,13 +66,11 @@ class DemoHomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const SplashScreen(),
-                  ),
+                  MaterialPageRoute(builder: (context) => const SplashScreen()),
                 );
               },
               child: const Text('Open Splash Screen'),
-            ),  
+            ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
@@ -86,7 +84,7 @@ class DemoHomeScreen extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text('Open Terms Screen'),
+              child: const Text('Open Email Verification Screen'),
             ),
           ],
         ),

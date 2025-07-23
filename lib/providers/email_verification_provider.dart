@@ -73,11 +73,11 @@ class EmailVerificationProvider extends ChangeNotifier {
   void verifyOtp() {
     String otp = _otpControllers.map((c) => c.text).join();
     // TODO: Implement your OTP verification logic here
-    // For example:
-    // if (otp.length == 6) {
-    //   print('Verifying OTP: $otp');
-    //   // Show success/error message
-    // }
+    if (otp.length == 6) {
+      // For now, just store the OTP or handle it as needed
+      // In a real app, you would send this to your backend
+      print('Verifying OTP: $otp');
+    }
   }
 
   void resendOtp(BuildContext context) {
