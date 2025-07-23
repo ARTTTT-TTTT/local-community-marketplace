@@ -9,6 +9,7 @@ import 'screens/splash_screen.dart';
 import 'screens/email_verification_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/firebase_test_screen.dart';
+import 'screens/dashboard_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -209,6 +210,22 @@ class DemoHomeScreen extends StatelessWidget {
                 foregroundColor: Colors.white,
               ),
               child: const Text('🔥 Firebase Test'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const DashboardScreen(),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('🏪 Dashboard Screen'),
             ),
           ],
         ),

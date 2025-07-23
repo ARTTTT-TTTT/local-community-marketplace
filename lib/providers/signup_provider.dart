@@ -140,7 +140,7 @@ class SignupProvider extends ChangeNotifier {
     try {
       //print('🔥 Attempting to create user with email: $_email');
       // Create user with Firebase Authentication
-      final userCredential = await FirebaseAuthService.signUpWithEmail(
+      await FirebaseAuthService.signUpWithEmail(
         email: _email,
         password: passwordController.text,
       );
