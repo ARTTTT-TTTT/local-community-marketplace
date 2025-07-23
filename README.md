@@ -58,3 +58,15 @@ lib/
 ├── utils/      # โฟลเดอร์สำหรับฟังก์ชันหรือคลาสยูทิลิตี้ทั่วไป (e.g., app_constants.dart, helper_functions.dart)
 └── main.dart   # จุดเริ่มต้นของแอปพลิเคชัน
 ```
+
+---
+
+## 🌿 Branch Workflow 🌿
+
+- ทุกฟีเจอร์ใหม่ ให้แตก branch จาก `dev` โดยใช้รูปแบบ:
+
+**🌿 Feature Branch**
+
+```bash
+feature/<module>/<task-name>
+```
