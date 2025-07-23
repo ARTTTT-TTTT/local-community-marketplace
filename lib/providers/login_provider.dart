@@ -9,13 +9,21 @@ class LoginProvider extends ChangeNotifier {
   bool _isEmailValid = false;
   bool _isPasswordVisible = false;
   bool _isLoading = false;
+  bool _showPasswordField = false; // New: Control password field visibility
+  bool _emailChecked = false; // New: Track if email has been checked
 
   // Getters
   bool get isEmailValid => _isEmailValid;
   bool get isPasswordVisible => _isPasswordVisible;
   bool get isLoading => _isLoading;
+  bool get showPasswordField => _showPasswordField; // New
+  bool get emailChecked => _emailChecked; // New
+  bool get canCheckEmail => _isEmailValid && !_isLoading && !_emailChecked;
   bool get canSignIn =>
-      _isEmailValid && passwordController.text.isNotEmpty && !_isLoading;
+      _isEmailValid &&
+      passwordController.text.isNotEmpty &&
+      !_isLoading &&
+      _showPasswordField;
 
   // Email validation
   void onEmailChanged(String email) {
@@ -104,6 +112,42 @@ class LoginProvider extends ChangeNotifier {
     } finally {
       _setLoading(false);
     }
+  }
+
+  // New: Check if email exists in Firebase
+  Future<bool> checkEmailExists() async {
+    if (!_isEmailValid) return false;
+
+    _setLoading(true);
+    try {
+      // Check if email exists using the new method
+      final emailExists = await FirebaseAuthService.checkEmailExists(
+        emailController.text.trim(),
+      );
+
+      _emailChecked = true;
+
+      if (emailExists) {
+        // Email exists, show password field for login
+        _showPasswordField = true;
+      }
+
+      _setLoading(false);
+      notifyListeners();
+      return emailExists;
+    } catch (error) {
+      _setLoading(false);
+      notifyListeners();
+      rethrow;
+    }
+  }
+
+  // Reset form state (when user wants to change email)
+  void resetEmailCheck() {
+    _emailChecked = false;
+    _showPasswordField = false;
+    passwordController.clear();
+    notifyListeners();
   }
 
   Future<void> signInWithEmail() async {

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:community_marketplace/providers/login_provider.dart';
 import 'package:community_marketplace/widgets/password_field.dart';
 import 'package:community_marketplace/widgets/custom_button.dart';
+import 'package:community_marketplace/screens/signup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -98,41 +99,78 @@ class _LoginScreenContent extends StatelessWidget {
 
                     const SizedBox(height: 24),
 
-                    // Password Field
-                    PasswordField(
-                      controller: provider.passwordController,
-                      labelText: "รหัสผ่าน",
-                      hintText: 'กรอกรหัสผ่านของคุณ',
-                      isPasswordVisible: provider.isPasswordVisible,
-                      onVisibilityToggle: provider.togglePasswordVisibility,
-                      validator: provider.validatePassword,
-                    ),
+                    // Conditional Password Field - only show if email is checked and exists
+                    if (provider.showPasswordField) ...[
+                      PasswordField(
+                        controller: provider.passwordController,
+                        labelText: "รหัสผ่าน",
+                        hintText: 'กรอกรหัสผ่านของคุณ',
+                        isPasswordVisible: provider.isPasswordVisible,
+                        onVisibilityToggle: provider.togglePasswordVisibility,
+                        validator: provider.validatePassword,
+                      ),
+                      const SizedBox(height: 16),
+                    ],
 
-                    const SizedBox(height: 32),
+                    SizedBox(height: provider.showPasswordField ? 16 : 32),
 
-                    // Login Button
-                    CustomButton(
-                      text: provider.isLoading
-                          ? 'กำลังเข้าสู่ระบบ...'
-                          : 'เข้าสู่ระบบ',
-                      onPressed: provider.canSignIn
-                          ? () => _handleEmailLogin(context, provider)
-                          : () {},
-                      isEnabled: provider.canSignIn,
-                    ),
+                    // Email Check Button OR Login Button
+                    if (!provider.emailChecked)
+                      CustomButton(
+                        text: provider.isLoading
+                            ? 'กำลังตรวจสอบ...'
+                            : 'เข้าใช้งานด้วย Email',
+                        onPressed: provider.canCheckEmail
+                            ? () => _handleEmailCheck(context, provider)
+                            : () {},
+                        isEnabled: provider.canCheckEmail,
+                      )
+                    else if (provider.showPasswordField)
+                      CustomButton(
+                        text: provider.isLoading
+                            ? 'กำลังเข้าสู่ระบบ...'
+                            : 'เข้าสู่ระบบ',
+                        onPressed: provider.canSignIn
+                            ? () => _handleEmailLogin(context, provider)
+                            : () {},
+                        isEnabled: provider.canSignIn,
+                      ),
 
                     const SizedBox(height: 16),
 
-                    // Forgot Password Link
+                    // Change Email or Forgot Password Link
                     Center(
-                      child: TextButton(
-                        onPressed: () =>
-                            _handleForgotPassword(context, provider),
-                        child: const Text(
-                          'ลืมรหัสผ่าน?',
-                          style: TextStyle(color: Colors.blue, fontSize: 14),
-                        ),
-                      ),
+                      child: provider.emailChecked
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                TextButton(
+                                  onPressed: () => provider.resetEmailCheck(),
+                                  child: const Text(
+                                    'เปลี่ยนอีเมล',
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                                if (provider.showPasswordField)
+                                  TextButton(
+                                    onPressed: () => _handleForgotPassword(
+                                      context,
+                                      provider,
+                                    ),
+                                    child: const Text(
+                                      'ลืมรหัสผ่าน?',
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            )
+                          : const SizedBox.shrink(),
                     ),
 
                     const SizedBox(height: 40),
@@ -313,6 +351,46 @@ class _LoginScreenContent extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(error.toString()),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  void _handleEmailCheck(BuildContext context, LoginProvider provider) async {
+    try {
+      final emailExists = await provider.checkEmailExists();
+
+      if (context.mounted) {
+        if (!emailExists) {
+          // Email doesn't exist, navigate to signup
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  SignupScreen(email: provider.emailController.text.trim()),
+            ),
+          ).then((result) {
+            // If signup was successful, reset the form for login
+            if (result == true) {
+              provider.resetEmailCheck();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ'),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            }
+          });
+        }
+        // If email exists, the password field will automatically show
+      }
+    } catch (error) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('เกิดข้อผิดพลาด: ${error.toString()}'),
             backgroundColor: Colors.red,
           ),
         );
