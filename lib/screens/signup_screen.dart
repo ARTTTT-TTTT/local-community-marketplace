@@ -14,7 +14,7 @@ class SignupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SignupProvider(),
+      create: (_) => SignupProvider()..setEmail(email),
       child: _SignupScreenContent(email: email),
     );
   }

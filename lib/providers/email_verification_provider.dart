@@ -76,7 +76,7 @@ class EmailVerificationProvider extends ChangeNotifier {
     if (otp.length == 6) {
       // For now, just store the OTP or handle it as needed
       // In a real app, you would send this to your backend
-      print('Verifying OTP: $otp');
+      //print('Verifying OTP: $otp');
     }
   }
 

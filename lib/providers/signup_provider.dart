@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/firebase_auth_service.dart';
 
 class SignupProvider extends ChangeNotifier {
   // Form controllers
@@ -6,6 +7,9 @@ class SignupProvider extends ChangeNotifier {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  // Email property
+  String _email = '';
 
   // Password visibility states
   bool _isPasswordVisible = false;
@@ -18,6 +22,7 @@ class SignupProvider extends ChangeNotifier {
   bool _isLoading = false;
 
   // Getters
+  String get email => _email;
   bool get isPasswordVisible => _isPasswordVisible;
   bool get isConfirmPasswordVisible => _isConfirmPasswordVisible;
   bool get isPasswordValid => _isPasswordValid;
@@ -28,6 +33,12 @@ class SignupProvider extends ChangeNotifier {
       passwordController.text.isNotEmpty &&
       confirmPasswordController.text.isNotEmpty &&
       !_isLoading;
+
+  // Set email
+  void setEmail(String email) {
+    _email = email;
+    notifyListeners();
+  }
 
   // Toggle password visibility
   void togglePasswordVisibility() {
@@ -89,11 +100,11 @@ class SignupProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 2));
-
-      // TODO: Implement actual signup logic here
-      // await AuthService.signup(email, password);
+      // Create user with Firebase Authentication
+      await FirebaseAuthService.signUpWithEmail(
+        email: _email,
+        password: passwordController.text,
+      );
 
       _isLoading = false;
       notifyListeners();
