@@ -64,15 +64,6 @@ class DashboardHeader extends StatelessWidget {
 
                   const SizedBox(width: 12),
 
-                  // Notification Button
-                  _buildActionButton(
-                    Icons.notifications_outlined,
-                    () => _onNotificationPressed(context),
-                    badgeCount: 3, // Example badge count
-                  ),
-
-                  const SizedBox(width: 8),
-
                   // Cart Button
                   _buildActionButton(
                     Icons.shopping_cart_outlined,
@@ -240,11 +231,6 @@ class DashboardHeader extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _onNotificationPressed(BuildContext context) {
-    // TODO: Navigate to notifications screen
-    print('Notification pressed');
   }
 
   void _onCartPressed(BuildContext context) {
