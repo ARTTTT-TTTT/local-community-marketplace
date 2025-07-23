@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../utils/app_constants.dart';
 
 class FloatingNavigationBar extends StatefulWidget {
@@ -165,12 +166,4 @@ class NavigationItem {
     required this.label,
     required this.route,
   });
-}
-
-// Add HapticFeedback class for better user experience
-class HapticFeedback {
-  static void selectionClick() {
-    // This would normally use platform-specific haptic feedback
-    // For now, it's just a placeholder
-  }
 }

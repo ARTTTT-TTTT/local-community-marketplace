@@ -5,6 +5,7 @@ import '../widgets/product_card.dart';
 import '../widgets/official_product_card.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/floating_navigation_bar.dart';
+import '../screens/item_detail_screen.dart';
 import '../models/product.dart';
 import '../utils/app_constants.dart';
 
@@ -172,8 +173,12 @@ class _DashboardScreenContent extends StatelessWidget {
   }
 
   void _onProductTapped(BuildContext context, Product product) {
-    // TODO: Navigate to product detail screen
-    print('Product tapped: ${product.name}');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ItemDetailScreen(product: product),
+      ),
+    );
   }
 
   void _onFavoriteToggle(BuildContext context, Product product) {
