@@ -19,15 +19,35 @@ class LoginProvider extends ChangeNotifier {
   bool get showPasswordField => _showPasswordField; // New
   bool get emailChecked => _emailChecked; // New
   bool get canCheckEmail => _isEmailValid && !_isLoading && !_emailChecked;
-  bool get canSignIn =>
-      _isEmailValid &&
-      passwordController.text.isNotEmpty &&
-      !_isLoading &&
-      _showPasswordField;
+  bool get canSignIn {
+    final result =
+        _isEmailValid &&
+        passwordController.text.isNotEmpty &&
+        !_isLoading &&
+        _showPasswordField;
+
+    // Debug logging
+    print('🔍 canSignIn check:');
+    print('  - Email valid: $_isEmailValid');
+    print('  - Password text: "${passwordController.text}"');
+    print('  - Password not empty: ${passwordController.text.isNotEmpty}');
+    print('  - Not loading: ${!_isLoading}');
+    print('  - Show password field: $_showPasswordField');
+    print('  - Final result: $result');
+
+    return result;
+  }
 
   // Email validation
   void onEmailChanged(String email) {
     _isEmailValid = _isValidEmail(email);
+    notifyListeners();
+  }
+
+  // Password change handler
+  void onPasswordChanged(String password) {
+    print('🔧 onPasswordChanged called: "$password"');
+    // Trigger UI update when password changes
     notifyListeners();
   }
 
