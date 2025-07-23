@@ -107,6 +107,7 @@ class _LoginScreenContent extends StatelessWidget {
                         hintText: 'กรอกรหัสผ่านของคุณ',
                         isPasswordVisible: provider.isPasswordVisible,
                         onVisibilityToggle: provider.togglePasswordVisibility,
+                        onChanged: provider.onPasswordChanged,
                         validator: provider.validatePassword,
                       ),
                       const SizedBox(height: 16),
