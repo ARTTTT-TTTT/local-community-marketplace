@@ -14,7 +14,7 @@ class PasswordField extends StatelessWidget {
     super.key,
     required this.controller,
     required this.labelText,
-    this.hintText,
+    required this.hintText,
     required this.isPasswordVisible,
     required this.onVisibilityToggle,
     this.onChanged,
@@ -44,37 +44,48 @@ class PasswordField extends StatelessWidget {
           validator: validator,
           decoration: InputDecoration(
             hintText: hintText,
+            hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 16),
             suffixIcon: IconButton(
-              icon: Icon(
-                isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                color: Colors.grey.shade600,
+              icon: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                child: Transform.scale(
+                  scaleX: isPasswordVisible
+                      ? 1.0
+                      : -1.0, // Mirror the visibility_off icon
+                  child: Icon(
+                    isPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off_outlined,
+                    key: ValueKey(isPasswordVisible),
+                    color: isPasswordVisible
+                        ? Colors.blue.shade600
+                        : Colors.grey.shade600,
+                    size: 22,
+                  ),
+                ),
               ),
               onPressed: onVisibilityToggle,
+              splashRadius: 20,
+              tooltip: isPasswordVisible ? 'ซ่อนรหัสผ่าน' : 'แสดงรหัสผ่าน',
             ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+            border: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey.shade300),
             ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+            enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey.shade300),
             ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+            focusedBorder: UnderlineInputBorder(
               borderSide: const BorderSide(color: Colors.black, width: 2),
             ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+            errorBorder: UnderlineInputBorder(
               borderSide: const BorderSide(color: Colors.red),
             ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+            focusedErrorBorder: UnderlineInputBorder(
               borderSide: const BorderSide(color: Colors.red, width: 2),
             ),
-            filled: true,
-            fillColor: enabled ? Colors.white : Colors.grey.shade50,
+            filled: false,
             contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
+              horizontal: 0, // Remove horizontal padding for cleaner underline
               vertical: 16,
             ),
           ),

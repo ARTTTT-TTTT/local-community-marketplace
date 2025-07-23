@@ -28,7 +28,7 @@ class _SignupScreenContent extends StatelessWidget {
   void _onNextPressed(BuildContext context, SignupProvider provider) async {
     try {
       await provider.submitSignup();
-      
+
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -36,7 +36,7 @@ class _SignupScreenContent extends StatelessWidget {
             backgroundColor: Colors.green,
           ),
         );
-        
+
         // TODO: Navigate to next screen
         // Navigator.pushReplacementNamed(context, '/home');
       }
@@ -92,7 +92,10 @@ class _SignupScreenContent extends StatelessWidget {
                     RichText(
                       text: TextSpan(
                         text: 'สร้างรหัสผ่านสำหรับบัญชี ',
-                        style: const TextStyle(fontSize: 16, color: Colors.grey),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                        ),
                         children: [
                           TextSpan(
                             text: 'Dime!',
@@ -143,7 +146,8 @@ class _SignupScreenContent extends StatelessWidget {
                     // Password field
                     PasswordField(
                       controller: provider.passwordController,
-                      labelText: 'รหัสผ่าน',
+                      labelText: "",
+                      hintText: 'รหัสผ่าน',
                       isPasswordVisible: provider.isPasswordVisible,
                       onVisibilityToggle: provider.togglePasswordVisibility,
                       onChanged: provider.validatePassword,
@@ -155,9 +159,11 @@ class _SignupScreenContent extends StatelessWidget {
                     // Confirm password field
                     PasswordField(
                       controller: provider.confirmPasswordController,
-                      labelText: 'ยืนยันรหัสผ่าน',
+                      labelText: "",
+                      hintText: 'ยืนยันรหัสผ่าน',
                       isPasswordVisible: provider.isConfirmPasswordVisible,
-                      onVisibilityToggle: provider.toggleConfirmPasswordVisibility,
+                      onVisibilityToggle:
+                          provider.toggleConfirmPasswordVisibility,
                       validator: provider.validateConfirmPasswordField,
                     ),
 
@@ -166,7 +172,7 @@ class _SignupScreenContent extends StatelessWidget {
                     // Next button
                     CustomButton(
                       text: provider.isLoading ? 'กำลังสร้างบัญชี...' : 'ถัดไป',
-                      onPressed: provider.canProceed 
+                      onPressed: provider.canProceed
                           ? () => _onNextPressed(context, provider)
                           : () {},
                       isEnabled: provider.canProceed,
