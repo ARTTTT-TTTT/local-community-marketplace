@@ -300,8 +300,8 @@ class _LoginScreenContent extends StatelessWidget {
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('เข้าสู่ระบบสำเร็จ!'),
+          SnackBar(
+            content: Center(child: Text('เข้าสู่ระบบสำเร็จ!')),
             backgroundColor: Colors.green,
           ),
         );
@@ -327,8 +327,8 @@ class _LoginScreenContent extends StatelessWidget {
   ) async {
     if (!provider.isEmailValid) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('กรุณากรอกอีเมลที่ถูกต้องก่อน'),
+        SnackBar(
+          content: Center(child: Text('กรุณากรอกอีเมลที่ถูกต้องก่อน')),
           backgroundColor: Colors.orange,
         ),
       );
@@ -340,8 +340,10 @@ class _LoginScreenContent extends StatelessWidget {
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('ส่งลิงก์รีเซ็ตรหัสผ่านไปยังอีเมลของคุณแล้ว'),
+          SnackBar(
+            content: Center(
+              child: Text('ส่งลิงก์รีเซ็ตรหัสผ่านไปยังอีเมลของคุณแล้ว'),
+            ),
             backgroundColor: Colors.green,
           ),
         );
@@ -350,7 +352,7 @@ class _LoginScreenContent extends StatelessWidget {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(error.toString()),
+            content: Center(child: Text(error.toString())),
             backgroundColor: Colors.red,
           ),
         );
@@ -376,8 +378,10 @@ class _LoginScreenContent extends StatelessWidget {
             if (result == true) {
               provider.resetEmailCheck();
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ'),
+                SnackBar(
+                  content: Center(
+                    child: Text('สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ'),
+                  ),
                   backgroundColor: Colors.green,
                 ),
               );
@@ -390,7 +394,7 @@ class _LoginScreenContent extends StatelessWidget {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('เกิดข้อผิดพลาด: ${error.toString()}'),
+            content: Center(child: Text('เกิดข้อผิดพลาด: ${error.toString()}')),
             backgroundColor: Colors.red,
           ),
         );
