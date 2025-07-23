@@ -15,25 +15,25 @@ class FirebaseAuthService {
     required String password,
   }) async {
     try {
-      print('🔥 FirebaseAuthService: Creating user with email: $email');
+      // print('🔥 FirebaseAuthService: Creating user with email: $email');
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
 
-      print(
-        '✅ FirebaseAuthService: User created with UID: ${userCredential.user?.uid}',
-      );
+      // print(
+      //   '✅ FirebaseAuthService: User created with UID: ${userCredential.user?.uid}',
+      // );
 
       // Send email verification
-      print('📧 FirebaseAuthService: Sending email verification...');
+      // print('📧 FirebaseAuthService: Sending email verification...');
       await userCredential.user?.sendEmailVerification();
-      print('📧 FirebaseAuthService: Email verification sent');
+          // print('📧 FirebaseAuthService: Email verification sent');
 
       return userCredential;
     } on FirebaseAuthException catch (e) {
-      print('❌ FirebaseAuthService: Auth error: ${e.code} - ${e.message}');
+      // print('❌ FirebaseAuthService: Auth error: ${e.code} - ${e.message}');
       throw _handleAuthException(e);
     } catch (e) {
-      print('❌ FirebaseAuthService: Unknown error: $e');
+      // print('❌ FirebaseAuthService: Unknown error: $e');
       throw 'เกิดข้อผิดพลาดที่ไม่คาดคิด: ${e.toString()}';
     }
   }

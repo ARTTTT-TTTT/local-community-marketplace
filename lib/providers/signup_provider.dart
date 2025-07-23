@@ -118,7 +118,7 @@ class SignupProvider extends ChangeNotifier {
   // Submit signup
   Future<void> submitSignup() async {
     if (!formKey.currentState!.validate()) {
-      print('Form validation failed');
+      //print('Form validation failed');
       return;
     }
 
@@ -128,9 +128,9 @@ class SignupProvider extends ChangeNotifier {
         passwordController.text == confirmPasswordController.text;
 
     if (!passwordValid || !passwordsMatch) {
-      print(
-        'Password validation failed: valid=$passwordValid, match=$passwordsMatch',
-      );
+      // print(
+      //   'Password validation failed: valid=$passwordValid, match=$passwordsMatch',
+      // )
       return;
     }
 
@@ -138,24 +138,24 @@ class SignupProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      print('🔥 Attempting to create user with email: $_email');
+      //print('🔥 Attempting to create user with email: $_email');
       // Create user with Firebase Authentication
       final userCredential = await FirebaseAuthService.signUpWithEmail(
         email: _email,
         password: passwordController.text,
       );
 
-      print('✅ User created successfully: ${userCredential?.user?.uid}');
-      print(
-        '📧 Email verification sent: ${userCredential?.user?.emailVerified}',
-      );
+      //print('✅ User created successfully: ${userCredential?.user?.uid}');
+      //print(
+      //   '📧 Email verification sent: ${userCredential?.user?.emailVerified}',
+      // )
 
       _isLoading = false;
       notifyListeners();
 
       // Return success - UI will handle navigation
     } catch (error) {
-      print('❌ Signup error: $error');
+      //print('❌ Signup error: $error');
       _isLoading = false;
       notifyListeners();
 
