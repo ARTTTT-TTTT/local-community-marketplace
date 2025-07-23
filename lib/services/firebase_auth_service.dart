@@ -15,16 +15,25 @@ class FirebaseAuthService {
     required String password,
   }) async {
     try {
+      print('🔥 FirebaseAuthService: Creating user with email: $email');
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
 
+      print(
+        '✅ FirebaseAuthService: User created with UID: ${userCredential.user?.uid}',
+      );
+
       // Send email verification
+      print('📧 FirebaseAuthService: Sending email verification...');
       await userCredential.user?.sendEmailVerification();
+      print('📧 FirebaseAuthService: Email verification sent');
 
       return userCredential;
     } on FirebaseAuthException catch (e) {
+      print('❌ FirebaseAuthService: Auth error: ${e.code} - ${e.message}');
       throw _handleAuthException(e);
     } catch (e) {
+      print('❌ FirebaseAuthService: Unknown error: $e');
       throw 'เกิดข้อผิดพลาดที่ไม่คาดคิด: ${e.toString()}';
     }
   }
@@ -41,6 +50,37 @@ class FirebaseAuthService {
       );
       return userCredential;
     } on FirebaseAuthException catch (e) {
+      throw _handleAuthException(e);
+    } catch (e) {
+      throw 'เกิดข้อผิดพลาดที่ไม่คาดคิด: ${e.toString()}';
+    }
+  }
+
+  // Check if email exists by attempting to create account with temporary password
+  // This is the recommended approach after fetchSignInMethodsForEmail deprecation
+  static Future<bool> checkEmailExists(String email) async {
+    try {
+      // Try to create account with a temporary password
+      // If email exists, this will throw 'email-already-in-use' error
+      await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password:
+            'temporary_password_123!@#', // This won't be used if email exists
+      );
+
+      // If we reach here, email doesn't exist and account was created
+      // Delete the temporary account immediately
+      await _auth.currentUser?.delete();
+      return false; // Email doesn't exist
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        return true; // Email exists
+      } else if (e.code == 'invalid-email') {
+        throw 'รูปแบบอีเมลไม่ถูกต้อง';
+      } else if (e.code == 'weak-password') {
+        // This shouldn't happen with our temp password, but just in case
+        return false;
+      }
       throw _handleAuthException(e);
     } catch (e) {
       throw 'เกิดข้อผิดพลาดที่ไม่คาดคิด: ${e.toString()}';
