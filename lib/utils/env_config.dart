@@ -74,8 +74,10 @@ class EnvConfig {
   static void validateConfiguration() {
     final requiredKeys = [
       'FIREBASE_PROJECT_ID',
-      'FIREBASE_ANDROID_API_KEY', // Only require Android keys for now
+      'FIREBASE_ANDROID_API_KEY',
       'FIREBASE_ANDROID_APP_ID',
+      'FIREBASE_IOS_API_KEY',
+      'FIREBASE_IOS_APP_ID',
     ];
 
     final missingKeys = <String>[];

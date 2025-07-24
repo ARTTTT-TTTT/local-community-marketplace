@@ -21,7 +21,7 @@ void main() async {
     // Validate Firebase configuration
     EnvConfig.validateConfiguration();
 
-    // Initialize Firebase
+    // Initialize Firebase with manual configuration instead of plist
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
@@ -233,4 +233,3 @@ class DemoHomeScreen extends StatelessWidget {
     );
   }
 }
-
