@@ -53,7 +53,7 @@ class _SplashScreenContentState extends State<_SplashScreenContent>
               children: [
                 AnimatedBuilder(
                   animation: provider.controller,
-                  builder: (_, __) => Opacity(
+                  builder: (_, _) => Opacity(
                     opacity: provider.logoOpacity.value,
                     child: Transform.scale(
                       scale: provider.logoScale.value,
@@ -81,7 +81,7 @@ class _SplashScreenContentState extends State<_SplashScreenContent>
                 const SizedBox(height: 40),
                 AnimatedBuilder(
                   animation: provider.controller,
-                  builder: (_, __) => SlideTransition(
+                  builder: (_, _) => SlideTransition(
                     position: provider.textSlide,
                     child: Opacity(
                       opacity: provider.textOpacity.value,

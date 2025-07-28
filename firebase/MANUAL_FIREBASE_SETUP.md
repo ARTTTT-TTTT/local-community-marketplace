@@ -5,7 +5,7 @@ Since FlutterFire CLI is not available, let's set up Firebase manually:
 ## Step 1: Install Firebase CLI (Optional but Recommended)
 
 1. Install Node.js from https://nodejs.org/
-2. Run: `npm install -g firebase-tools`
+2. Run: `pnpm install firebase-tools`
 3. Run: `firebase login`
 
 ## Step 2: Install FlutterFire CLI

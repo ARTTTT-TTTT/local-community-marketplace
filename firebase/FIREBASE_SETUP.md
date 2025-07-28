@@ -7,7 +7,7 @@ You mentioned you have already set up Firebase Authentication. Here's what you n
 ## 1. Install FlutterFire CLI (if not already done)
 
 ```bash
-npm install -g firebase-tools
+pnpm install -g firebase-tools
 dart pub global activate flutterfire_cli
 ```
 

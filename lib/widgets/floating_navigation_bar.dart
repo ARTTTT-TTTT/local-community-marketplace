@@ -53,7 +53,7 @@ class _FloatingNavigationBarState extends State<FloatingNavigationBar> {
             borderRadius: BorderRadius.circular(30),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
                 spreadRadius: 0,
                 blurRadius: 20,
                 offset: const Offset(0, 10),
@@ -77,7 +77,7 @@ class _FloatingNavigationBarState extends State<FloatingNavigationBar> {
                   ),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? AppConstants.primaryColor.withOpacity(0.1)
+                        ? AppConstants.primaryColor.withValues(alpha: 0.1)
                         : Colors.transparent,
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -140,15 +140,15 @@ class _FloatingNavigationBarState extends State<FloatingNavigationBar> {
         break;
       case '/shop':
         // TODO: Navigate to shop screen
-        print('Navigate to Shop');
+        // print('Navigate to Shop');
         break;
       case '/notifications':
         // TODO: Navigate to notifications screen
-        print('Navigate to Notifications');
+        // print('Navigate to Notifications');
         break;
       case '/profile':
         // TODO: Navigate to profile screen
-        print('Navigate to Profile');
+        // print('Navigate to Profile');
         break;
     }
   }

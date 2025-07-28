@@ -27,13 +27,13 @@ class LoginProvider extends ChangeNotifier {
         _showPasswordField;
 
     // Debug logging
-    print('🔍 canSignIn check:');
-    print('  - Email valid: $_isEmailValid');
-    print('  - Password text: "${passwordController.text}"');
-    print('  - Password not empty: ${passwordController.text.isNotEmpty}');
-    print('  - Not loading: ${!_isLoading}');
-    print('  - Show password field: $_showPasswordField');
-    print('  - Final result: $result');
+    // print('🔍 canSignIn check:');
+    // print('  - Email valid: $_isEmailValid');
+    // print('  - Password text: "${passwordController.text}"');
+    // print('  - Password not empty: ${passwordController.text.isNotEmpty}');
+    // print('  - Not loading: ${!_isLoading}');
+    // print('  - Show password field: $_showPasswordField');
+    // print('  - Final result: $result');
 
     return result;
   }
@@ -46,7 +46,7 @@ class LoginProvider extends ChangeNotifier {
 
   // Password change handler
   void onPasswordChanged(String password) {
-    print('🔧 onPasswordChanged called: "$password"');
+    // print('🔧 onPasswordChanged called: "$password"');
     // Trigger UI update when password changes
     notifyListeners();
   }

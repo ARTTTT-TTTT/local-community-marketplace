@@ -368,13 +368,16 @@ class _LoginScreenContent extends StatelessWidget {
       if (context.mounted) {
         if (!emailExists) {
           // Email doesn't exist, navigate to signup
-          Navigator.push(
+          final result = await Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) =>
                   SignupScreen(email: provider.emailController.text.trim()),
             ),
-          ).then((result) {
+          );
+          
+          // Check mounted again after navigation
+          if (context.mounted) {
             // If signup was successful, reset the form for login
             if (result == true) {
               provider.resetEmailCheck();
@@ -387,7 +390,7 @@ class _LoginScreenContent extends StatelessWidget {
                 ),
               );
             }
-          });
+          }
         }
         // If email exists, the password field will automatically show
       }

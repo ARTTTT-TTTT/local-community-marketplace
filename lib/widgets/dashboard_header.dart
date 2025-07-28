@@ -235,12 +235,12 @@ class DashboardHeader extends StatelessWidget {
 
   void _onCartPressed(BuildContext context) {
     // TODO: Navigate to cart screen
-    print('Cart pressed');
+    // print('Cart pressed');
   }
 
   void _onMessagePressed(BuildContext context) {
     // TODO: Navigate to messages screen
-    print('Message pressed');
+    // print('Message pressed');
   }
 
   void _showCategoryFilter(BuildContext context) {
