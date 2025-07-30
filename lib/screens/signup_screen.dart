@@ -27,6 +27,7 @@ class _SignupScreenContent extends StatelessWidget {
 
   void _onNextPressed(BuildContext context, SignupProvider provider) async {
     try {
+      
       await provider.submitSignup();
 
       if (context.mounted) {
@@ -38,7 +39,7 @@ class _SignupScreenContent extends StatelessWidget {
         );
 
         // Return to login screen with success result
-        Navigator.pop(context, true);
+        Navigator.pop(context, true);// should navigate to login screen
       }
     } catch (error) {
       if (context.mounted) {
@@ -156,7 +157,7 @@ class _SignupScreenContent extends StatelessWidget {
 
                     const SizedBox(height: 16), // Reduced from 20
                     // Confirm password field
-                    PasswordField(
+                    PasswordField( 
                       controller: provider.confirmPasswordController,
                       labelText: "",
                       hintText: 'ยืนยันรหัสผ่าน',
