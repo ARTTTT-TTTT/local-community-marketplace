@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../models/product.dart';
 import '../utils/app_constants.dart';
 
 class ItemDetailScreen extends StatefulWidget {
-  final Product product;
+  final Product product; // เก็บข้อมูลสินค้า
 
   const ItemDetailScreen({super.key, required this.product});
 
@@ -14,11 +15,11 @@ class ItemDetailScreen extends StatefulWidget {
 
 class _ItemDetailScreenState extends State<ItemDetailScreen>
     with TickerProviderStateMixin {
-  late PageController _pageController;
-  int _currentImageIndex = 0;
-  bool _isFavorite = false;
+  late PageController _pageController; // ควบคุมรูปภาพ slide
+  late TabController _tabController; // ควบคุม tabs
+  int _currentImageIndex = 0; // รูปที่แสดงอยู่
+  bool _isFavorite = false; // สถานะ favorite
   final int _cartQuantity = 1;
-  late TabController _tabController;
 
   // Mock data for demonstration
   final List<String> _productImages = [
@@ -136,7 +137,7 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
               ),
               child: const TextField(
                 decoration: InputDecoration(
-                  hintText: 'ค้นหา่อการซื้อยอ',
+                  hintText: 'ค้นหาการซื้อ',
                   hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
                   prefixIcon: Icon(Icons.search, color: Colors.grey, size: 20),
                   border: InputBorder.none,
@@ -354,7 +355,7 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Text(
-                  'สถาพสินค้า: ใหม่',
+                  'สภาพสินค้า: ใหม่',
                   style: TextStyle(fontSize: 12, color: Colors.black87),
                 ),
               ),
@@ -369,7 +370,7 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Text(
-                  'ร้านค้าอยังเป็นนาธากร',
+                  'ร้านค้าอย่างเป็นทางการ',
                   style: TextStyle(fontSize: 12, color: Colors.black87),
                 ),
               ),
@@ -745,14 +746,14 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
                             ],
                           ),
                           Text(
-                            'สถานะ: ได้รับการืิ 5 วารที่แล้ว | 46.7% ตอบรัับเวียนนาม',
+                            'สถานะ: ได้รับการ 5 นาทีที่แล้ว | 46.7% ตอบรับ',
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.grey[600],
                             ),
                           ),
                           Text(
-                            'ห่อส: ไกล้มือ + 1 ขม.',
+                            'สถานที่: ไม่เกิน 1 กม.',
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.grey[600],
@@ -799,7 +800,7 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
           Row(
             children: [
               const Text(
-                'แนะนำสินค้าสำลายกัน',
+                'แนะนำสินค้าคล้ายกัน',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -808,7 +809,7 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
               ),
               const Spacer(),
               Text(
-                'เทคบาสนครราคชนใหญ่',
+                'เทศบาลนครหาดใหญ่',
                 style: TextStyle(
                   fontSize: 14,
                   color: AppConstants.primaryColor,
