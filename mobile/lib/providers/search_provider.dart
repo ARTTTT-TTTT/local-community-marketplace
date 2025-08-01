@@ -102,7 +102,7 @@ class SearchProvider extends ChangeNotifier {
       }
 
       // TODO: Implement actual search functionality
-      print('Searching for: $query');
+      // print('Searching for: $query');
 
       // Clear search and hide suggestions
       searchController.clear();
@@ -137,7 +137,7 @@ class SearchProvider extends ChangeNotifier {
 
   void selectCategory(String category) {
     // TODO: Implement category selection logic
-    print('Selected category: $category');
+    // print('Selected category: $category');
   }
 
   void selectSearchSuggestion(String suggestion) {

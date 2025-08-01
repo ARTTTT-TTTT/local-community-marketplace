@@ -91,9 +91,7 @@ class _OnboardingScreenContent extends StatelessWidget {
                     if (provider.isLastPage) {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                          builder: (_) => const DemoHomeScreen(),
-                        ),
+                        MaterialPageRoute(builder: (_) => const HomeScreen()),
                       );
                     } else {
                       provider.nextPage();
