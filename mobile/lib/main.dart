@@ -10,13 +10,14 @@ import 'screens/email_verification_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/firebase_test_screen.dart';
 import 'screens/dashboard_screen.dart';
+import 'screens/item_search_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
     // Load environment variables
-    await dotenv.load(fileName: "../.env");
+    await dotenv.load(fileName: ".env");
 
     // Validate Firebase configuration
     EnvConfig.validateConfiguration();
@@ -226,6 +227,21 @@ class DemoHomeScreen extends StatelessWidget {
                 foregroundColor: Colors.white,
               ),
               child: const Text('🏪 Dashboard Screen'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ItemSearchScreen(),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.purple,
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('🔍 Item Search Screen'),
             ),
           ],
         ),
