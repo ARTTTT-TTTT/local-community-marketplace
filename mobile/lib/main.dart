@@ -11,6 +11,7 @@ import 'screens/email_verification_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/firebase_test_screen.dart';
 import 'screens/dashboard_screen.dart';
+import 'screens/item_search_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -162,14 +163,19 @@ class HomeScreen extends StatelessWidget {
         'color': Colors.blue,
       },
       {
-        'name': 'Firebase Test',
-        'screen': const FirebaseTestScreen(),
-        'color': Colors.cyan,
-      },
-      {
         'name': 'Dashboard Screen',
         'screen': const DashboardScreen(),
         'color': Colors.green,
+      },
+      {
+        'name': 'Item Search Screen',
+        'screen': const ItemSearchScreen(),
+        'color': Colors.green,
+      },
+      {
+        'name': 'Firebase Test',
+        'screen': const FirebaseTestScreen(),
+        'color': Colors.cyan,
       },
     ];
 
