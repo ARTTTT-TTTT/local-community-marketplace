@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 import 'firebase_options.dart';
 import 'utils/env_config.dart';
 import 'screens/signup_screen.dart';
@@ -117,118 +118,90 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
-        fontFamily: 'Noto Sans Thai', // Support Thai fonts
+        fontFamily: 'Prompt', // Support Thai fonts
       ),
-      home: const DemoHomeScreen(),
+      home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class DemoHomeScreen extends StatelessWidget {
-  const DemoHomeScreen({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Demo - Signup Screen')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const OnboardingScreen(),
-                  ),
-                );
-              },
-              child: const Text('Open Onboarding Screen'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        const SignupScreen(email: 'register@gmail.com'),
-                  ),
-                );
-              },
-              child: const Text('Open Signup Screen'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SplashScreen()),
-                );
-              },
-              child: const Text('Open Splash Screen'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const EmailVerificationScreen(
-                      email: 'register@gmail.com',
-                      referenceCode: 'XYLP',
-                    ),
-                  ),
-                );
-              },
-              child: const Text('Open Email Verification Screen'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()),
-                );
-              },
-              child: const Text('Open Login Screen'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const FirebaseTestScreen(),
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                foregroundColor: Colors.white,
-              ),
-              child: const Text('🔥 Firebase Test'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const DashboardScreen(),
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-              ),
-              child: const Text('🏪 Dashboard Screen'),
-            ),
-          ],
+    final List<Map<String, dynamic>> screenList = [
+      {
+        'name': 'Splash Screen',
+        'screen': const SplashScreen(),
+        'color': Colors.red,
+      },
+      {
+        'name': 'Onboarding Screen',
+        'screen': const OnboardingScreen(),
+        'textColor': Colors.black,
+        'color': Colors.yellow,
+      },
+      {
+        'name': 'Register Screen',
+        'screen': const SignupScreen(email: 'register@gmail.com'),
+        'color': Colors.orange,
+      },
+      {
+        'name': 'Login Screen',
+        'screen': const LoginScreen(),
+        'color': Colors.purple,
+      },
+      {
+        'name': 'Email Verification Screen',
+        'screen': const EmailVerificationScreen(
+          email: 'register@gmail.com',
+          referenceCode: 'XYLP',
         ),
+        'color': Colors.blue,
+      },
+      {
+        'name': 'Firebase Test',
+        'screen': const FirebaseTestScreen(),
+        'color': Colors.cyan,
+      },
+      {
+        'name': 'Dashboard Screen',
+        'screen': const DashboardScreen(),
+        'color': Colors.green,
+      },
+    ];
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Home')),
+      body: ListView.separated(
+        itemCount: screenList.length,
+        itemBuilder: (BuildContext context, int index) {
+          final screenData = screenList[index];
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => screenData['screen'] as Widget,
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: screenData['color'] as Color,
+                foregroundColor:
+                    screenData['textColor'] as Color? ?? Colors.white,
+              ),
+              child: Text(screenData['name'] as String),
+            ),
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return const SizedBox(height: 16);
+        },
       ),
     );
   }

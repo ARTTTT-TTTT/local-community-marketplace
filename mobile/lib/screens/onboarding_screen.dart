@@ -92,7 +92,7 @@ class _OnboardingScreenContent extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const DemoHomeScreen(),
+                          builder: (_) => const HomeScreen(),
                         ),
                       );
                     } else {
