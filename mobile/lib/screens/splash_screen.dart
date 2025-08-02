@@ -1,108 +1,104 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import 'package:community_marketplace/screens/term_screen.dart';
-import 'package:community_marketplace/providers/splash_provider.dart';
+import 'package:community_marketplace/screens/onboarding/terms_screen.dart';
+import 'package:community_marketplace/screens/onboarding/onboarding_screen.dart';
+import 'package:community_marketplace/screens/auth/login_screen.dart';
+import 'package:community_marketplace/screens/dashboard_screen.dart';
 
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+class SplashScreen extends StatefulWidget {
+  final bool isFreshInstall;
 
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => SplashProvider(),
-      child: const _SplashScreenContent(),
-    );
-  }
-}
-
-class _SplashScreenContent extends StatefulWidget {
-  const _SplashScreenContent();
+  const SplashScreen({super.key, this.isFreshInstall = true});
 
   @override
-  State<_SplashScreenContent> createState() => _SplashScreenContentState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenContentState extends State<_SplashScreenContent>
-    with SingleTickerProviderStateMixin {
+
+class _SplashScreenState extends State<SplashScreen> {
+  bool termsAccepted = false; // จำลองว่ายังไม่ยืนยัน terms
+  bool onboardingSeen = false; // จำลองว่ายังไม่เคยเปิดหน้า onboarding
+  bool isLoggedIn = false; // จำลองว่ายังไม่ได้ login
+
   @override
   void initState() {
     super.initState();
-    final provider = Provider.of<SplashProvider>(context, listen: false);
-    provider.initializeAnimations(this);
+    _checkAndNavigate();
+  }
 
-    // Start navigation timer
-    Future.delayed(const Duration(seconds: 3), () {
-      if (mounted) {
+  void _checkAndNavigate() async {
+    await Future.delayed(const Duration(seconds: 3));
+
+    if (!mounted) return;
+
+    if (widget.isFreshInstall) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const TermsScreen()),
+      );
+    } else {
+      if (!termsAccepted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const TermsScreen()),
+          MaterialPageRoute(builder: (context) => const TermsScreen()),
+        );
+      } else if (!onboardingSeen) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+        );
+      } else if (!isLoggedIn) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const DashboardScreen()),
         );
       }
-    });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SplashProvider>(
-      builder: (context, provider, child) {
-        return Scaffold(
-          backgroundColor: Colors.white,
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                AnimatedBuilder(
-                  animation: provider.controller,
-                  builder: (_, _) => Opacity(
-                    opacity: provider.logoOpacity.value,
-                    child: Transform.scale(
-                      scale: provider.logoScale.value,
-                      child: Container(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Colors.blue[50],
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.blue.withValues(alpha: 0.2),
-                              blurRadius: 10,
-                            ),
-                          ],
-                        ),
-                        child: Icon(
-                          Icons.store_mall_directory_rounded,
-                          size: 80,
-                          color: Colors.blue[800],
-                        ),
-                      ),
-                    ),
-                  ),
+    final size = MediaQuery.of(context).size;
+    final isPortrait = size.height > size.width;
+
+    return Scaffold(
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          // * Background
+          Padding(
+            padding: const EdgeInsets.only(top: 70.0, right: 70.0),
+            child: Transform.rotate(
+              angle: isPortrait ? math.pi / 2 : 0,
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: Image.asset(
+                  'assets/bg/community-marketplace-logo-bg-16-9.png',
                 ),
-                const SizedBox(height: 40),
-                AnimatedBuilder(
-                  animation: provider.controller,
-                  builder: (_, _) => SlideTransition(
-                    position: provider.textSlide,
-                    child: Opacity(
-                      opacity: provider.textOpacity.value,
-                      child: Text(
-                        'Community Marketplace',
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue[800],
-                          letterSpacing: 0.8,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        );
-      },
+
+          // * Logo
+          Center(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                double logoWidth = constraints.maxWidth * 0.4;
+                return Image.asset(
+                  'assets/logo/community-marketplace-logo.png',
+                  width: logoWidth,
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:community_marketplace/screens/onboarding_screen.dart';
+
+import 'package:community_marketplace/screens/onboarding/onboarding_screen.dart';
 import 'package:community_marketplace/providers/terms_provider.dart';
 
 class TermsScreen extends StatelessWidget {

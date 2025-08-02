@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:community_marketplace/models/onboarding_model.dart';
+
 import 'package:community_marketplace/main.dart';
+import 'package:community_marketplace/models/onboarding_model.dart';
 import 'package:community_marketplace/providers/onboarding_provider.dart';
 
 class OnboardingScreen extends StatelessWidget {
