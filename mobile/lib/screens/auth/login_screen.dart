@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:community_marketplace/providers/login_provider.dart';
 import 'package:community_marketplace/widgets/password_field.dart';
 import 'package:community_marketplace/widgets/custom_button.dart';
-import 'package:community_marketplace/screens/signup_screen.dart';
+import 'package:community_marketplace/screens/auth/register_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -372,7 +372,7 @@ class _LoginScreenContent extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) =>
-                  SignupScreen(email: provider.emailController.text.trim()),
+                  RegisterScreen(email: provider.emailController.text.trim()),
             ),
           );
           

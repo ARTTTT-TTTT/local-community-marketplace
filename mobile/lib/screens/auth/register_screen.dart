@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/signup_provider.dart';
-import '../utils/app_constants.dart';
-import '../widgets/custom_button.dart';
-import '../widgets/password_field.dart';
+import 'package:community_marketplace/providers/signup_provider.dart';
+import 'package:community_marketplace/utils/app_constants.dart';
+import 'package:community_marketplace/widgets/custom_button.dart';
+import 'package:community_marketplace/widgets/password_field.dart';
 
-class SignupScreen extends StatelessWidget {
+class RegisterScreen extends StatelessWidget {
   final String email;
 
-  const SignupScreen({super.key, required this.email});
+  const RegisterScreen({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,6 @@ class _SignupScreenContent extends StatelessWidget {
 
   void _onNextPressed(BuildContext context, SignupProvider provider) async {
     try {
-      
       await provider.submitSignup();
 
       if (context.mounted) {
@@ -39,7 +38,7 @@ class _SignupScreenContent extends StatelessWidget {
         );
 
         // Return to login screen with success result
-        Navigator.pop(context, true);// should navigate to login screen
+        Navigator.pop(context, true); // should navigate to login screen
       }
     } catch (error) {
       if (context.mounted) {
@@ -157,7 +156,7 @@ class _SignupScreenContent extends StatelessWidget {
 
                     const SizedBox(height: 16), // Reduced from 20
                     // Confirm password field
-                    PasswordField( 
+                    PasswordField(
                       controller: provider.confirmPasswordController,
                       labelText: "",
                       hintText: 'ยืนยันรหัสผ่าน',

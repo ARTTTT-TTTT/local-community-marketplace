@@ -4,12 +4,13 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'firebase_options.dart';
 import 'utils/env_config.dart';
-import 'screens/signup_screen.dart';
-import 'screens/onboarding_screen.dart';
+import 'screens/auth/login_screen.dart';
+import 'screens/auth/register_screen.dart';
+import 'screens/auth/email_verification_screen.dart';
+import 'screens/onboarding/onboarding_screen.dart';
 import 'screens/splash_screen.dart';
-import 'screens/email_verification_screen.dart';
-import 'screens/login_screen.dart';
-import 'screens/firebase_test_screen.dart';
+
+import 'screens/test/firebase_test_screen.dart';
 import 'screens/dashboard_screen.dart';
 import 'screens/item_search_screen.dart';
 
@@ -134,8 +135,13 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> screenList = [
       {
-        'name': 'Splash Screen',
-        'screen': const SplashScreen(),
+        'name': 'Continue',
+        'screen': const SplashScreen(isFreshInstall: true),
+        'color': Colors.amber,
+      },
+      {
+        'name': 'Fresh Install',
+        'screen': const SplashScreen(isFreshInstall: true),
         'color': Colors.red,
       },
       {
@@ -146,7 +152,7 @@ class HomeScreen extends StatelessWidget {
       },
       {
         'name': 'Register Screen',
-        'screen': const SignupScreen(email: 'register@gmail.com'),
+        'screen': const RegisterScreen(email: 'register@gmail.com'),
         'color': Colors.orange,
       },
       {
