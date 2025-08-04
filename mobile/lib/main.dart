@@ -19,7 +19,7 @@ void main() async {
 
   try {
     // Load environment variables
-    await dotenv.load(fileName: "../.env");
+    await dotenv.load(fileName: ".env");
 
     // Validate Firebase configuration
     EnvConfig.validateConfiguration();
