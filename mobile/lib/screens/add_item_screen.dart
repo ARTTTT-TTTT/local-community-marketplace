@@ -299,7 +299,7 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.grey[300]!),
+                    border: Border.all(color: AppColors.textMuted),
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
@@ -370,13 +370,25 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
           maxLines: maxLines,
           keyboardType: keyboardType,
           decoration: InputDecoration(
-            border: OutlineInputBorder(
+            enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: Colors.grey[300]!),
+              borderSide: BorderSide(color: AppColors.textMuted),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(color: AppColors.primary),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.red),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.red),
+            ),
+            disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: Colors.grey[300]!),
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 12,
@@ -470,7 +482,7 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey[300]!),
+              border: Border.all(color: AppColors.textMuted),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
@@ -517,7 +529,7 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey[300]!),
+              border: Border.all(color: AppColors.textMuted),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
@@ -547,7 +559,7 @@ class DashedBorderPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.grey[300]!
+      ..color = AppColors.textMuted
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
 
