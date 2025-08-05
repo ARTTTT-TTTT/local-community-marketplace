@@ -22,13 +22,22 @@ class CategorySelectorBottomSheet extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text(
-                    'หมวดหมู่สินค้า',
-                    style: AppTypography.headline2.copyWith(
-                      color: AppColors.primary,
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back, color: Colors.black),
+                  ),
+                  Expanded(
+                    child: Text(
+                      'หมวดหมู่สินค้า',
+                      textAlign: TextAlign.center,
+                      style: AppTypography.headline2.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                      ),
                     ),
                   ),
-                  const Spacer(),
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
