@@ -79,7 +79,7 @@ class CategorySelectorBottomSheet extends StatelessWidget {
                         child: isSelected
                             ? const Icon(
                                 Icons.check,
-                                color: Colors.white,
+                                color: AppColors.background,
                                 size: 18,
                               )
                             : null,

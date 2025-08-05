@@ -33,23 +33,18 @@ class SingleSelectBottomSheet<T> extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () => Navigator.pop(context),
-                icon: Icon(Icons.arrow_back, color: AppColors.textPrimary),
+                icon: Icon(Icons.arrow_back, color: Colors.black),
               ),
               Expanded(
                 child: Text(
                   title,
-                  style: AppTypography.headline2.copyWith(
-                    color: AppColors.textPrimary,
-                  ),
+                  style: AppTypography.headline2.copyWith(color: Colors.black),
                   textAlign: TextAlign.center,
                 ),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text(
-                  'เสร็จสิ้น',
-    
-                ),
+                child: Text('เสร็จสิ้น'),
               ),
             ],
           ),
@@ -58,8 +53,7 @@ class SingleSelectBottomSheet<T> extends StatelessWidget {
             child: ListView.separated(
               shrinkWrap: true,
               itemCount: options.length,
-              separatorBuilder: (_, __) =>
-                  const Divider(height: 1, color: Color(0xFFF0F0F0)),
+              separatorBuilder: (_, __) => const SizedBox.shrink(),
               itemBuilder: (context, index) {
                 final option = options[index];
                 final isSelected = selectedValue == option;
@@ -67,7 +61,7 @@ class SingleSelectBottomSheet<T> extends StatelessWidget {
                 return ListTile(
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
-                    vertical: 8,
+                    vertical: 0,
                   ),
                   leading: Container(
                     width: 24,
@@ -92,9 +86,7 @@ class SingleSelectBottomSheet<T> extends StatelessWidget {
                   title: Text(
                     getDisplayName(option),
                     style: AppTypography.bodyText.copyWith(
-                      color: isSelected
-                          ? AppColors.primary
-                          : AppColors.textPrimary,
+                      color: isSelected ? AppColors.primary : Colors.black,
                       fontWeight: isSelected
                           ? FontWeight.bold
                           : FontWeight.normal,
