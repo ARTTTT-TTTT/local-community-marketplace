@@ -1,8 +1,8 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
-import 'package:community_marketplace/screens/onboarding/terms_screen.dart';
-import 'package:community_marketplace/screens/onboarding/onboarding_screen.dart';
+import 'package:community_marketplace/screens/presentation/terms_screen.dart';
+import 'package:community_marketplace/screens/presentation/onboarding_screen.dart';
 import 'package:community_marketplace/screens/auth/login_screen.dart';
 import 'package:community_marketplace/screens/dashboard_screen.dart';
 

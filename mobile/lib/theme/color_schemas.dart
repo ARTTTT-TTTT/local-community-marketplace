@@ -18,6 +18,8 @@ class AppColors {
   static const Color surface = Colors.white;
 
   // Text Colors
-  static const Color textPrimary = Color(0xFF022648);
-  static const Color textSecondary = Color(0xFF2F7AB3);
+  static const Color textPrimary = Color(0xFFC53B6E); // #c53b6e
+  static const Color textSecondary = Color(0xFFEA9F3A); // #ea9f3a
+  static const Color textWhite = Color.fromARGB(255, 255, 255, 255);
+  static const Color textMuted = Color(0xFF6B7280); // #6B7280
 }
