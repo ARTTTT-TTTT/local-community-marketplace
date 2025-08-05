@@ -1,0 +1,115 @@
+import 'package:flutter/material.dart';
+import '../theme/color_schemas.dart';
+import '../theme/typography.dart';
+
+class SingleSelectBottomSheet<T> extends StatelessWidget {
+  final String title;
+  final List<T> options;
+  final T? selectedValue;
+  final String Function(T) getDisplayName;
+  final void Function(T) onSelected;
+
+  const SingleSelectBottomSheet({
+    super.key,
+    required this.title,
+    required this.options,
+    required this.selectedValue,
+    required this.getDisplayName,
+    required this.onSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: Icon(Icons.arrow_back, color: AppColors.textPrimary),
+              ),
+              Expanded(
+                child: Text(
+                  title,
+                  style: AppTypography.headline2.copyWith(
+                    color: AppColors.textPrimary,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  'เสร็จสิ้น',
+    
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Flexible(
+            child: ListView.separated(
+              shrinkWrap: true,
+              itemCount: options.length,
+              separatorBuilder: (_, __) =>
+                  const Divider(height: 1, color: Color(0xFFF0F0F0)),
+              itemBuilder: (context, index) {
+                final option = options[index];
+                final isSelected = selectedValue == option;
+
+                return ListTile(
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  leading: Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(
+                        color: isSelected
+                            ? AppColors.primary
+                            : Colors.grey[400]!,
+                        width: 2,
+                      ),
+                      color: isSelected
+                          ? AppColors.primary
+                          : Colors.transparent,
+                    ),
+                    child: isSelected
+                        ? const Icon(Icons.check, color: Colors.white, size: 16)
+                        : null,
+                  ),
+                  title: Text(
+                    getDisplayName(option),
+                    style: AppTypography.bodyText.copyWith(
+                      color: isSelected
+                          ? AppColors.primary
+                          : AppColors.textPrimary,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                    ),
+                  ),
+                  onTap: () {
+                    onSelected(option);
+                    Navigator.pop(context);
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

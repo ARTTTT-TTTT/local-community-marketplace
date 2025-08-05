@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../providers/add_item_provider.dart';
 import '../theme/color_schemas.dart';
 import '../widgets/category_selector_bottom_sheet.dart';
+import '../widgets/single_select_bottom_sheet.dart';
 
 class AddItemScreen extends StatelessWidget {
   const AddItemScreen({super.key});
@@ -50,82 +51,31 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Text(
-                  'สภาพ',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const Spacer(),
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('ยืนยัน'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            ...ItemCondition.values.map((condition) {
-              return Consumer<AddItemProvider>(
-                builder: (context, provider, _) {
-                  final isSelected = provider.selectedCondition == condition;
-                  return GestureDetector(
-                    onTap: () {
-                      provider.setCondition(condition);
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 16,
-                        horizontal: 12,
-                      ),
-                      margin: const EdgeInsets.only(bottom: 8),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? AppColors.primary.withOpacity(0.1)
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: isSelected
-                              ? AppColors.primary
-                              : Colors.grey[300]!,
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Text(
-                            condition.displayName,
-                            style: TextStyle(
-                              color: isSelected
-                                  ? AppColors.primary
-                                  : Colors.black87,
-                              fontWeight: isSelected
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
-                            ),
-                          ),
-                          const Spacer(),
-                          if (isSelected)
-                            Icon(
-                              Icons.check,
-                              color: AppColors.primary,
-                              size: 20,
-                            ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
-            }),
-          ],
-        ),
+      builder: (context) => SingleSelectBottomSheet<ItemCondition>(
+        title: 'สภาพ',
+        options: ItemCondition.values,
+        selectedValue: provider.selectedCondition,
+        getDisplayName: (condition) => condition.displayName,
+        onSelected: (condition) => provider.setCondition(condition),
+      ),
+    );
+  }
+
+  void _showSellerTypeBottomSheet(
+    BuildContext context,
+    AddItemProvider provider,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => SingleSelectBottomSheet<SellerType>(
+        title: 'ผู้ขาย',
+        options: SellerType.values,
+        selectedValue: provider.selectedSellerType,
+        getDisplayName: (sellerType) => sellerType.displayName,
+        onSelected: (sellerType) => provider.setSellerType(sellerType),
       ),
     );
   }
@@ -192,6 +142,10 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
                     _buildConditionField(provider),
                     const SizedBox(height: 16),
                   ],
+
+                  // Seller Type Selection
+                  _buildSellerTypeField(provider),
+                  const SizedBox(height: 16),
 
                   // Price
                   _buildTextField(
@@ -277,26 +231,30 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        RichText(
-          text: const TextSpan(
-            text: 'รูปภาพสินค้า',
-            style: TextStyle(
-              color: Colors.black87,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-            children: [
-              TextSpan(
-                text: ' *',
-                style: TextStyle(color: Colors.red),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            RichText(
+              text: const TextSpan(
+                text: 'รูปภาพสินค้า',
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+                children: [
+                  TextSpan(
+                    text: ' *',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'รูปภาพขนาด (1:1)',
-          style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+            ),
+            Text(
+              'รูปภาพขนาด (1:1)',
+              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+            ),
+          ],
         ),
         const SizedBox(height: 12),
 
@@ -541,6 +499,57 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
                         'เลือกสภาพสินค้า',
                     style: TextStyle(
                       color: provider.selectedCondition == null
+                          ? Colors.grey[600]
+                          : Colors.black87,
+                    ),
+                  ),
+                ),
+                const Icon(Icons.keyboard_arrow_right, color: Colors.grey),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSellerTypeField(AddItemProvider provider) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          text: const TextSpan(
+            text: 'ผู้ขาย',
+            style: TextStyle(
+              color: Colors.black87,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+            children: [
+              TextSpan(
+                text: ' *',
+                style: TextStyle(color: Colors.red),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 8),
+        GestureDetector(
+          onTap: () => _showSellerTypeBottomSheet(context, provider),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey[300]!),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    provider.selectedSellerType?.displayName ??
+                        'เลือกประเภทผู้ขาย',
+                    style: TextStyle(
+                      color: provider.selectedSellerType == null
                           ? Colors.grey[600]
                           : Colors.black87,
                     ),
