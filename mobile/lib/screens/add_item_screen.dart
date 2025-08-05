@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/add_item_provider.dart';
 import '../theme/color_schemas.dart';
+import '../widgets/category_selector_bottom_sheet.dart';
 
 class AddItemScreen extends StatelessWidget {
   const AddItemScreen({super.key});
@@ -33,76 +34,9 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Text(
-                  'หมวดหมู่สินค้า',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const Spacer(),
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('ยืนยัน'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                childAspectRatio: 3,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                children: ItemCategory.values.map((category) {
-                  return Consumer<AddItemProvider>(
-                    builder: (context, provider, _) {
-                      final isSelected = provider.selectedCategories.contains(
-                        category,
-                      );
-                      return GestureDetector(
-                        onTap: () => provider.toggleCategory(category),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? AppColors.primary
-                                : Colors.grey[100],
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: isSelected
-                                  ? AppColors.primary
-                                  : Colors.grey[300]!,
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              category.displayName,
-                              style: TextStyle(
-                                color: isSelected
-                                    ? Colors.white
-                                    : Colors.black87,
-                                fontSize: 12,
-                                fontWeight: isSelected
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }).toList(),
-              ),
-            ),
-          ],
-        ),
+      builder: (context) => ChangeNotifierProvider.value(
+        value: provider,
+        child: const CategorySelectorBottomSheet(),
       ),
     );
   }
@@ -268,10 +202,6 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
                     keyboardType: TextInputType.number,
                     suffix: const Text('บาท'),
                   ),
-                  const SizedBox(height: 16),
-
-                  // Tags Section
-                  _buildTagsSection(provider),
                   const SizedBox(height: 32),
 
                   // Submit Button
@@ -621,101 +551,6 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
             ),
           ),
         ),
-      ],
-    );
-  }
-
-  Widget _buildTagsSection(AddItemProvider provider) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'แท็ก',
-          style: TextStyle(
-            color: Colors.black87,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            Expanded(
-              child: TextFormField(
-                controller: provider.tagController,
-                decoration: InputDecoration(
-                  hintText: 'เพิ่มแท็ก',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(color: Colors.grey[300]!),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(color: AppColors.primary),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 12,
-                  ),
-                ),
-                onFieldSubmitted: (_) => provider.addTag(),
-              ),
-            ),
-            const SizedBox(width: 8),
-            ElevatedButton(
-              onPressed: provider.addTag,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: const Text('เพิ่ม'),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        if (provider.tags.isNotEmpty)
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: provider.tags.map((tag) {
-              return Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.primary),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      tag,
-                      style: TextStyle(color: AppColors.primary, fontSize: 12),
-                    ),
-                    const SizedBox(width: 4),
-                    GestureDetector(
-                      onTap: () => provider.removeTag(tag),
-                      child: Icon(
-                        Icons.close,
-                        size: 14,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }).toList(),
-          ),
       ],
     );
   }

@@ -89,12 +89,10 @@ class AddItemProvider extends ChangeNotifier {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController detailController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
-  final TextEditingController tagController = TextEditingController();
 
   // State variables
   final List<File> _productImages = [];
   File? _profileImage;
-  final List<String> _tags = [];
   final List<ItemCategory> _selectedCategories = [];
   ItemCondition? _selectedCondition;
   bool _isLoading = false;
@@ -106,7 +104,6 @@ class AddItemProvider extends ChangeNotifier {
   // Getters
   List<File> get productImages => _productImages;
   File? get profileImage => _profileImage;
-  List<String> get tags => _tags;
   List<ItemCategory> get selectedCategories => _selectedCategories;
   ItemCondition? get selectedCondition => _selectedCondition;
   bool get isLoading => _isLoading;
@@ -155,22 +152,6 @@ class AddItemProvider extends ChangeNotifier {
     }
   }
 
-  // Add tag
-  void addTag() {
-    final tag = tagController.text.trim();
-    if (tag.isNotEmpty && !_tags.contains(tag)) {
-      _tags.add(tag);
-      tagController.clear();
-      notifyListeners();
-    }
-  }
-
-  // Remove tag
-  void removeTag(String tag) {
-    _tags.remove(tag);
-    notifyListeners();
-  }
-
   // Toggle category selection
   void toggleCategory(ItemCategory category) {
     if (_selectedCategories.contains(category)) {
@@ -214,7 +195,6 @@ class AddItemProvider extends ChangeNotifier {
       debugPrint('Name: ${nameController.text}');
       debugPrint('Detail: ${detailController.text}');
       debugPrint('Price: ${priceController.text}');
-      debugPrint('Tags: $_tags');
       debugPrint(
         'Categories: ${_selectedCategories.map((c) => c.displayName).toList()}',
       );
@@ -238,10 +218,8 @@ class AddItemProvider extends ChangeNotifier {
     nameController.clear();
     detailController.clear();
     priceController.clear();
-    tagController.clear();
     _productImages.clear();
     _profileImage = null;
-    _tags.clear();
     _selectedCategories.clear();
     _selectedCondition = null;
     notifyListeners();
@@ -284,7 +262,6 @@ class AddItemProvider extends ChangeNotifier {
     nameController.dispose();
     detailController.dispose();
     priceController.dispose();
-    tagController.dispose();
     super.dispose();
   }
 }
