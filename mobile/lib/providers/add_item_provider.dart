@@ -82,6 +82,19 @@ extension ItemCategoryExtension on ItemCategory {
   }
 }
 
+enum SellerType { individual, official }
+
+extension SellerTypeExtension on SellerType {
+  String get displayName {
+    switch (this) {
+      case SellerType.individual:
+        return 'บุคคล';
+      case SellerType.official:
+        return 'ร้านค้า';
+    }
+  }
+}
+
 class AddItemProvider extends ChangeNotifier {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -95,6 +108,7 @@ class AddItemProvider extends ChangeNotifier {
   File? _profileImage;
   final List<ItemCategory> _selectedCategories = [];
   ItemCondition? _selectedCondition;
+  SellerType? _selectedSellerType;
   bool _isLoading = false;
   bool _isNormalSeller = true; // For demo, assume normal seller
 
@@ -106,6 +120,7 @@ class AddItemProvider extends ChangeNotifier {
   File? get profileImage => _profileImage;
   List<ItemCategory> get selectedCategories => _selectedCategories;
   ItemCondition? get selectedCondition => _selectedCondition;
+  SellerType? get selectedSellerType => _selectedSellerType;
   bool get isLoading => _isLoading;
   bool get isNormalSeller => _isNormalSeller;
 
@@ -115,6 +130,7 @@ class AddItemProvider extends ChangeNotifier {
         priceController.text.trim().isNotEmpty &&
         _productImages.isNotEmpty &&
         _selectedCategories.isNotEmpty &&
+        _selectedSellerType != null &&
         (_isNormalSeller ? _selectedCondition != null : true);
   }
 
@@ -168,10 +184,12 @@ class AddItemProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Set seller type (for demo)
-  void setSellerType(bool isNormal) {
-    _isNormalSeller = isNormal;
-    if (!isNormal) {
+  // Set seller type
+  void setSellerType(SellerType? sellerType) {
+    _selectedSellerType = sellerType;
+    // Update isNormalSeller based on selected seller type
+    _isNormalSeller = sellerType == SellerType.individual;
+    if (!_isNormalSeller) {
       _selectedCondition = null; // Official sellers don't need condition
     }
     notifyListeners();
@@ -222,6 +240,8 @@ class AddItemProvider extends ChangeNotifier {
     _profileImage = null;
     _selectedCategories.clear();
     _selectedCondition = null;
+    _selectedSellerType = null;
+    _isNormalSeller = true;
     notifyListeners();
   }
 
