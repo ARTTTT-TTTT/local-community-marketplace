@@ -359,16 +359,12 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
         RichText(
           text: TextSpan(
             text: label,
-            style: const TextStyle(
-              color: Colors.black87,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium,
             children: [
               if (isRequired)
                 const TextSpan(
                   text: ' *',
-                  style: TextStyle(color: Colors.red),
+                  style: TextStyle(color: AppColors.accentOrange),
                 ),
             ],
           ),
