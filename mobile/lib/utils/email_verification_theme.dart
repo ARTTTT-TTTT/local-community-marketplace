@@ -1,3 +1,5 @@
+// TODO: Change locations this files.
+
 import 'package:flutter/material.dart';
 
 class EmailVerificationTheme {

@@ -78,7 +78,7 @@ mobile/
 └── lib/
   ├── screens/    # โฟลเดอร์สำหรับหน้าจอหลักแต่ละหน้าของแอป (e.g., login_screen.dart, home_screen.dart)
   ├── widgets/    # โฟลเดอร์สำหรับ Widget ที่นำกลับมาใช้ซ้ำได้ทั่วทั้งแอป (e.g., custom_button.dart, app_bar_widget.dart)
-  ├── providers/
+  ├── providers/  # โฟลเดอร์สำหรับ State Management ให้ provider จัดการเฉพาะ state ของ view เท่านั้น (e.g., auth_provider.dart.dart, product_provider.dart)
   ├── models/     # โฟลเดอร์สำหรับโมเดลข้อมูล (Dart classes) ที่ใช้ในแอป (e.g., user_model.dart, product_model.dart)
   ├── services/   # โฟลเดอร์สำหรับบริการต่างๆ เช่น การเรียกใช้ API, การจัดการ Local Storage, Firebase (e.g., api_service.dart, auth_service.dart)
   ├── utils/      # โฟลเดอร์สำหรับฟังก์ชันหรือคลาสยูทิลิตี้ทั่วไป (e.g., app_constants.dart, helper_functions.dart)
@@ -93,7 +93,7 @@ firebase/
 
 ## 🌿 Branch Workflow 🌿
 
-- ทุกฟีเจอร์ใหม่ ให้แตก branch จาก `dev` โดยใช้รูปแบบ:
+- ทุกฟีเจอร์ใหม่ ให้แตก branch จาก `main` โดยใช้รูปแบบ:
 
 **🌿 Feature Branch**
 

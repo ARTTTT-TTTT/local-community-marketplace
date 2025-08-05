@@ -1,8 +1,8 @@
+import 'package:community_marketplace/theme/color_schemas.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../models/product.dart';
-import '../utils/app_constants.dart';
 
 class ItemDetailScreen extends StatefulWidget {
   final Product product; // เก็บข้อมูลสินค้า
@@ -771,7 +771,7 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   decoration: BoxDecoration(
-                    color: AppConstants.primaryColor,
+                    color: AppColors.primary,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
@@ -812,7 +812,7 @@ class _ItemDetailScreenState extends State<ItemDetailScreen>
                 'เทศบาลนครหาดใหญ่',
                 style: TextStyle(
                   fontSize: 14,
-                  color: AppConstants.primaryColor,
+                  color: AppColors.primary,
                   fontWeight: FontWeight.w500,
                 ),
               ),

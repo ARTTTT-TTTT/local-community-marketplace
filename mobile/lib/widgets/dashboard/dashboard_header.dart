@@ -1,8 +1,8 @@
+import 'package:community_marketplace/theme/color_schemas.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/dashboard_provider.dart';
-import '../utils/app_constants.dart';
-import '../widgets/filter_drawer.dart';
+import '../../providers/dashboard_provider.dart';
+import '../filter_drawer.dart';
 
 class DashboardHeader extends StatelessWidget {
   const DashboardHeader({super.key});
@@ -131,7 +131,7 @@ class DashboardHeader extends StatelessWidget {
                       child: Text(
                         'ล้าง',
                         style: TextStyle(
-                          color: AppConstants.primaryColor,
+                          color: AppColors.primary,
                           fontSize: 12,
                         ),
                       ),
@@ -204,10 +204,10 @@ class DashboardHeader extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? AppConstants.primaryColor : Colors.white,
+          color: isSelected ? AppColors.primary : Colors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? AppConstants.primaryColor : Colors.grey[300]!,
+            color: isSelected ? AppColors.primary : Colors.grey[300]!,
           ),
         ),
         child: Row(

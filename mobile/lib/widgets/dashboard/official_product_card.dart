@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../models/product.dart';
+import '../../models/product.dart';
 
-class ProductCard extends StatelessWidget {
+class OfficialProductCard extends StatelessWidget {
   final Product product;
   final VoidCallback onTap;
   final VoidCallback onFavoriteToggle;
 
-  const ProductCard({
+  const OfficialProductCard({
     super.key,
     required this.product,
     required this.onTap,
@@ -53,7 +53,7 @@ class ProductCard extends StatelessWidget {
                       child: _buildProductImage(),
                     ),
                   ),
-                  // Favorite Button (Top Left)
+                  // Favorite Button (Top Right)
                   Positioned(
                     top: 8,
                     right: 8,
@@ -86,39 +86,68 @@ class ProductCard extends StatelessWidget {
               ),
             ),
 
-            // Product Details (Flexible Height)
+            // Product Details for Official Shop (Flexible Height)
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Price and Name Row
+                    // Product Name
+                    Text(
+                      product.name,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.black87,
+                        height: 1.2,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    // Rating and Price Row
                     Row(
                       crossAxisAlignment: CrossAxisAlignment
                           .center, // Align items vertically centered
                       children: [
-                        // Price (Left side)
+                        // Rating (Left side)
+                        Expanded(
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                                size: 14,
+                              ),
+                              const SizedBox(width: 2),
+                              Text(
+                                product.formattedRating,
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                '(${product.reviewCount ?? 0})',
+                                style: const TextStyle(
+                                  fontSize: 10,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        // Price (Right side)
                         Text(
                           product.formattedPrice,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        // Product Name (Right side)
-                        Expanded(
-                          child: Text(
-                            product.name,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.black,
-                              height: 1.2,
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
@@ -138,17 +167,7 @@ class ProductCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        // Simple crosshatch pattern using CSS-like background
-        image: const DecorationImage(
-          image: NetworkImage(
-            'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><defs><pattern id="crosshatch" patternUnits="userSpaceOnUse" width="20" height="20"><path d="M 0,20 l 20,-20 M -5,5 l 10,-10 M 15,25 l 10,-10" stroke="%23e0e0e0" stroke-width="1"/></pattern></defs><rect width="20" height="20" fill="url(%23crosshatch)"/></svg>',
-          ),
-          fit: BoxFit.cover,
-          opacity: 0.3,
-        ),
-      ),
+      decoration: BoxDecoration(color: Colors.grey[200]),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

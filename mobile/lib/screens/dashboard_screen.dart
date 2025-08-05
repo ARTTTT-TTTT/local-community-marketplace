@@ -1,13 +1,14 @@
+import 'package:community_marketplace/theme/color_schemas.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../providers/dashboard_provider.dart';
-import '../widgets/product_card.dart';
-import '../widgets/official_product_card.dart';
-import '../widgets/dashboard_header.dart';
+import '../widgets/dashboard/individual_product_card.dart';
+import '../widgets/dashboard/official_product_card.dart';
+import '../widgets/dashboard/dashboard_header.dart';
 import '../widgets/floating_navigation_bar.dart';
 import '../screens/item_detail_screen.dart';
 import '../models/product.dart';
-import '../utils/app_constants.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -116,16 +117,12 @@ class _DashboardScreenContent extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  Icons.location_on,
-                  size: 16,
-                  color: AppConstants.primaryColor,
-                ),
+                Icon(Icons.location_on, size: 16, color: AppColors.primary),
                 const SizedBox(width: 4),
                 Text(
                   'เทศบาลนครหาดใหญ่',
                   style: TextStyle(
-                    color: AppConstants.primaryColor,
+                    color: AppColors.primary,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

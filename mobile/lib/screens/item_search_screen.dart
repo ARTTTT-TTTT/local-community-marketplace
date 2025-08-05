@@ -1,8 +1,8 @@
+import 'package:community_marketplace/theme/color_schemas.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:community_marketplace/widgets/floating_navigation_bar.dart';
-import 'package:community_marketplace/utils/app_constants.dart';
 import 'package:community_marketplace/providers/search_provider.dart';
 
 class ItemSearchScreen extends StatelessWidget {
@@ -134,9 +134,9 @@ class _ItemSearchContent extends StatelessWidget {
           color: const Color(0xFFA4D9FF),
           child: TabBar(
             onTap: provider.setTabIndex,
-            labelColor: AppConstants.primaryColor,
+            labelColor: AppColors.primary,
             unselectedLabelColor: Colors.black,
-            indicatorColor: AppConstants.primaryColor,
+            indicatorColor: AppColors.primary,
             indicatorWeight: 2,
             labelStyle: const TextStyle(
               fontSize: 16,
@@ -189,10 +189,7 @@ class _ItemSearchContent extends StatelessWidget {
                   onPressed: provider.clearSearchHistory,
                   child: Text(
                     'ล้างทั้งหมด',
-                    style: TextStyle(
-                      color: AppConstants.primaryColor,
-                      fontSize: 14,
-                    ),
+                    style: TextStyle(color: AppColors.primary, fontSize: 14),
                   ),
                 ),
               ],
@@ -293,12 +290,12 @@ class _ItemSearchContent extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: isPopular
-              ? AppConstants.primaryColor.withValues(alpha: 0.1)
+              ? AppColors.primary.withValues(alpha: 0.1)
               : Colors.grey[100],
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isPopular
-                ? AppConstants.primaryColor.withValues(alpha: 0.3)
+                ? AppColors.primary.withValues(alpha: 0.3)
                 : Colors.grey[300]!,
           ),
         ),
@@ -306,7 +303,7 @@ class _ItemSearchContent extends StatelessWidget {
           category,
           style: TextStyle(
             fontSize: 14,
-            color: isPopular ? AppConstants.primaryColor : Colors.black87,
+            color: isPopular ? AppColors.primary : Colors.black87,
             fontWeight: isPopular ? FontWeight.w500 : FontWeight.normal,
           ),
         ),
@@ -397,7 +394,7 @@ class _ItemSearchContent extends StatelessWidget {
                           'ดูผลลัพธ์ทั้งหมดของ ${provider.searchController.text}',
                           style: TextStyle(
                             fontSize: 14,
-                            color: AppConstants.primaryColor,
+                            color: AppColors.primary,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -420,7 +417,7 @@ class _ItemSearchContent extends StatelessWidget {
                     'ดูผลลัพธ์ทั้งหมดของ ${provider.searchController.text}',
                     style: TextStyle(
                       fontSize: 14,
-                      color: AppConstants.primaryColor,
+                      color: AppColors.primary,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

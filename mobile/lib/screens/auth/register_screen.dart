@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:community_marketplace/providers/signup_provider.dart';
-import 'package:community_marketplace/utils/app_constants.dart';
+import 'package:community_marketplace/theme/color_schemas.dart';
 import 'package:community_marketplace/widgets/custom_button.dart';
-import 'package:community_marketplace/widgets/password_field.dart';
+import 'package:community_marketplace/widgets/auth/password_field.dart';
 
 class RegisterScreen extends StatelessWidget {
   final String email;
@@ -103,7 +103,7 @@ class _SignupScreenContent extends StatelessWidget {
                             text: 'Community Marketplace',
                             style: TextStyle(
                               fontSize: 16,
-                              color: AppConstants.primaryColor,
+                              color: AppColors.primary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
