@@ -93,12 +93,10 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
               icon: const Icon(Icons.arrow_back, color: Colors.black),
               onPressed: () => Navigator.pop(context),
             ),
-            title: const Text(
+            title: Text(
               'เพิ่มสินค้า',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+              style: Theme.of(context).textTheme.bodyMedium!.merge(
+                const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             centerTitle: true,
@@ -235,13 +233,9 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             RichText(
-              text: const TextSpan(
+              text: TextSpan(
                 text: 'รูปภาพสินค้า',
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: Theme.of(context).textTheme.bodyMedium,
                 children: [
                   TextSpan(
                     text: ' *',
@@ -409,14 +403,10 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         RichText(
-          text: const TextSpan(
+          text: TextSpan(
             text: 'หมวดหมู่สินค้า',
-            style: TextStyle(
-              color: Colors.black87,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-            children: [
+            style: Theme.of(context).textTheme.bodyMedium,
+            children: const [
               TextSpan(
                 text: ' *',
                 style: TextStyle(color: Colors.red),
@@ -463,13 +453,9 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         RichText(
-          text: const TextSpan(
+          text: TextSpan(
             text: 'สภาพ',
-            style: TextStyle(
-              color: Colors.black87,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium,
             children: [
               TextSpan(
                 text: ' *',
@@ -514,13 +500,9 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         RichText(
-          text: const TextSpan(
+          text: TextSpan(
             text: 'ผู้ขาย',
-            style: TextStyle(
-              color: Colors.black87,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium,
             children: [
               TextSpan(
                 text: ' *',
