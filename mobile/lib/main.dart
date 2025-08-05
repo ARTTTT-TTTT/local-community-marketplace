@@ -7,6 +7,7 @@ import 'package:community_marketplace/firebase_options.dart';
 import 'package:community_marketplace/constants/app_constants.dart';
 import 'package:community_marketplace/theme/app_theme.dart';
 
+import 'package:community_marketplace/screens/add_item_screen.dart';
 import 'package:community_marketplace/screens/auth/login_screen.dart';
 import 'package:community_marketplace/screens/auth/register_screen.dart';
 import 'package:community_marketplace/screens/auth/email_verification_screen.dart';
@@ -16,7 +17,6 @@ import 'package:community_marketplace/screens/error_screen.dart';
 import 'package:community_marketplace/screens/test/firebase_test_screen.dart';
 import 'package:community_marketplace/screens/dashboard_screen.dart';
 import 'package:community_marketplace/screens/item_search_screen.dart';
-import 'package:community_marketplace/screens/add_item_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
