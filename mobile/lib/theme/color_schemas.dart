@@ -22,4 +22,9 @@ class AppColors {
   static const Color textSecondary = Color(0xFFEA9F3A); // #ea9f3a
   static const Color textWhite = Color.fromARGB(255, 255, 255, 255);
   static const Color textMuted = Color(0xFF6B7280); // #6B7280
+
+  // Status
+  static const Color success = Color(0xFF4CAF50);
+  static const Color warning = Color(0xFFFFC107);
+  static const Color error = Color(0xFFF44336);
 }
