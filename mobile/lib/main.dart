@@ -16,6 +16,7 @@ import 'package:community_marketplace/screens/error_screen.dart';
 import 'package:community_marketplace/screens/test/firebase_test_screen.dart';
 import 'package:community_marketplace/screens/dashboard_screen.dart';
 import 'package:community_marketplace/screens/item_search_screen.dart';
+import 'package:community_marketplace/screens/add_item_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -105,6 +106,11 @@ class HomeScreen extends StatelessWidget {
         'name': 'Item Search Screen',
         'screen': const ItemSearchScreen(),
         'color': Colors.red,
+      },
+      {
+        'name': 'Add Item Screen',
+        'screen': const AddItemScreen(),
+        'color': Colors.pink,
       },
     ];
 
