@@ -1,0 +1,83 @@
+{
+  "users": [
+    {
+      "id": "user-001",
+      "username": "สมชาย ใจดี",
+      "location": "เทศบาลนครหาดใหญ่",
+      "profileImg": "https://example.com/profile1.jpg",
+      "type": "customer"
+    },
+    {
+      "id": "user-002",
+      "username": "ร้านเครื่องใช้ไฟฟ้า ABC",
+      "location": "ห้างสรรพสินค้า Central หาดใหญ่",
+      "profileImg": "https://example.com/shop1.jpg",
+      "type": "official_seller",
+      "rating": 4.8,
+      "totalSales": 1250,
+      "isVerified": true
+    },
+    {
+      "id": "user-003",
+      "username": "มานี สวยงาม",
+      "location": "ตำบลคอหงส์ หาดใหญ่",
+      "profileImg": "https://example.com/profile2.jpg",
+      "type": "normal_seller"
+    },
+    {
+      "id": "user-004",
+      "username": "ร้านอาหารดีดี",
+      "location": "ตลาดกิมหยง หาดใหญ่",
+      "profileImg": "https://example.com/shop2.jpg",
+      "type": "official_seller",
+      "rating": 4.5,
+      "totalSales": 890,
+      "isVerified": true
+    },
+    {
+      "id": "user-005",
+      "username": "วิทย์ รักการอ่าน",
+      "location": "มหาวิทยาลัยสงขลานครินทร์",
+      "profileImg": "https://example.com/profile3.jpg",
+      "type": "normal_seller"
+    },
+    {
+      "id": "user-006",
+      "username": "นก สดใส",
+      "location": "อำเภอควนเนียง สงขลา",
+      "profileImg": "https://example.com/profile4.jpg",
+      "type": "customer"
+    },
+    {
+      "id": "user-007",
+      "username": "ร้านเสื้อผ้า Fashion House",
+      "location": "ห้างสรรพสินค้า Diana หาดใหญ่",
+      "profileImg": "https://example.com/shop3.jpg",
+      "type": "official_seller",
+      "rating": 4.6,
+      "totalSales": 650,
+      "isVerified": true
+    },
+    {
+      "id": "user-008",
+      "username": "แป้ง หวานใจ",
+      "location": "ตำบลบ้านพรุ หาดใหญ่",
+      "profileImg": "https://example.com/profile5.jpg",
+      "type": "normal_seller"
+    },
+    {
+      "id": "user-009",
+      "username": "ป๋อม นักซื้อ",
+      "location": "เทศบาลตำบลคลองแห รัตภูมิ",
+      "profileImg": "https://example.com/profile6.jpg",
+      "type": "customer"
+    },
+    {
+      "id": "user-010",
+      "username": "ตุ๊ก คนขาย",
+      "location": "อำเภอนาทวี สงขลา",
+      "profileImg": "https://example.com/profile7.jpg",
+      "type": "normal_seller"
+    }
+  ]
+}
