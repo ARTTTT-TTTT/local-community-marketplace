@@ -34,10 +34,11 @@ class CategorySelectorBottomSheet extends StatelessWidget {
                     child: Text(
                       'หมวดหมู่สินค้า',
                       textAlign: TextAlign.center,
-                      style: AppTypography.headline2.copyWith(
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal,
-                      ),
+                      style: Theme.of(context).textTheme.displayMedium!
+                          .copyWith(
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                          ),
                     ),
                   ),
                   TextButton(

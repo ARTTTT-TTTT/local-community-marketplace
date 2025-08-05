@@ -87,7 +87,7 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: AppColors.primary,
             elevation: 0,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.black),
@@ -250,14 +250,14 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 20),
 
         // Product Images Grid
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
+            crossAxisCount: 2,
             crossAxisSpacing: 8,
             mainAxisSpacing: 8,
             childAspectRatio: 1,
@@ -268,26 +268,26 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
               // Add image button
               return GestureDetector(
                 onTap: provider.addProductImage,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey[300]!,
-                      style: BorderStyle.solid,
-                      width: 2,
+                child: CustomPaint(
+                  painter: DashedBorderPainter(),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.add, size: 24, color: Colors.grey),
-                      SizedBox(height: 4),
-                      Text(
-                        '+เพิ่มรูปสินค้า',
-                        style: TextStyle(fontSize: 10, color: Colors.grey),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.add, size: 24, color: AppColors.textMuted),
+                        Builder(
+                          builder: (context) => Text(
+                            'เพิ่มรูปสินค้า',
+                            style: Theme.of(context).textTheme.bodyMedium!
+                                .copyWith(color: AppColors.textMuted),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -420,7 +420,7 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey[300]!),
+              border: Border.all(color: AppColors.textMuted),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
@@ -541,4 +541,49 @@ class _AddItemScreenContentState extends State<_AddItemScreenContent> {
       ],
     );
   }
+}
+
+class DashedBorderPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.grey[300]!
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
+
+    const dashWidth = 6.0;
+    const dashSpace = 4.0;
+    const radius = 8.0;
+
+    final path = Path()
+      ..addRRect(
+        RRect.fromRectAndRadius(
+          Rect.fromLTWH(0, 0, size.width, size.height),
+          const Radius.circular(radius),
+        ),
+      );
+
+    _drawDashedPath(canvas, path, paint, dashWidth, dashSpace);
+  }
+
+  void _drawDashedPath(
+    Canvas canvas,
+    Path path,
+    Paint paint,
+    double dashWidth,
+    double dashSpace,
+  ) {
+    final pathMetrics = path.computeMetrics();
+    for (final metric in pathMetrics) {
+      double distance = 0.0;
+      while (distance < metric.length) {
+        final extractPath = metric.extractPath(distance, distance + dashWidth);
+        canvas.drawPath(extractPath, paint);
+        distance += dashWidth + dashSpace;
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
