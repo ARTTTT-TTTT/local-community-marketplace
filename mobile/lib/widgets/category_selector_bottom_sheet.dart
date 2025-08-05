@@ -12,13 +12,15 @@ class CategorySelectorBottomSheet extends StatelessWidget {
     return Consumer<AddItemProvider>(
       builder: (context, provider, _) {
         return Container(
+          height: MediaQuery.of(context).size.height * 0.8,
+
           decoration: BoxDecoration(
             color: AppColors.surface,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.max,
             children: [
               Row(
                 children: [
@@ -44,8 +46,8 @@ class CategorySelectorBottomSheet extends StatelessWidget {
                     },
                     child: Text(
                       'เสร็จสิ้น',
-                      style: AppTypography.bodyText.copyWith(
-                        color: AppColors.primary,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: AppColors.textPrimary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -57,15 +59,19 @@ class CategorySelectorBottomSheet extends StatelessWidget {
                 child: ListView.separated(
                   shrinkWrap: true,
                   itemCount: ItemCategory.values.length,
-                  separatorBuilder: (_, __) =>
-                      const Divider(height: 1, color: Color(0xFFF0F0F0)),
+                  separatorBuilder: (_, __) => const SizedBox.shrink(),
                   itemBuilder: (context, idx) {
                     final category = ItemCategory.values[idx];
                     final isSelected = provider.selectedCategories.contains(
                       category,
                     );
                     return ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 0,
+                      ),
                       leading: CircleAvatar(
+                        radius: 12,
                         backgroundColor: isSelected
                             ? AppColors.primary
                             : AppColors.background,
