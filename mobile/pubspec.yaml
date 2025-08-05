@@ -1,7 +1,7 @@
 name: community_marketplace
-description: 'Community Marketplaces'
+description: "Community Marketplaces"
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
 
@@ -23,6 +23,9 @@ dependencies:
 
   # Environment Variables
   flutter_dotenv: ^5.1.0
+
+  # Image Picker
+  image_picker: ^1.0.4
 
 dev_dependencies:
   flutter_test:
