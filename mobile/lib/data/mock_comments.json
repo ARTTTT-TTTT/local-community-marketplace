@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "id": "comment-001",
+      "content": "สินค้าดีมาก ใช้งานได้จริง แนะนำเลยครับ",
+      "writeBy": "user-001",
+      "rating": 5,
+      "createdAt": "2024-12-15T10:30:00Z"
+    },
+    {
+      "id": "comment-002",
+      "content": "ของใหม่ ส่งเร็ว บริการดี",
+      "writeBy": "user-003",
+      "rating": 4,
+      "createdAt": "2024-12-14T15:45:00Z"
+    },
+    {
+      "id": "comment-003",
+      "content": "คุณภาพดี ราคาเหมาะสม จะซื้อใหม่อีก",
+      "writeBy": "user-005",
+      "rating": 5,
+      "createdAt": "2024-12-13T09:20:00Z"
+    },
+    {
+      "id": "comment-004",
+      "content": "สินค้าตรงตามรูป แต่การจัดส่งช้าไปหน่อย",
+      "writeBy": "user-001",
+      "rating": 3,
+      "createdAt": "2024-12-12T14:10:00Z"
+    },
+    {
+      "id": "comment-005",
+      "content": "ร้านนี้ดีมาก แนะนำเลย บริการเป็นกันเอง",
+      "writeBy": "user-003",
+      "rating": 5,
+      "createdAt": "2024-12-11T16:25:00Z"
+    }
+  ]
+}

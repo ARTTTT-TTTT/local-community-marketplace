@@ -1,0 +1,45 @@
+{
+  "users": [
+    {
+      "id": "user-001",
+      "username": "สมชาย ใจดี",
+      "location": "เทศบาลนครหาดใหญ่",
+      "profileImg": "https://example.com/profile1.jpg",
+      "type": "customer"
+    },
+    {
+      "id": "user-002",
+      "username": "ร้านเครื่องใช้ไฟฟ้า ABC",
+      "location": "ห้างสรรพสินค้า Central หาดใหญ่",
+      "profileImg": "https://example.com/shop1.jpg",
+      "type": "official_seller",
+      "rating": 4.8,
+      "totalSales": 1250,
+      "isVerified": true
+    },
+    {
+      "id": "user-003",
+      "username": "มานี สวยงาม",
+      "location": "ตำบลคอหงส์ หาดใหญ่",
+      "profileImg": "https://example.com/profile2.jpg",
+      "type": "normal_seller"
+    },
+    {
+      "id": "user-004",
+      "username": "ร้านอาหารดีดี",
+      "location": "ตลาดกิมหยง หาดใหญ่",
+      "profileImg": "https://example.com/shop2.jpg",
+      "type": "official_seller",
+      "rating": 4.5,
+      "totalSales": 890,
+      "isVerified": true
+    },
+    {
+      "id": "user-005",
+      "username": "วิทย์ รักการอ่าน",
+      "location": "มหาวิทยาลัยสงขลานครินทร์",
+      "profileImg": "https://example.com/profile3.jpg",
+      "type": "normal_seller"
+    }
+  ]
+}
