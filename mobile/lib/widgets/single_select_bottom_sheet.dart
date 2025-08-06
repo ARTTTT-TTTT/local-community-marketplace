@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../theme/color_schemas.dart';
-import '../theme/typography.dart';
 
 class SingleSelectBottomSheet<T> extends StatelessWidget {
   final String title;
@@ -38,7 +37,9 @@ class SingleSelectBottomSheet<T> extends StatelessWidget {
               Expanded(
                 child: Text(
                   title,
-                  style: AppTypography.headline2.copyWith(color: Colors.black),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.headlineSmall!.copyWith(color: Colors.black),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -85,7 +86,7 @@ class SingleSelectBottomSheet<T> extends StatelessWidget {
                   ),
                   title: Text(
                     getDisplayName(option),
-                    style: AppTypography.bodyText.copyWith(
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: isSelected ? AppColors.primary : Colors.black,
                       fontWeight: isSelected
                           ? FontWeight.bold

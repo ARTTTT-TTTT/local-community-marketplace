@@ -87,7 +87,8 @@ class CategorySelectorBottomSheet extends StatelessWidget {
                       ),
                       title: Text(
                         category.displayName,
-                        style: AppTypography.bodyText.copyWith(
+                        style: Theme.of(context).textTheme.bodyMedium!
+                            .copyWith(
                           color: isSelected
                               ? AppColors.primary
                               : Colors.black87,
