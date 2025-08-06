@@ -28,6 +28,11 @@ dependencies:
   # Image Picker
   image_picker: ^1.0.4
 
+
+  shared_preferences:
+    ^2.2.2
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -46,6 +51,8 @@ flutter:
   fonts:
     - family: Prompt
       fonts:
+        - asset: assets/fonts/Prompt/Prompt-Light.ttf
         - asset: assets/fonts/Prompt/Prompt-Regular.ttf
+        - asset: assets/fonts/Prompt/Prompt-Medium.ttf
+        - asset: assets/fonts/Prompt/Prompt-SemiBold.ttf
         - asset: assets/fonts/Prompt/Prompt-Bold.ttf
-          weight: 700

@@ -3,38 +3,66 @@ import 'package:flutter/material.dart';
 class AppTypography {
   static const String fontFamily = 'Prompt';
 
-  static const TextStyle headline1 = TextStyle(
-    fontFamily: fontFamily,
-    fontSize: 32,
-    fontWeight: FontWeight.bold,
-    color: Colors.black,
+  static TextTheme get textTheme => const TextTheme(
+    displayLarge: displayLarge,
+    headlineMedium: headlineMedium,
+    headlineSmall: headlineSmall,
+    titleMedium: titleMedium,
+    bodyMedium: bodyMedium,
+    bodySmall: bodySmall,
+    labelSmall: labelSmall,
   );
 
-  static const TextStyle headline2 = TextStyle(
+  // --- Display / Headline ---
+  static const TextStyle displayLarge = TextStyle(
     fontFamily: fontFamily,
     fontSize: 24,
-    fontWeight: FontWeight.bold,
-    color: Colors.black,
+    fontWeight: FontWeight.w500, // Bold
+    color: Colors.black, // * หัวข้อหลัก
+    height: 1.5,
   );
 
-  static const TextStyle bodyText = TextStyle(
+  static const TextStyle headlineMedium = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 16,
-    fontWeight: FontWeight.normal,
+    fontSize: 20,
+    fontWeight: FontWeight.w500, // SemiBold
+    color: Colors.black87, // * หัวข้อรอง
+  );
+
+  static const TextStyle headlineSmall = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 18,
+    fontWeight: FontWeight.w500, // Medium
     color: Colors.black87,
   );
 
-  static const TextStyle caption = TextStyle(
+  static const TextStyle titleMedium = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 12,
-    fontWeight: FontWeight.w300,
-    color: Colors.black54,
+    fontSize: 16,
+    fontWeight: FontWeight.w500, // Medium
+    color: Colors.black87,
   );
 
-  static TextTheme get textTheme => const TextTheme(
-    displayLarge: headline1,
-    displayMedium: headline2,
-    bodyMedium: bodyText,
-    bodySmall: caption,
+  // --- Body / Paragraph ---
+  static const TextStyle bodyMedium = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 16,
+    fontWeight: FontWeight.w400, // Regular
+    color: Colors.black87,
+  );
+
+  static const TextStyle bodySmall = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Colors.black87, // ข้อความรอง
+  );
+
+  // --- Caption / Label ---
+  static const TextStyle labelSmall = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 12,
+    fontWeight: FontWeight.w300, // Light
+    color: Colors.black87,
   );
 }

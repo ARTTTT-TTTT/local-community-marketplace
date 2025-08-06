@@ -21,35 +21,35 @@ class TermsProvider extends ChangeNotifier {
   void showExitDialog(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(20),
+      builder: (context) => SafeArea(
+        minimum: const EdgeInsets.only(bottom: 40, left: 20, right: 20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'การไม่ยอมรับหมายถึงต้องออกจากแอปพลิเคชั่น',
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(
+                context,
+              ).textTheme.headlineMedium!.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              'กรุณาพิจารณาการยอมรับเงื่อนไขอีกครั้ง',
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('ยกเลิก'),
-            ),
-            TextButton(
-              onPressed: () =>
-                  Navigator.of(context).popUntil((route) => route.isFirst),
-              child: const Text(
-                'ออกจากระบบ',
-                style: TextStyle(color: Colors.red),
+            SizedBox(
+              width: double.infinity,
+              height: 60,
+              child: FilledButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('ยกเลิก'),
               ),
             ),
           ],
         ),
       ),
     );
-  }
-
-  void acceptTerms(BuildContext context) {
-    // This will be handled in the UI file with proper navigation
   }
 }

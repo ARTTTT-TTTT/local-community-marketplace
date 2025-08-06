@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:community_marketplace/providers/signup_provider.dart';
+import 'package:community_marketplace/providers/auth/signup_provider.dart';
 import 'package:community_marketplace/theme/color_schemas.dart';
 import 'package:community_marketplace/widgets/custom_button.dart';
 import 'package:community_marketplace/widgets/auth/password_field.dart';
