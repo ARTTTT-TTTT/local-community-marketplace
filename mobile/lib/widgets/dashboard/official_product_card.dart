@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import '../../models/product.dart';
 
 class OfficialProductCard extends StatelessWidget {
@@ -8,7 +8,7 @@ class OfficialProductCard extends StatelessWidget {
 
   const OfficialProductCard({
     super.key,
-    required this.product,
+    required this.product, 
     required this.onTap,
     required this.onFavoriteToggle,
   });
@@ -163,38 +163,11 @@ class OfficialProductCard extends StatelessWidget {
   }
 
   Widget _buildProductImage() {
-    // For now, show a placeholder with bookmark icon
-    return Container(
+    // Use the new image widget from Product model
+    return product.getImageWidget(
       width: double.infinity,
       height: double.infinity,
-      decoration: BoxDecoration(color: Colors.grey[200]),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Bookmark icon like in wireframe
-            Container(
-              width: 40,
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(4),
-                border: Border.all(color: Colors.grey[400]!, width: 1),
-              ),
-              child: const Icon(
-                Icons.bookmark_border,
-                color: Colors.grey,
-                size: 24,
-              ),
-            ),
-            const SizedBox(height: 8),
-            // Placeholder lines
-            Container(width: 30, height: 2, color: Colors.grey[400]),
-            const SizedBox(height: 2),
-            Container(width: 20, height: 2, color: Colors.grey[400]),
-          ],
-        ),
-      ),
+      fit: BoxFit.cover,
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Product {
   final String id;
   final String name;
@@ -69,5 +71,58 @@ class Product {
   String get formattedRating {
     if (rating == null) return '';
     return rating!.toStringAsFixed(1);
+  }
+
+  // Check if image URL is a network URL
+  bool get isNetworkImage {
+    return imageUrl.startsWith('http://') || imageUrl.startsWith('https://');
+  }
+
+  // Get image widget based on URL type
+  Widget getImageWidget({
+    double? width,
+    double? height,
+    BoxFit fit = BoxFit.cover,
+  }) {
+    if (isNetworkImage) {
+      return Image.network(
+        imageUrl,
+        width: width,
+        height: height,
+        fit: fit,
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            width: width,
+            height: height,
+            color: Colors.grey[300],
+            child: const Icon(Icons.broken_image, color: Colors.grey),
+          );
+        },
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Container(
+            width: width,
+            height: height,
+            color: Colors.grey[200],
+            child: const Center(child: CircularProgressIndicator()),
+          );
+        },
+      );
+    } else {
+      return Image.asset(
+        imageUrl,
+        width: width,
+        height: height,
+        fit: fit,
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            width: width,
+            height: height,
+            color: Colors.grey[300],
+            child: const Icon(Icons.broken_image, color: Colors.grey),
+          );
+        },
+      );
+    }
   }
 }

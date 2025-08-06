@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import '../models/product.dart';
+import '../models/item_model.dart';
+import '../services/firestore_service.dart';
 import '../widgets/filter_drawer.dart';
 
 class DashboardProvider extends ChangeNotifier {
+  final FirestoreService _firestoreService = FirestoreService();
+
   List<Product> _allProducts = [];
   List<Product> _hotProducts = [];
   List<Product> _regularProducts = [];
@@ -20,25 +24,117 @@ class DashboardProvider extends ChangeNotifier {
   String get selectedFilter => _selectedFilter;
   FilterSelection get currentFilters => _currentFilters;
 
-  // Load products (mock data for now)
+  // Load products from Firebase
   Future<void> loadProducts() async {
     _isLoading = true;
     notifyListeners();
 
-    // Simulate API call delay
-    await Future.delayed(const Duration(seconds: 1));
-
-    // Mock product data
-    _allProducts = _generateMockProducts();
-    _categorizeProducts();
-
-    _isLoading = false;
-    notifyListeners();
+    try {
+      // Get items from Firebase
+      final stream = _firestoreService.getAllItems();
+      stream.listen(
+        (items) {
+          _allProducts = items
+              .map((item) => _convertItemToProduct(item))
+              .toList();
+          _categorizeProducts();
+          _isLoading = false;
+          notifyListeners();
+        },
+        onError: (error) {
+          print('Error loading products: $error');
+          // Fallback to mock data if Firebase fails
+          _allProducts = _generateMockProducts();
+          _categorizeProducts();
+          _isLoading = false;
+          notifyListeners();
+        },
+      );
+    } catch (e) {
+      print('Error setting up product stream: $e');
+      // Fallback to mock data if Firebase setup fails
+      _allProducts = _generateMockProducts();
+      _categorizeProducts();
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 
-  // Refresh products
+  // Check Firebase connection
+  /* Currently unused - uncomment when enabling Firebase
+  Future<void> _checkFirebaseConnection() async {
+    try {
+      // Simple test to check if Firebase is working
+      await _firestoreService.getAllItems().first.timeout(
+        const Duration(seconds: 5),
+        onTimeout: () => throw Exception('Firebase connection timeout'),
+      );
+    } catch (e) {
+      print('Firebase connection check failed: $e');
+      throw e;
+    }
+  }
+  */
+
+  // Convert Firebase Item to Product model
+  Product _convertItemToProduct(Item item) {
+    return Product(
+      id: item.id ?? '',
+      name: item.name,
+      description: item.description,
+      price: item.price,
+      imageUrl: item.imageUrls.isNotEmpty
+          ? item.imageUrls.first
+          : 'assets/images/product_placeholder.png',
+      isFavorite: false, // TODO: Implement user favorites
+      isOfficialShop: item.sellerType == SellerType.business,
+      rating: item.sellerType == SellerType.business
+          ? 4.5
+          : null, // TODO: Implement real ratings
+      reviewCount: item.sellerType == SellerType.business
+          ? 100
+          : null, // TODO: Implement real review count
+      sellerName: item.sellerName ?? 'Unknown Seller',
+      location: item.location ?? 'Unknown Location',
+      isNearUser: _isProductNearUser(
+        item,
+      ), // TODO: Implement location-based logic
+    );
+  }
+
+  // Determine if product is near user (placeholder logic)
+  bool _isProductNearUser(Item item) {
+    // TODO: Implement real location-based logic
+    // For now, randomly assign some products as "near user"
+    return item.id?.hashCode.isEven ?? false;
+  }
+
+  // Refresh products from Firebase
   Future<void> refreshProducts() async {
     await loadProducts();
+  }
+
+  // Listen to real-time Firebase updates
+  void startListeningToProducts() {
+    try {
+      final stream = _firestoreService.getAllItems();
+      stream.listen(
+        (items) {
+          if (!_isLoading) {
+            _allProducts = items
+                .map((item) => _convertItemToProduct(item))
+                .toList();
+            _categorizeProducts();
+            notifyListeners();
+          }
+        },
+        onError: (error) {
+          print('Error in product stream: $error');
+        },
+      );
+    } catch (e) {
+      print('Error setting up real-time listener: $e');
+    }
   }
 
   // Toggle favorite status

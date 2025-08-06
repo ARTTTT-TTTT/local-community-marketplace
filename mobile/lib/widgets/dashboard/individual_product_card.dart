@@ -134,48 +134,11 @@ class ProductCard extends StatelessWidget {
   }
 
   Widget _buildProductImage() {
-    // For now, show a placeholder with bookmark icon
-    return Container(
+    // Use the new image widget from Product model
+    return product.getImageWidget(
       width: double.infinity,
       height: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        // Simple crosshatch pattern using CSS-like background
-        image: const DecorationImage(
-          image: NetworkImage(
-            'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><defs><pattern id="crosshatch" patternUnits="userSpaceOnUse" width="20" height="20"><path d="M 0,20 l 20,-20 M -5,5 l 10,-10 M 15,25 l 10,-10" stroke="%23e0e0e0" stroke-width="1"/></pattern></defs><rect width="20" height="20" fill="url(%23crosshatch)"/></svg>',
-          ),
-          fit: BoxFit.cover,
-          opacity: 0.3,
-        ),
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Bookmark icon like in wireframe
-            Container(
-              width: 40,
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(4),
-                border: Border.all(color: Colors.grey[400]!, width: 1),
-              ),
-              child: const Icon(
-                Icons.bookmark_border,
-                color: Colors.grey,
-                size: 24,
-              ),
-            ),
-            const SizedBox(height: 8),
-            // Placeholder lines
-            Container(width: 30, height: 2, color: Colors.grey[400]),
-            const SizedBox(height: 2),
-            Container(width: 20, height: 2, color: Colors.grey[400]),
-          ],
-        ),
-      ),
+      fit: BoxFit.cover,
     );
   }
 }
