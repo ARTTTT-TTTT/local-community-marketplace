@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:community_marketplace/providers/login_provider.dart';
+import 'package:community_marketplace/providers/auth/login_provider.dart';
 import 'package:community_marketplace/widgets/auth/password_field.dart';
 import 'package:community_marketplace/widgets/custom_button.dart';
 import 'package:community_marketplace/screens/auth/register_screen.dart';

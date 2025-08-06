@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:community_marketplace/providers/email_verification_provider.dart';
+import 'package:community_marketplace/providers/auth/email_verification_provider.dart';
 import 'package:community_marketplace/utils/email_verification_theme.dart';
 
 class EmailVerificationScreen extends StatelessWidget {

@@ -1,16 +1,12 @@
-import 'package:community_marketplace/constants/app_constants.dart';
+import 'package:community_marketplace/data/terms_data.dart';
+import 'package:community_marketplace/services/terms_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:community_marketplace/constants/app_constants.dart';
+import 'package:community_marketplace/theme/color_schemas.dart';
 import 'package:community_marketplace/screens/presentation/onboarding_screen.dart';
-import 'package:community_marketplace/providers/terms_provider.dart';
-
-class TermSection {
-  final String title;
-  final String content;
-
-  TermSection({required this.title, required this.content});
-}
+import 'package:community_marketplace/providers/presentation/terms_provider.dart';
 
 class TermsScreen extends StatelessWidget {
   const TermsScreen({super.key});
@@ -25,50 +21,6 @@ class TermsScreen extends StatelessWidget {
 }
 
 class _TermsScreenContent extends StatelessWidget {
-  // Terms content data
-  final List<TermSection> termsSections = [
-    TermSection(
-      title: 'การลงทะเบียน',
-      content:
-          'ผู้ใช้ต้องกรอกข้อมูลจริงและถูกต้อง เพื่อความปลอดภัยในการใช้งาน ข้อมูลส่วนบุคคลจะถูกเก็บรักษาอย่างปลอดภัยตามมาตรฐานสากล และจะไม่ถูกนำไปใช้ในทางที่ผิด',
-    ),
-    TermSection(
-      title: 'การลงทะเบียน',
-      content:
-          'ผู้ใช้ต้องกรอกข้อมูลจริงและถูกต้อง เพื่อความปลอดภัยในการใช้งาน ข้อมูลส่วนบุคคลจะถูกเก็บรักษาอย่างปลอดภัยตามมาตรฐานสากล และจะไม่ถูกนำไปใช้ในทางที่ผิด',
-    ),
-    TermSection(
-      title: 'การลงทะเบียน',
-      content:
-          'ผู้ใช้ต้องกรอกข้อมูลจริงและถูกต้อง เพื่อความปลอดภัยในการใช้งาน ข้อมูลส่วนบุคคลจะถูกเก็บรักษาอย่างปลอดภัยตามมาตรฐานสากล และจะไม่ถูกนำไปใช้ในทางที่ผิด',
-    ),
-    TermSection(
-      title: 'การลงทะเบียน',
-      content:
-          'ผู้ใช้ต้องกรอกข้อมูลจริงและถูกต้อง เพื่อความปลอดภัยในการใช้งาน ข้อมูลส่วนบุคคลจะถูกเก็บรักษาอย่างปลอดภัยตามมาตรฐานสากล และจะไม่ถูกนำไปใช้ในทางที่ผิด',
-    ),
-    TermSection(
-      title: 'ความเป็นส่วนตัว',
-      content:
-          'ข้อมูลส่วนบุคคลของผู้ใช้จะไม่ถูกเปิดเผยให้กับบุคคลที่สาม โดยไม่ได้รับความยินยอมจากผู้ใช้ เว้นแต่กรณีที่กฎหมายกำหนด หาก Android app เก็บรวบรวมข้อมูลการใช้งานเพื่อปรับปรุงบริการ',
-    ),
-    TermSection(
-      title: 'การซื้อขาย',
-      content:
-          'ผู้ใช้รับผิดชอบต่อการทำรายการซื้อขายของตนเอง แอปพลิเคชันทำหน้าที่เป็นตัวกลางเท่านั้น การชำระเงินและการส่งสินค้าเป็นความรับผิดชอบของผู้ซื้อและผู้ขายโดยตรง',
-    ),
-    TermSection(
-      title: 'ข้อจำกัดความรับผิดชอบ',
-      content:
-          'แอปพลิเคชันไม่รับผิดชอบต่อความเสียหายที่เกิดขึ้นจากการใช้งาน หรือปัญหาที่เกิดขึ้นจากการทำรายการระหว่างผู้ใช้ ผู้ใช้ควรตรวจสอบความน่าเชื่อถือของคู่ค้าก่อนทำรายการ',
-    ),
-    TermSection(
-      title: 'การปรับปรุงเงื่อนไข',
-      content:
-          'บริษัทขอสงวนสิทธิ์ในการปรับปรุงแก้ไขข้อตกลงและเงื่อนไขการใช้งานได้ตลอดเวลา โดยจะแจ้งให้ผู้ใช้ทราบล่วงหน้าผ่านทางแอปพลิเคชัน การใช้งานต่อไปถือว่ายอมรับเงื่อนไขใหม่',
-    ),
-  ];
-
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -81,7 +33,12 @@ class _TermsScreenContent extends StatelessWidget {
               icon: const Icon(Icons.arrow_back_ios_new),
               onPressed: () => provider.showExitDialog(context),
             ),
-            title: const Text('ข้อตกลงและเงื่อนไข'),
+            title: Text(
+              'ข้อตกลงและเงื่อนไข',
+              style: Theme.of(
+                context,
+              ).textTheme.displayLarge!.copyWith(color: AppColors.textWhite),
+            ),
           ),
           body: Stack(
             children: [
@@ -91,15 +48,17 @@ class _TermsScreenContent extends StatelessWidget {
                   controller: _scrollController,
                   slivers: [
                     SliverPadding(
-                      padding: const EdgeInsets.all(20),
+                      padding: EdgeInsets.all(20),
                       sliver: SliverList(
                         delegate: SliverChildListDelegate([
-                          ...termsSections.map(
+                          ...termData.map(
                             (section) => _buildTermSection(
+                              context,
                               section.title,
                               section.content,
                             ),
                           ),
+                          const SizedBox(height: 140),
                         ]),
                       ),
                     ),
@@ -114,18 +73,20 @@ class _TermsScreenContent extends StatelessWidget {
     );
   }
 
-  Widget _buildTermSection(String title, String content) {
+  Widget _buildTermSection(BuildContext context, title, String content) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text(title, style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 5),
             Text(
               content,
-              style: const TextStyle(fontSize: 14, color: Colors.grey),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall!.copyWith(color: AppColors.textMuted),
             ),
           ],
         ),
@@ -151,10 +112,11 @@ class _TermsScreenContent extends StatelessWidget {
             ),
           ),
           child: SafeArea(
-            minimum: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+            minimum: const EdgeInsets.only(bottom: 40, left: 20, right: 20),
             child: !provider.showAcceptButtons
                 ? SizedBox(
                     width: double.infinity,
+                    height: 60,
                     child: OutlinedButton(
                       onPressed: () {
                         _scrollController.animateTo(
@@ -166,21 +128,15 @@ class _TermsScreenContent extends StatelessWidget {
                       child: const Text('เลื่อนไปด้านล่าง'),
                     ),
                   )
-                : Row(
+                : Column(
                     children: [
-                      Expanded(
-                        child: OutlinedButton(
-                          onPressed: () => provider.showExitDialog(context),
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: Colors.red,
-                          ),
-                          child: const Text('ไม่ยอมรับ'),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
+                      SizedBox(
+                        width: double.infinity,
+                        height: 60,
                         child: FilledButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            await TermsService.acceptTerms(context);
+                            if (!context.mounted) return;
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -188,7 +144,30 @@ class _TermsScreenContent extends StatelessWidget {
                               ),
                             );
                           },
-                          child: const Text('ยอมรับ'),
+                          child: Text('ยอมรับ'),
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      GestureDetector(
+                        onTap: () => provider.showExitDialog(context),
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          alignment: Alignment.center,
+                          children: [
+                            Text(
+                              'ไม่ยอมรับ',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            Positioned(
+                              bottom: -2, // ขยับเส้นลงให้มีช่องว่าง
+                              left: 0,
+                              right: 0,
+                              child: Container(
+                                height: 1.5,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
