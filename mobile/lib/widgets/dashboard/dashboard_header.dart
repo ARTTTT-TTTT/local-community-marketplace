@@ -12,133 +12,113 @@ class DashboardHeader extends StatelessWidget {
     return Consumer<DashboardProvider>(
       builder: (context, provider, _) {
         return Container(
-          padding: const EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withValues(alpha: 0.1),
-                spreadRadius: 1,
-                blurRadius: 4,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              // Top row with search bar and action buttons
-              Row(
+          decoration: BoxDecoration(color: AppColors.primary),
+          child: SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
                 children: [
-                  // Search Bar
-                  Expanded(
-                    child: Container(
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: BorderRadius.circular(22),
-                        border: Border.all(color: Colors.grey[300]!),
-                      ),
-                      child: TextField(
-                        onChanged: provider.searchProducts,
-                        decoration: InputDecoration(
-                          hintText: 'ค้นหา...',
-                          hintStyle: TextStyle(
-                            color: Colors.grey[500],
-                            fontSize: 14,
+                  // Search Bar + Action Buttons
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.9),
+                            borderRadius: BorderRadius.circular(22),
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.3),
+                            ),
                           ),
-                          prefixIcon: Icon(
-                            Icons.search,
-                            color: Colors.grey[500],
-                            size: 20,
-                          ),
-                          border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
+                          child: TextField(
+                            onChanged: provider.searchProducts,
+                            decoration: InputDecoration(
+                              hintText: 'ค้นหา...',
+                              hintStyle: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 14,
+                              ),
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: Colors.grey[600],
+                                size: 20,
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                            ),
+                            style: const TextStyle(fontSize: 14),
                           ),
                         ),
-                        style: const TextStyle(fontSize: 14),
                       ),
-                    ),
+                      const SizedBox(width: 12),
+                      _buildActionButton(
+                        Icons.shopping_cart_outlined,
+                        () => _onCartPressed(context),
+                        badgeCount: 2,
+                      ),
+                      const SizedBox(width: 8),
+                      _buildActionButton(
+                        Icons.message_outlined,
+                        () => _onMessagePressed(context),
+                        badgeCount: 1,
+                      ),
+                    ],
                   ),
 
-                  const SizedBox(width: 12),
+                  const SizedBox(height: 16),
 
-                  // Cart Button
-                  _buildActionButton(
-                    Icons.shopping_cart_outlined,
-                    () => _onCartPressed(context),
-                    badgeCount: 2, // Example badge count
-                  ),
-
-                  const SizedBox(width: 8),
-
-                  // Message Button
-                  _buildActionButton(
-                    Icons.message_outlined,
-                    () => _onMessagePressed(context),
-                    badgeCount: 1, // Example badge count
+                  // Filter row
+                  Row(
+                    children: [
+                      _buildFilterChip(
+                        context,
+                        'แนะนำ',
+                        Icons.tune,
+                        isSelected: provider.selectedFilter == 'แนะนำ',
+                        onTap: () => provider.filterProducts('แนะนำ'),
+                      ),
+                      const SizedBox(width: 8),
+                      _buildFilterChip(
+                        context,
+                        'หมวดหมู่',
+                        Icons.category_outlined,
+                        isSelected: provider.selectedFilter == 'หมวดหมู่',
+                        onTap: () => _showCategoryFilter(context),
+                      ),
+                      const SizedBox(width: 8),
+                      _buildFilterChip(
+                        context,
+                        'ตัวกรอง',
+                        Icons.filter_list,
+                        isSelected: false,
+                        onTap: () => _showAdvancedFilter(context),
+                      ),
+                      const Spacer(),
+                      if (provider.selectedFilter != 'ทั้งหมด' ||
+                          provider.searchQuery.isNotEmpty)
+                        TextButton(
+                          onPressed: () {
+                            provider.filterProducts('ทั้งหมด');
+                            provider.searchProducts('');
+                          },
+                          child: Text(
+                            'ล้าง',
+                            style: TextStyle(
+                              color: AppColors.primary,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
                 ],
               ),
-
-              const SizedBox(height: 16),
-
-              // Filter row
-              Row(
-                children: [
-                  // Base Filter Button
-                  _buildFilterChip(
-                    context,
-                    'แนะนำ',
-                    Icons.tune,
-                    isSelected: provider.selectedFilter == 'แนะนำ',
-                    onTap: () => provider.filterProducts('แนะนำ'),
-                  ),
-
-                  const SizedBox(width: 8),
-
-                  // Category Filter Button
-                  _buildFilterChip(
-                    context,
-                    'หมวดหมู่',
-                    Icons.category_outlined,
-                    isSelected: provider.selectedFilter == 'หมวดหมู่',
-                    onTap: () => _showCategoryFilter(context),
-                  ),
-
-                  const SizedBox(width: 8),
-
-                  // Advanced Filter Button
-                  _buildFilterChip(
-                    context,
-                    'ตัวกรอง',
-                    Icons.filter_list,
-                    isSelected: false,
-                    onTap: () => _showAdvancedFilter(context),
-                  ),
-
-                  const Spacer(),
-
-                  // Reset Filters
-                  if (provider.selectedFilter != 'ทั้งหมด' ||
-                      provider.searchQuery.isNotEmpty)
-                    TextButton(
-                      onPressed: () {
-                        provider.filterProducts('ทั้งหมด');
-                        provider.searchProducts('');
-                      },
-                      child: Text(
-                        'ล้าง',
-                        style: TextStyle(
-                          color: AppColors.primary,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ],
+            ),
           ),
         );
       },

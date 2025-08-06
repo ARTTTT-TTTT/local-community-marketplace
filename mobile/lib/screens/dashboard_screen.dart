@@ -1,14 +1,14 @@
 import 'package:community_marketplace/theme/color_schemas.dart';
+import 'package:community_marketplace/providers/dashboard_provider.dart';
+import 'package:community_marketplace/widgets/dashboard/individual_product_card.dart';
+import 'package:community_marketplace/widgets/dashboard/official_product_card.dart';
+import 'package:community_marketplace/widgets/dashboard/dashboard_header.dart';
+import 'package:community_marketplace/widgets/floating_navigation_bar.dart';
+import 'package:community_marketplace/screens/item_detail_screen.dart';
+import 'package:community_marketplace/models/product.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../providers/dashboard_provider.dart';
-import '../widgets/dashboard/individual_product_card.dart';
-import '../widgets/dashboard/official_product_card.dart';
-import '../widgets/dashboard/dashboard_header.dart';
-import '../widgets/floating_navigation_bar.dart';
-import '../screens/item_detail_screen.dart';
-import '../models/product.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -30,58 +30,52 @@ class _DashboardScreenContent extends StatelessWidget {
     return Consumer<DashboardProvider>(
       builder: (context, provider, _) {
         return Scaffold(
-          backgroundColor: Colors.grey[50],
-          body: SafeArea(
-            child: Column(
-              children: [
-                // Header with search, filters, and notifications
-                const DashboardHeader(),
+          backgroundColor: Colors.white,
+          body: Column(
+            children: [
+              DashboardHeader(),
 
-                // Main content
-                Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: provider.refreshProducts,
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Hot Products Section (Close to user)
-                          _buildSectionHeader(
-                            context,
-                            'สินค้ายอดนิยมของวันนี้',
-                          ),
-                          const SizedBox(height: 12),
-                          _buildProductGrid(
-                            context,
-                            provider.hotProducts,
-                            isHotSection: true,
-                          ),
+              // Main content
+              Expanded(
+                child: RefreshIndicator(
+                  onRefresh: provider.refreshProducts,
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Hot Products Section (Close to user)
+                        _buildSectionHeader(context, 'สินค้ายอดนิยมของวันนี้'),
+                        const SizedBox(height: 12),
+                        _buildProductGrid(
+                          context,
+                          provider.hotProducts,
+                          isHotSection: true,
+                        ),
 
-                          const SizedBox(height: 32),
+                        const SizedBox(height: 32),
 
-                          // Regular Products Section (Far from user)
-                          _buildSectionHeader(
-                            context,
-                            'สินค้าแนะนำเพิ่มเติมจากร้านค้าที่ไกลออกไป',
-                            showLocationButton: false,
-                          ),
-                          const SizedBox(height: 12),
-                          _buildProductGrid(
-                            context,
-                            provider.regularProducts,
-                            isHotSection: false,
-                          ),
+                        // Regular Products Section (Far from user)
+                        _buildSectionHeader(
+                          context,
+                          'สินค้าแนะนำเพิ่มเติมจากร้านค้าที่ไกลออกไป',
+                          showLocationButton: false,
+                        ),
+                        const SizedBox(height: 12),
+                        _buildProductGrid(
+                          context,
+                          provider.regularProducts,
+                          isHotSection: false,
+                        ),
 
-                          // Bottom padding for floating nav bar
-                          const SizedBox(height: 100),
-                        ],
-                      ),
+                        // Bottom padding for floating nav bar
+                        const SizedBox(height: 100),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           // Floating Navigation Bar
           floatingActionButton: const FloatingNavigationBar(),
