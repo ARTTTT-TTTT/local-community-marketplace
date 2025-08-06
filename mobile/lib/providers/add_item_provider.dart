@@ -1,102 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
-enum ItemCondition {
-  new_,
-  firstHand,
-  secondHandLikeNew,
-  secondHandGood,
-  secondHandFair,
-}
-
-extension ItemConditionExtension on ItemCondition {
-  String get displayName {
-    switch (this) {
-      case ItemCondition.new_:
-        return 'ใหม่';
-      case ItemCondition.firstHand:
-        return 'มือหนึ่ง';
-      case ItemCondition.secondHandLikeNew:
-        return 'มือสอง - สภาพเหมือนใหม่';
-      case ItemCondition.secondHandGood:
-        return 'มือสอง - สภาพดี';
-      case ItemCondition.secondHandFair:
-        return 'มือสอง - สภาพพอใช้';
-    }
-  }
-}
-
-enum ItemCategory {
-  vehicles,
-  housing,
-  menClothing,
-  womenClothing,
-  furniture,
-  electrical,
-  electronics,
-  sport,
-  books,
-  toys,
-  beauty,
-  health,
-  pets,
-  handmade,
-  services,
-}
-
-extension ItemCategoryExtension on ItemCategory {
-  String get displayName {
-    switch (this) {
-      case ItemCategory.vehicles:
-        return 'ยานพาหนะ';
-      case ItemCategory.housing:
-        return 'ที่พักให้เช่า';
-      case ItemCategory.menClothing:
-        return 'เสื้อผ้าผู้ชาย';
-      case ItemCategory.womenClothing:
-        return 'เสื้อผ้าผู้หญิง';
-      case ItemCategory.furniture:
-        return 'เฟอร์นิเจอร์';
-      case ItemCategory.electrical:
-        return 'เครื่องใช้ไฟฟ้า';
-      case ItemCategory.electronics:
-        return 'อิเล็กทรอนิกส์';
-      case ItemCategory.sport:
-        return 'อุปกรณ์กีฬา';
-      case ItemCategory.books:
-        return 'หนังสือ';
-      case ItemCategory.toys:
-        return 'ของเล่น';
-      case ItemCategory.beauty:
-        return 'เครื่องสำอาง';
-      case ItemCategory.health:
-        return 'สุขภาพและความงาม';
-      case ItemCategory.pets:
-        return 'สัตว์เลี้ยง';
-      case ItemCategory.handmade:
-        return 'งานฝีมือ';
-      case ItemCategory.services:
-        return 'บริการ';
-    }
-  }
-}
-
-enum SellerType { individual, official }
-
-extension SellerTypeExtension on SellerType {
-  String get displayName {
-    switch (this) {
-      case SellerType.individual:
-        return 'บุคคล';
-      case SellerType.official:
-        return 'ร้านค้า';
-    }
-  }
-}
+import '../models/item_model.dart';
+import '../services/firestore_service.dart';
 
 class AddItemProvider extends ChangeNotifier {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final FirestoreService _firestoreService = FirestoreService();
 
   // Text controllers
   final TextEditingController nameController = TextEditingController();
@@ -205,20 +115,23 @@ class AddItemProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 2));
-
-      // TODO: Implement actual item creation logic
-      debugPrint('Item created successfully!');
-      debugPrint('Name: ${nameController.text}');
-      debugPrint('Detail: ${detailController.text}');
-      debugPrint('Price: ${priceController.text}');
-      debugPrint(
-        'Categories: ${_selectedCategories.map((c) => c.displayName).toList()}',
+      // Create Item object
+      final item = Item(
+        name: nameController.text.trim(),
+        description: detailController.text.trim(),
+        price: double.parse(priceController.text.trim()),
+        imageUrls: _productImages.map((file) => file.path).toList(),
+        categories: _selectedCategories,
+        condition: _selectedCondition,
+        sellerType: _selectedSellerType ?? SellerType.individual,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
       );
-      debugPrint('Condition: ${_selectedCondition?.displayName}');
-      debugPrint('Images: ${_productImages.length}');
-      debugPrint('Profile Image: ${_profileImage != null}');
+
+      // Save item to Firestore
+      await _firestoreService.createItem(item);
+
+      debugPrint('Item created successfully in Firestore!');
 
       // Reset form after successful submission
       _resetForm();

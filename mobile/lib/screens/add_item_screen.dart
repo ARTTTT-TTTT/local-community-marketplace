@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/item_model.dart';
 import '../providers/add_item_provider.dart';
 import '../theme/color_schemas.dart';
 import '../widgets/category_selector_bottom_sheet.dart';
