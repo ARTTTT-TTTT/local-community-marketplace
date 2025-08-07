@@ -2,6 +2,8 @@ import 'package:community_marketplace/theme/color_schemas.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/dashboard_provider.dart';
+import '../../providers/cart_provider.dart';
+import '../../screens/cart_screen.dart';
 import '../filter_drawer.dart';
 
 class DashboardHeader extends StatelessWidget {
@@ -9,8 +11,8 @@ class DashboardHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<DashboardProvider>(
-      builder: (context, provider, _) {
+    return Consumer2<DashboardProvider, CartProvider>(
+      builder: (context, dashboardProvider, cartProvider, _) {
         return Container(
           decoration: BoxDecoration(color: AppColors.primary),
           child: SafeArea(
@@ -33,7 +35,7 @@ class DashboardHeader extends StatelessWidget {
                             ),
                           ),
                           child: TextField(
-                            onChanged: provider.searchProducts,
+                            onChanged: dashboardProvider.searchProducts,
                             decoration: InputDecoration(
                               hintText: 'ค้นหา...',
                               hintStyle: TextStyle(
@@ -59,7 +61,7 @@ class DashboardHeader extends StatelessWidget {
                       _buildActionButton(
                         Icons.shopping_cart_outlined,
                         () => _onCartPressed(context),
-                        badgeCount: 2,
+                        badgeCount: cartProvider.cartItems.length,
                       ),
                       const SizedBox(width: 8),
                       _buildActionButton(
@@ -79,15 +81,16 @@ class DashboardHeader extends StatelessWidget {
                         context,
                         'แนะนำ',
                         Icons.tune,
-                        isSelected: provider.selectedFilter == 'แนะนำ',
-                        onTap: () => provider.filterProducts('แนะนำ'),
+                        isSelected: dashboardProvider.selectedFilter == 'แนะนำ',
+                        onTap: () => dashboardProvider.filterProducts('แนะนำ'),
                       ),
                       const SizedBox(width: 8),
                       _buildFilterChip(
                         context,
                         'หมวดหมู่',
                         Icons.category_outlined,
-                        isSelected: provider.selectedFilter == 'หมวดหมู่',
+                        isSelected:
+                            dashboardProvider.selectedFilter == 'หมวดหมู่',
                         onTap: () => _showCategoryFilter(context),
                       ),
                       const SizedBox(width: 8),
@@ -99,12 +102,12 @@ class DashboardHeader extends StatelessWidget {
                         onTap: () => _showAdvancedFilter(context),
                       ),
                       const Spacer(),
-                      if (provider.selectedFilter != 'ทั้งหมด' ||
-                          provider.searchQuery.isNotEmpty)
+                      if (dashboardProvider.selectedFilter != 'ทั้งหมด' ||
+                          dashboardProvider.searchQuery.isNotEmpty)
                         TextButton(
                           onPressed: () {
-                            provider.filterProducts('ทั้งหมด');
-                            provider.searchProducts('');
+                            dashboardProvider.filterProducts('ทั้งหมด');
+                            dashboardProvider.searchProducts('');
                           },
                           child: Text(
                             'ล้าง',
@@ -214,8 +217,19 @@ class DashboardHeader extends StatelessWidget {
   }
 
   void _onCartPressed(BuildContext context) {
-    // TODO: Navigate to cart screen
-    // print('Cart pressed');
+    // Get the current CartProvider instance
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+
+    // Navigate to cart screen with the existing provider
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChangeNotifierProvider.value(
+          value: cartProvider,
+          child: const CartScreen(),
+        ),
+      ),
+    );
   }
 
   void _onMessagePressed(BuildContext context) {
@@ -236,15 +250,18 @@ class DashboardHeader extends StatelessWidget {
   }
 
   void _showAdvancedFilter(BuildContext context) async {
-    final provider = Provider.of<DashboardProvider>(context, listen: false);
+    final dashboardProvider = Provider.of<DashboardProvider>(
+      context,
+      listen: false,
+    );
 
     final result = await showFilterBottomSheet(
       context: context,
-      initialFilters: provider.currentFilters,
+      initialFilters: dashboardProvider.currentFilters,
     );
 
     if (result != null) {
-      provider.applyFilters(result);
+      dashboardProvider.applyFilters(result);
     }
   }
 }

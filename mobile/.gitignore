@@ -50,10 +50,3 @@ app.*.map.json
 # Firebase variables keys
 /android/app/google-services.json
 /ios/Runner/GoogleService-Info.plist
-
-# Generated files By C++ Plugins
-/mobile/linux/flutter/generated_plugin_registrant.cc
-/mobile/linux/flutter/generated_plugins.cmake
-/mobile/macos/Flutter/GeneratedPluginRegistrant.swift
-/mobile/windows/flutter/generated_plugin_registrant.cc
-/mobile/windows/flutter/generated_plugins.cmake
