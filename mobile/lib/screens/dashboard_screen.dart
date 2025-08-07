@@ -1,4 +1,12 @@
 import 'package:community_marketplace/theme/color_schemas.dart';
+import 'package:community_marketplace/providers/dashboard_provider.dart';
+import 'package:community_marketplace/widgets/dashboard/individual_product_card.dart';
+import 'package:community_marketplace/widgets/dashboard/official_product_card.dart';
+import 'package:community_marketplace/widgets/dashboard/dashboard_header.dart';
+import 'package:community_marketplace/widgets/floating_navigation_bar.dart';
+import 'package:community_marketplace/screens/item_detail_screen.dart';
+import 'package:community_marketplace/models/product.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +18,7 @@ import '../widgets/dashboard/dashboard_header.dart';
 import '../widgets/floating_navigation_bar.dart';
 import '../screens/item_detail_screen.dart';
 import '../models/product.dart';
+
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -33,12 +42,10 @@ class _DashboardScreenContent extends StatelessWidget {
     return Consumer<DashboardProvider>(
       builder: (context, provider, _) {
         return Scaffold(
-          backgroundColor: Colors.grey[50],
-          body: SafeArea(
-            child: Column(
-              children: [
-                // Header with search, filters, and notifications
-                const DashboardHeader(),
+          backgroundColor: Colors.white,
+          body: Column(
+            children: [
+              DashboardHeader(),
 
                 // Main content
                 Expanded(
@@ -182,16 +189,13 @@ class _DashboardScreenContent extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          // Floating Navigation Bar
-          floatingActionButton: const FloatingNavigationBar(),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-        );
+            // Floating Navigation Bar
+            floatingActionButton: const FloatingNavigationBar(),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          );
       },
     );
   }
-
   Widget _buildSectionHeader(
     BuildContext context,
     String title, {
