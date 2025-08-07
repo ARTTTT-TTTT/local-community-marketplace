@@ -137,6 +137,7 @@ class LoginForm extends StatelessWidget {
             _buildPasswordField(provider),
             const SizedBox(height: 16),
           ],
+
           SizedBox(height: provider.showPasswordField ? 16 : 32),
           _buildActionButton(context, provider),
           const SizedBox(height: 16),
@@ -189,7 +190,7 @@ class LoginForm extends StatelessWidget {
   Widget _buildActionButton(BuildContext context, LoginProvider provider) {
     if (!provider.emailChecked) {
       return ConfirmButton(
-        text: provider.isLoading ? 'กำลังตรวจสอบ...' : 'เข้าใช้งานด้วย Email',
+        text: provider.isLoading ? 'กำลังตรวจสอบ...' : 'เข้าใช้งานด้วยอีเมล',
         onPressed: provider.canCheckEmail
             ? () => _handleEmailCheck(context, provider)
             : () {},

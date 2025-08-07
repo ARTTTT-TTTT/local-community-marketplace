@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:community_marketplace/features/presentation/models/onboarding_model.dart';
+import 'package:flutter/material.dart';
 
 final List<OnboardingModel> onboardingData = [
   OnboardingModel(

@@ -144,11 +144,13 @@ Widget _buildSocialButton({
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          Icon(icon, size: 20, color: textColor),
-          const SizedBox(width: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [Icon(icon, size: 20, color: textColor)],
+          ),
           Text(
             text,
             style: TextStyle(
