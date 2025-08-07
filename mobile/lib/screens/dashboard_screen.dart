@@ -10,16 +10,7 @@ import 'package:community_marketplace/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/dashboard_provider.dart';
 import '../services/test_data_service.dart';
-import '../widgets/dashboard/individual_product_card.dart';
-import '../widgets/dashboard/official_product_card.dart';
-import '../widgets/dashboard/dashboard_header.dart';
-import '../widgets/floating_navigation_bar.dart';
-import '../screens/item_detail_screen.dart';
-import '../models/product.dart';
-
-
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
@@ -47,155 +38,160 @@ class _DashboardScreenContent extends StatelessWidget {
             children: [
               DashboardHeader(),
 
-                // Main content
-                Expanded(
-                  child: provider.isLoading
-                      ? const Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircularProgressIndicator(),
-                              SizedBox(height: 16),
-                              Text(
-                                'กำลังโหลดสินค้า...',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 16,
-                                ),
+              // Main content
+              Expanded(
+                child: provider.isLoading
+                    ? const Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(),
+                            SizedBox(height: 16),
+                            Text(
+                              'กำลังโหลดสินค้า...',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16,
                               ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : RefreshIndicator(
+                        onRefresh: provider.refreshProducts,
+                        child: SingleChildScrollView(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Hot Products Section (Close to user)
+                              _buildSectionHeader(
+                                context,
+                                'สินค้ายอดนิยมของวันนี้',
+                              ),
+
+                              // Debug button for adding sample data
+                              if (true) // Set to false in production
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: Row(
+                                    children: [
+                                      ElevatedButton(
+                                        onPressed: () async {
+                                          try {
+                                            await TestDataService.addSampleDataToFirebase();
+                                            if (!context.mounted) return;
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                  '✅ เพิ่มข้อมูลทดสอบแล้ว!',
+                                                ),
+                                                backgroundColor: Colors.green,
+                                              ),
+                                            );
+                                          } catch (e) {
+                                            if (!context.mounted) return;
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  '❌ เกิดข้อผิดพลาด: $e',
+                                                ),
+                                                backgroundColor: Colors.red,
+                                              ),
+                                            );
+                                          }
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.green,
+                                          foregroundColor: Colors.white,
+                                        ),
+                                        child: const Text('เพิ่มข้อมูลทดสอบ'),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      ElevatedButton(
+                                        onPressed: () async {
+                                          try {
+                                            await TestDataService.clearAllItems();
+                                            if (!context.mounted) return;
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                  '✅ ลบข้อมูลทั้งหมดแล้ว!',
+                                                ),
+                                                backgroundColor: Colors.orange,
+                                              ),
+                                            );
+                                          } catch (e) {
+                                            if (!context.mounted) return;
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  '❌ เกิดข้อผิดพลาด: $e',
+                                                ),
+                                                backgroundColor: Colors.red,
+                                              ),
+                                            );
+                                          }
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.orange,
+                                          foregroundColor: Colors.white,
+                                        ),
+                                        child: const Text('ลบข้อมูล'),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                              // * hotProducts
+                              const SizedBox(height: 12),
+                              _buildProductGrid(
+                                context,
+                                provider.hotProducts,
+                                isHotSection: true,
+                              ),
+
+                              const SizedBox(height: 32),
+
+                              // Regular Products Section (Far from user)
+                              _buildSectionHeader(
+                                context,
+                                'สินค้าแนะนำเพิ่มเติมจากร้านค้าที่ไกลออกไป',
+                                showLocationButton: false,
+                              ),
+                              const SizedBox(height: 12),
+                              _buildProductGrid(
+                                context,
+                                provider.regularProducts,
+                                isHotSection: false,
+                              ),
+
+                              // Bottom padding for floating nav bar
+                              const SizedBox(height: 100),
                             ],
                           ),
-                        )
-                      : RefreshIndicator(
-                          onRefresh: provider.refreshProducts,
-                          child: SingleChildScrollView(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // Hot Products Section (Close to user)
-                                _buildSectionHeader(
-                                  context,
-                                  'สินค้ายอดนิยมของวันนี้',
-                                ),
-
-                                // Debug button for adding sample data
-                                if (true) // Set to false in production
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: Row(
-                                      children: [
-                                        ElevatedButton(
-                                          onPressed: () async {
-                                            try {
-                                              await TestDataService.addSampleDataToFirebase();
-                                              ScaffoldMessenger.of(
-                                                context,
-                                              ).showSnackBar(
-                                                const SnackBar(
-                                                  content: Text(
-                                                    '✅ เพิ่มข้อมูลทดสอบแล้ว!',
-                                                  ),
-                                                  backgroundColor: Colors.green,
-                                                ),
-                                              );
-                                            } catch (e) {
-                                              ScaffoldMessenger.of(
-                                                context,
-                                              ).showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    '❌ เกิดข้อผิดพลาด: $e',
-                                                  ),
-                                                  backgroundColor: Colors.red,
-                                                ),
-                                              );
-                                            }
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.green,
-                                            foregroundColor: Colors.white,
-                                          ),
-                                          child: const Text('เพิ่มข้อมูลทดสอบ'),
-                                        ),
-                                        const SizedBox(width: 8),
-                                        ElevatedButton(
-                                          onPressed: () async {
-                                            try {
-                                              await TestDataService.clearAllItems();
-                                              ScaffoldMessenger.of(
-                                                context,
-                                              ).showSnackBar(
-                                                const SnackBar(
-                                                  content: Text(
-                                                    '✅ ลบข้อมูลทั้งหมดแล้ว!',
-                                                  ),
-                                                  backgroundColor:
-                                                      Colors.orange,
-                                                ),
-                                              );
-                                            } catch (e) {
-                                              ScaffoldMessenger.of(
-                                                context,
-                                              ).showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    '❌ เกิดข้อผิดพลาด: $e',
-                                                  ),
-                                                  backgroundColor: Colors.red,
-                                                ),
-                                              );
-                                            }
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.orange,
-                                            foregroundColor: Colors.white,
-                                          ),
-                                          child: const Text('ลบข้อมูล'),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-
-                                // * hotProducts
-                                const SizedBox(height: 12),
-                                _buildProductGrid(
-                                  context,
-                                  provider.hotProducts,
-                                  isHotSection: true,
-                                ),
-
-                                const SizedBox(height: 32),
-
-                                // Regular Products Section (Far from user)
-                                _buildSectionHeader(
-                                  context,
-                                  'สินค้าแนะนำเพิ่มเติมจากร้านค้าที่ไกลออกไป',
-                                  showLocationButton: false,
-                                ),
-                                const SizedBox(height: 12),
-                                _buildProductGrid(
-                                  context,
-                                  provider.regularProducts,
-                                  isHotSection: false,
-                                ),
-
-                                // Bottom padding for floating nav bar
-                                const SizedBox(height: 100),
-                              ],
-                            ),
-                          ),
                         ),
-                ),
-              ],
-            ),
-            // Floating Navigation Bar
-            floatingActionButton: const FloatingNavigationBar(),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-          );
+                      ),
+              ),
+            ],
+          ),
+          // Floating Navigation Bar
+          floatingActionButton: const FloatingNavigationBar(),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+        );
       },
     );
   }
+
   Widget _buildSectionHeader(
     BuildContext context,
     String title, {

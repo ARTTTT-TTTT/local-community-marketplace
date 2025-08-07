@@ -1,7 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/item_model.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:logger/logger.dart';
+
 class TestDataService {
+  static final logger = Logger();
   static Future<void> addSampleDataToFirebase() async {
     final firestore = FirebaseFirestore.instance;
 
@@ -64,14 +67,8 @@ class TestDataService {
       ),
     ];
 
-    try {
-      for (var item in sampleItems) {
-        await firestore.collection('items').add(item.toMap());
-        print('Added item: ${item.name}');
-      }
-      print('✅ Sample data added successfully!');
-    } catch (e) {
-      print('❌ Error adding sample data: $e');
+    for (var item in sampleItems) {
+      await firestore.collection('items').add(item.toMap());
     }
   }
 
@@ -84,9 +81,8 @@ class TestDataService {
       for (var doc in querySnapshot.docs) {
         await doc.reference.delete();
       }
-      print('✅ All items cleared successfully!');
-    } catch (e) {
-      print('❌ Error clearing items: $e');
+    } catch (error, stackTrace) {
+      logger.e('Clearing items:', error: error, stackTrace: stackTrace);
     }
   }
 }

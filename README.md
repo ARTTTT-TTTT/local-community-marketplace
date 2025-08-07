@@ -100,3 +100,15 @@ firebase/
 ```bash
 feature/<module>/<task-name>
 ```
+
+---
+
+## ❌ Fix error dependencies
+
+- `macOS, iOS`
+
+```bash
+cd ios
+rm -rf Podfile.lock Pods
+pod install --repo-update
+```

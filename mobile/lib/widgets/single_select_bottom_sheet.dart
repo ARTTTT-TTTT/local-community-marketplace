@@ -55,7 +55,7 @@ class SingleSelectBottomSheet<T> extends StatelessWidget {
             child: ListView.separated(
               shrinkWrap: true,
               itemCount: options.length,
-              separatorBuilder: (_, __) => const SizedBox.shrink(),
+              separatorBuilder: (_, _) => const SizedBox.shrink(),
               itemBuilder: (context, index) {
                 final option = options[index];
                 final isSelected = selectedValue == option;

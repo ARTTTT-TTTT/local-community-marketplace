@@ -1,11 +1,14 @@
-import 'package:flutter/material.dart';
 import '../models/product.dart';
 import '../models/item_model.dart';
 import '../services/firestore_service.dart';
 import '../widgets/filter_drawer.dart';
 
+import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+
 class DashboardProvider extends ChangeNotifier {
   final FirestoreService _firestoreService = FirestoreService();
+  final logger = Logger();
 
   List<Product> _allProducts = [];
   List<Product> _hotProducts = [];
@@ -42,8 +45,6 @@ class DashboardProvider extends ChangeNotifier {
           notifyListeners();
         },
         onError: (error) {
-          print('Error loading products: $error');
-          // Fallback to mock data if Firebase fails
           _allProducts = _generateMockProducts();
           _categorizeProducts();
           _isLoading = false;
@@ -51,8 +52,6 @@ class DashboardProvider extends ChangeNotifier {
         },
       );
     } catch (e) {
-      print('Error setting up product stream: $e');
-      // Fallback to mock data if Firebase setup fails
       _allProducts = _generateMockProducts();
       _categorizeProducts();
       _isLoading = false;
@@ -118,22 +117,21 @@ class DashboardProvider extends ChangeNotifier {
   void startListeningToProducts() {
     try {
       final stream = _firestoreService.getAllItems();
-      stream.listen(
-        (items) {
-          if (!_isLoading) {
-            _allProducts = items
-                .map((item) => _convertItemToProduct(item))
-                .toList();
-            _categorizeProducts();
-            notifyListeners();
-          }
-        },
-        onError: (error) {
-          print('Error in product stream: $error');
-        },
+      stream.listen((items) {
+        if (!_isLoading) {
+          _allProducts = items
+              .map((item) => _convertItemToProduct(item))
+              .toList();
+          _categorizeProducts();
+          notifyListeners();
+        }
+      }, onError: (error) {});
+    } catch (error, stackTrace) {
+      logger.e(
+        'Exception in startListeningToProducts:',
+        error: error,
+        stackTrace: stackTrace,
       );
-    } catch (e) {
-      print('Error setting up real-time listener: $e');
     }
   }
 

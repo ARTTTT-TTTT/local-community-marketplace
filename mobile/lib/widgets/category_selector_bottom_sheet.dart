@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/item_model.dart';
 import '../theme/color_schemas.dart';
-import '../theme/typography.dart';
 import '../providers/add_item_provider.dart';
 
 class CategorySelectorBottomSheet extends StatelessWidget {
@@ -61,7 +60,7 @@ class CategorySelectorBottomSheet extends StatelessWidget {
                 child: ListView.separated(
                   shrinkWrap: true,
                   itemCount: ItemCategory.values.length,
-                  separatorBuilder: (_, __) => const SizedBox.shrink(),
+                  separatorBuilder: (_, _) => const SizedBox.shrink(),
                   itemBuilder: (context, idx) {
                     final category = ItemCategory.values[idx];
                     final isSelected = provider.selectedCategories.contains(
@@ -87,8 +86,7 @@ class CategorySelectorBottomSheet extends StatelessWidget {
                       ),
                       title: Text(
                         category.displayName,
-                        style: Theme.of(context).textTheme.bodyMedium!
-                            .copyWith(
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: isSelected
                               ? AppColors.primary
                               : Colors.black87,
