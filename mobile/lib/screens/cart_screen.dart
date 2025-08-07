@@ -40,7 +40,7 @@ class _CartScreenContent extends StatelessWidget {
               'ตะกร้าสินค้า',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: AppColors.textWhite,
               ),
             ),
             centerTitle: true,
