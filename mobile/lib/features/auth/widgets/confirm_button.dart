@@ -14,7 +14,7 @@ class ConfirmButton extends StatelessWidget {
     super.key,
     required this.text,
     required this.onPressed,
-    this.isEnabled = true,
+    this.isEnabled = false,
     this.backgroundColor,
     this.textColor,
     this.width,

@@ -6,6 +6,7 @@ import 'package:community_marketplace/screens/dashboard_screen.dart';
 import 'package:community_marketplace/shared/theme/color_schemas.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginForm extends StatelessWidget {
   final LoginProvider provider;
@@ -188,24 +189,44 @@ class LoginForm extends StatelessWidget {
   }
 
   Widget _buildActionButton(BuildContext context, LoginProvider provider) {
-    if (!provider.emailChecked) {
-      return ConfirmButton(
-        text: provider.isLoading ? 'กำลังตรวจสอบ...' : 'เข้าใช้งานด้วยอีเมล',
-        onPressed: provider.canCheckEmail
-            ? () => _handleEmailCheck(context, provider)
-            : () {},
-        isEnabled: provider.canCheckEmail,
-      );
-    } else if (provider.showPasswordField) {
-      return ConfirmButton(
-        text: provider.isLoading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ',
-        onPressed: provider.canSignIn
-            ? () => _handleEmailLogin(context, provider)
-            : () {},
-        isEnabled: provider.canSignIn,
-      );
-    }
-    return const SizedBox.shrink();
+    return Selector<
+      LoginProvider,
+      ({
+        bool canCheckEmail,
+        bool isLoading,
+        bool emailChecked,
+        bool showPasswordField,
+        bool canSignIn,
+      })
+    >(
+      selector: (_, p) => (
+        canCheckEmail: p.canCheckEmail,
+        isLoading: p.isLoading,
+        emailChecked: p.emailChecked,
+        showPasswordField: p.showPasswordField,
+        canSignIn: p.canSignIn,
+      ),
+      builder: (context, state, child) {
+        if (!state.emailChecked) {
+          return ConfirmButton(
+            text: state.isLoading ? 'กำลังตรวจสอบ...' : 'เข้าใช้งานด้วยอีเมล',
+            onPressed: state.canCheckEmail
+                ? () => _handleEmailCheck(context, provider)
+                : () {},
+            isEnabled: state.canCheckEmail,
+          );
+        } else if (state.showPasswordField) {
+          return ConfirmButton(
+            text: state.isLoading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ',
+            onPressed: state.canSignIn
+                ? () => _handleEmailLogin(context, provider)
+                : () {},
+            isEnabled: state.canSignIn,
+          );
+        }
+        return const SizedBox.shrink();
+      },
+    );
   }
 
   Widget _buildChangeEmailOrForgot(
