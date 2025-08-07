@@ -9,6 +9,7 @@ import 'package:community_marketplace/constants/app_constants.dart';
 import 'package:community_marketplace/theme/app_theme.dart';
 import 'package:community_marketplace/services/terms_service.dart';
 
+import 'package:community_marketplace/screens/add_item_screen.dart';
 import 'package:community_marketplace/screens/auth/login_screen.dart';
 import 'package:community_marketplace/screens/auth/register_screen.dart';
 import 'package:community_marketplace/screens/auth/email_verification_screen.dart';
@@ -113,6 +114,11 @@ class HomeScreen extends StatelessWidget {
         'name': 'Item Search Screen',
         'screen': const ItemSearchScreen(),
         'color': Colors.red,
+      },
+      {
+        'name': 'Add Item Screen',
+        'screen': const AddItemScreen(),
+        'color': Colors.pink,
       },
     ];
 
