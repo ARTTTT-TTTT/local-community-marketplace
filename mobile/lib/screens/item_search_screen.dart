@@ -1,8 +1,8 @@
-import 'package:community_marketplace/theme/color_schemas.dart';
+import 'package:community_marketplace/shared/theme/color_schemas.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:community_marketplace/widgets/floating_navigation_bar.dart';
+import 'package:community_marketplace/shared/widgets/floating_navigation_bar.dart';
 import 'package:community_marketplace/providers/search_provider.dart';
 
 class ItemSearchScreen extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/cart_provider.dart';
-import '../theme/color_schemas.dart';
+import '../shared/theme/color_schemas.dart';
 import '../widgets/cart/cart_group_widget.dart';
 
 class CartScreen extends StatelessWidget {

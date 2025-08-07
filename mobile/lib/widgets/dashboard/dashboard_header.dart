@@ -1,10 +1,10 @@
-import 'package:community_marketplace/theme/color_schemas.dart';
+import 'package:community_marketplace/shared/theme/color_schemas.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/dashboard_provider.dart';
 import '../../providers/cart_provider.dart';
 import '../../screens/cart_screen.dart';
-import '../filter_drawer.dart';
+import 'package:community_marketplace/shared/widgets/filter_drawer.dart';
 
 class DashboardHeader extends StatelessWidget {
   const DashboardHeader({super.key});

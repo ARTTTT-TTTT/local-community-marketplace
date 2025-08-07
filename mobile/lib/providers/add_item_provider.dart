@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../models/item_model.dart';
-import '../services/firestore_service.dart';
+import '../shared/services/firestore_service.dart';
 
 class AddItemProvider extends ChangeNotifier {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();

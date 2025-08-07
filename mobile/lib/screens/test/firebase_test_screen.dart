@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../services/firebase_auth_service.dart';
+import '../../features/auth/services/firebase_auth_service.dart';
 
 class FirebaseTestScreen extends StatefulWidget {
   const FirebaseTestScreen({super.key});

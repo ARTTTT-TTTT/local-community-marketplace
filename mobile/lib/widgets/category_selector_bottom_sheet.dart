@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/item_model.dart';
-import '../theme/color_schemas.dart';
+import '../shared/theme/color_schemas.dart';
 import '../providers/add_item_provider.dart';
 
 class CategorySelectorBottomSheet extends StatelessWidget {

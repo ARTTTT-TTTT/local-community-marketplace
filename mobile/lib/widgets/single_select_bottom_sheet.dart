@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../theme/color_schemas.dart';
+import '../shared/theme/color_schemas.dart';
 
 class SingleSelectBottomSheet<T> extends StatelessWidget {
   final String title;

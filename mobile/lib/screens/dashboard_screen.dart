@@ -1,17 +1,17 @@
-import 'package:community_marketplace/theme/color_schemas.dart';
+import 'package:community_marketplace/shared/theme/color_schemas.dart';
 import 'package:community_marketplace/providers/dashboard_provider.dart';
 import 'package:community_marketplace/providers/cart_provider.dart';
 import 'package:community_marketplace/widgets/dashboard/individual_product_card.dart';
 import 'package:community_marketplace/widgets/dashboard/official_product_card.dart';
 import 'package:community_marketplace/widgets/dashboard/dashboard_header.dart';
-import 'package:community_marketplace/widgets/floating_navigation_bar.dart';
+import 'package:community_marketplace/shared/widgets/floating_navigation_bar.dart';
 import 'package:community_marketplace/screens/item_detail_screen.dart';
 import 'package:community_marketplace/models/product.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../services/test_data_service.dart';
+import '../shared/services/test_data_service.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});

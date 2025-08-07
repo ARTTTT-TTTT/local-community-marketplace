@@ -1,21 +1,21 @@
-import 'package:community_marketplace/screens/presentation/terms_screen.dart';
+import 'package:community_marketplace/features/presentation/screens/terms_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'package:community_marketplace/utils/env_config.dart';
+import 'package:community_marketplace/shared/utils/env_config.dart';
 import 'package:community_marketplace/firebase_options.dart';
-import 'package:community_marketplace/constants/app_constants.dart';
-import 'package:community_marketplace/theme/app_theme.dart';
-import 'package:community_marketplace/services/terms_service.dart';
+import 'package:community_marketplace/shared/constants/app_constants.dart';
+import 'package:community_marketplace/shared/theme/app_theme.dart';
+import 'package:community_marketplace/features/presentation/services/terms_service.dart';
 
 import 'package:community_marketplace/screens/add_item_screen.dart';
-import 'package:community_marketplace/screens/auth/login_screen.dart';
-import 'package:community_marketplace/screens/auth/register_screen.dart';
-import 'package:community_marketplace/screens/auth/email_verification_screen.dart';
-import 'package:community_marketplace/screens/presentation/onboarding_screen.dart';
-import 'package:community_marketplace/screens/presentation/splash_screen.dart';
-import 'package:community_marketplace/screens/error_screen.dart';
+import 'package:community_marketplace/features/auth/screens/login_screen.dart';
+import 'package:community_marketplace/features/auth/screens/register_screen.dart';
+import 'package:community_marketplace/features/auth/screens/email_verification_screen.dart';
+import 'package:community_marketplace/features/presentation/screens/onboarding_screen.dart';
+import 'package:community_marketplace/features/presentation/screens/splash_screen.dart';
+import 'package:community_marketplace/shared/screens/error_screen.dart';
 import 'package:community_marketplace/screens/test/firebase_test_screen.dart';
 import 'package:community_marketplace/screens/dashboard_screen.dart';
 import 'package:community_marketplace/screens/item_search_screen.dart';
@@ -159,7 +159,7 @@ class HomeScreen extends StatelessWidget {
                   final screenData = screenList[index - 1];
                   return ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (_) => screenData['screen'] as Widget,

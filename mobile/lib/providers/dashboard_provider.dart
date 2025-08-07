@@ -1,7 +1,7 @@
 import '../models/product.dart';
 import '../models/item_model.dart';
-import '../services/firestore_service.dart';
-import '../widgets/filter_drawer.dart';
+import '../shared/services/firestore_service.dart';
+import '../shared/widgets/filter_drawer.dart';
 
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';

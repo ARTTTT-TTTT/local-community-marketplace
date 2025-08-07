@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/cart_item.dart';
-import '../../theme/color_schemas.dart';
+import '../../shared/theme/color_schemas.dart';
 
 class CartItemWidget extends StatelessWidget {
   final CartItem item;

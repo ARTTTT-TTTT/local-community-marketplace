@@ -1,36 +1,19 @@
-import 'package:community_marketplace/theme/color_schemas.dart';
+import 'package:community_marketplace/shared/theme/color_schemas.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
 import '../models/product.dart';
-import '../providers/cart_provider.dart';
-import 'cart_screen.dart';
 
-class ItemDetailScreen extends StatelessWidget {
+class ItemDetailScreen extends StatefulWidget {
   final Product product; // เก็บข้อมูลสินค้า
 
   const ItemDetailScreen({super.key, required this.product});
 
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => CartProvider()..loadMockData(),
-      child: _ItemDetailScreenContent(product: product),
-    );
-  }
+  State<ItemDetailScreen> createState() => _ItemDetailScreenState();
 }
 
-class _ItemDetailScreenContent extends StatefulWidget {
-  final Product product;
-
-  const _ItemDetailScreenContent({required this.product});
-
-  @override
-  State<_ItemDetailScreenContent> createState() => _ItemDetailScreenState();
-}
-
-class _ItemDetailScreenState extends State<_ItemDetailScreenContent>
+class _ItemDetailScreenState extends State<ItemDetailScreen>
     with TickerProviderStateMixin {
   late PageController _pageController; // ควบคุมรูปภาพ slide
   late TabController _tabController; // ควบคุม tabs
@@ -180,42 +163,34 @@ class _ItemDetailScreenState extends State<_ItemDetailScreenContent>
               const SizedBox(width: 16),
               const Icon(Icons.share, color: Colors.grey, size: 24),
               const SizedBox(width: 16),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const CartScreen()),
-                  );
-                },
-                child: Stack(
-                  children: [
-                    const Icon(
-                      Icons.shopping_cart_outlined,
-                      color: Colors.grey,
-                      size: 24,
-                    ),
-                    Positioned(
-                      right: 0,
-                      top: 0,
-                      child: Container(
-                        padding: const EdgeInsets.all(2),
-                        decoration: const BoxDecoration(
-                          color: Colors.red,
-                          shape: BoxShape.circle,
-                        ),
-                        constraints: const BoxConstraints(
-                          minWidth: 16,
-                          minHeight: 16,
-                        ),
-                        child: const Text(
-                          '5',
-                          style: TextStyle(color: Colors.white, fontSize: 10),
-                          textAlign: TextAlign.center,
-                        ),
+              Stack(
+                children: [
+                  const Icon(
+                    Icons.shopping_cart_outlined,
+                    color: Colors.grey,
+                    size: 24,
+                  ),
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Container(
+                      padding: const EdgeInsets.all(2),
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 16,
+                        minHeight: 16,
+                      ),
+                      child: const Text(
+                        '1',
+                        style: TextStyle(color: Colors.white, fontSize: 10),
+                        textAlign: TextAlign.center,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -1103,29 +1078,24 @@ class _ItemDetailScreenState extends State<_ItemDetailScreenContent>
   }
 
   void _addToCart() {
-    // Add product to cart using provider
-    final cartProvider = Provider.of<CartProvider>(context, listen: false);
-    cartProvider.addToCart(widget.product, quantity: _cartQuantity);
-
+    // TODO: Implement add to cart functionality
     HapticFeedback.selectionClick();
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('เพิ่มลงในตะกร้าแล้ว'),
+        content: Text('เพิ่มลงในรถเข็นแล้ว'),
         duration: Duration(seconds: 2),
-        backgroundColor: AppColors.success,
       ),
     );
   }
 
   void _buyNow() {
-    // Add to cart and navigate to cart screen
-    final cartProvider = Provider.of<CartProvider>(context, listen: false);
-    cartProvider.addToCart(widget.product, quantity: _cartQuantity);
-
+    // TODO: Implement buy now functionality
     HapticFeedback.selectionClick();
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const CartScreen()),
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('ดำเนินการซื้อสินค้า'),
+        duration: Duration(seconds: 2),
+      ),
     );
   }
 
