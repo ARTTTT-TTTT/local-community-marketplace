@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "676057332287",
+    "project_id": "art-for-testing",
+    "storage_bucket": "art-for-testing.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:676057332287:android:de9364a25dc1d2ea84968a",
+        "android_client_info": {
+          "package_name": "com.example.art"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCydmd93KhUA3h8O_V6X2Q2BystJjHVKw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
