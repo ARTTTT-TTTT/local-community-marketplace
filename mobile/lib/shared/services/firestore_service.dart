@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../models/item_model.dart';
+import '../../features/product/models/product_model.dart';
 
 class FirestoreService {
   static final FirestoreService _instance = FirestoreService._internal();
@@ -12,7 +12,7 @@ class FirestoreService {
   static const String itemsCollection = 'items';
 
   /// Create a new item in Firestore
-  Future<String> createItem(Item item) async {
+  Future<String> createItem(Product item) async {
     try {
       final docRef = await _firestore
           .collection(itemsCollection)
@@ -25,7 +25,7 @@ class FirestoreService {
   }
 
   /// Get all items from Firestore
-  Stream<List<Item>> getAllItems() {
+  Stream<List<Product>> getAllItems() {
     try {
       return _firestore
           .collection(itemsCollection)
@@ -35,7 +35,7 @@ class FirestoreService {
             return snapshot.docs.map((doc) {
               final data = doc.data();
               data['id'] = doc.id; // Add document ID
-              return Item.fromMap(data);
+              return Product.fromMap(data);
             }).toList();
           });
     } catch (e) {
@@ -44,7 +44,7 @@ class FirestoreService {
   }
 
   /// Get a specific item by ID
-  Future<Item?> getItemById(String itemId) async {
+  Future<Product?> getItemById(String itemId) async {
     try {
       final doc = await _firestore
           .collection(itemsCollection)
@@ -54,7 +54,7 @@ class FirestoreService {
       if (doc.exists) {
         final data = doc.data()!;
         data['id'] = doc.id;
-        return Item.fromMap(data);
+        return Product.fromMap(data);
       }
       return null;
     } catch (e) {
@@ -63,7 +63,7 @@ class FirestoreService {
   }
 
   /// Update an existing item
-  Future<void> updateItem(String itemId, Item item) async {
+  Future<void> updateItem(String itemId, Product item) async {
     try {
       await _firestore
           .collection(itemsCollection)
@@ -84,7 +84,7 @@ class FirestoreService {
   }
 
   /// Get items by category
-  Stream<List<Item>> getItemsByCategory(List<ItemCategory> categories) {
+  Stream<List<Product>> getItemsByCategory(List<ProductCategory> categories) {
     try {
       final categoryNames = categories.map((c) => c.name).toList();
 
@@ -97,7 +97,7 @@ class FirestoreService {
             return snapshot.docs.map((doc) {
               final data = doc.data();
               data['id'] = doc.id;
-              return Item.fromMap(data);
+              return Product.fromMap(data);
             }).toList();
           });
     } catch (e) {
@@ -106,7 +106,7 @@ class FirestoreService {
   }
 
   /// Search items by name or description
-  Stream<List<Item>> searchItems(String searchTerm) {
+  Stream<List<Product>> searchItems(String searchTerm) {
     try {
       final searchTermLower = searchTerm.toLowerCase();
 
@@ -128,7 +128,7 @@ class FirestoreService {
                 .map((doc) {
                   final data = doc.data();
                   data['id'] = doc.id;
-                  return Item.fromMap(data);
+                  return Product.fromMap(data);
                 })
                 .toList();
           });

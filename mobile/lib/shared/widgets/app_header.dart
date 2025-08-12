@@ -1,134 +1,226 @@
+import 'package:community_marketplace/shared/theme/color_schemas.dart';
+import 'package:community_marketplace/features/cart/providers/cart_provider.dart';
+import 'package:community_marketplace/features/cart/screens/cart_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:community_marketplace/shared/providers/app_header_provider.dart';
-import 'package:community_marketplace/shared/theme/color_schemas.dart';
-
 class AppHeader extends StatelessWidget {
-  const AppHeader({super.key});
+  final bool showBackButton;
+  final bool showSearch;
+  final bool showCart;
+  final bool showMessages;
+  final bool showHeart;
+  final bool showShare;
+  final String? title;
+  final String? searchHint;
+  final Function(String)? onSearchChanged;
+  final VoidCallback? onBackPressed;
+  final VoidCallback? onMessagesPressed;
+  final VoidCallback? onHeartPressed;
+  final VoidCallback? onSharePressed;
+
+  const AppHeader({
+    super.key,
+    this.showBackButton = false,
+    this.showSearch = false,
+    this.showCart = false,
+    this.showMessages = false,
+    this.showHeart = false,
+    this.showShare = false,
+    this.title,
+    this.searchHint,
+    this.onSearchChanged,
+    this.onBackPressed,
+    this.onMessagesPressed,
+    this.onHeartPressed,
+    this.onSharePressed,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppHeaderProvider>(
-      builder: (context, provider, _) {
-        return Container(
-          decoration: BoxDecoration(color: AppColors.primary),
-          child: SafeArea(
-            bottom: false,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.9),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.3),
-                        ),
-                      ),
-                      child: TextField(
-                        onChanged: provider.searchProducts,
-                        decoration: InputDecoration(
-                          hintText: 'ค้นหา...',
-                          hintStyle: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: 14,
-                          ),
-                          prefixIcon: Icon(
-                            Icons.search,
-                            color: Colors.grey[600],
-                            size: 20,
-                          ),
-                          border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                        ),
-                        style: const TextStyle(fontSize: 14),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(width: 12),
-                  _buildActionButton(
-                    Icons.shopping_cart_outlined,
-                    () => _onCartPressed(context),
-                    badgeCount: 2,
-                  ),
-
-                  const SizedBox(width: 8),
-                  _buildActionButton(
-                    Icons.message_outlined,
-                    () => _onMessagePressed(context),
-                    badgeCount: 1,
-                  ),
-                ],
-              ),
-            ),
+    return Container(
+      decoration: BoxDecoration(color: AppColors.primary),
+      child: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              if (showSearch) ...[
+                _buildSearchRow(context),
+              ] else ...[
+                _buildTitleRow(context),
+              ],
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
-  Widget _buildActionButton(
-    IconData icon,
-    VoidCallback onPressed, {
-    int? badgeCount,
-  }) {
-    return Stack(
+  Widget _buildSearchRow(BuildContext context) {
+    return Row(
       children: [
-        Container(
-          width: 44,
-          height: 44,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-            border: Border.all(color: Colors.grey[300]!),
+        if (showBackButton) ...[
+          IconButton(
+            onPressed: onBackPressed ?? () => Navigator.pop(context),
+            icon: const Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.white,
+              size: 20,
+            ),
           ),
-          child: IconButton(
-            onPressed: onPressed,
-            icon: Icon(icon, color: Colors.grey[700], size: 20),
-            padding: EdgeInsets.zero,
-          ),
-        ),
-        if (badgeCount != null && badgeCount > 0)
-          Positioned(
-            right: 0,
-            top: 0,
-            child: Container(
-              padding: const EdgeInsets.all(4),
-              decoration: const BoxDecoration(
-                color: Colors.red,
-                shape: BoxShape.circle,
-              ),
-              constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
-              child: Text(
-                badgeCount > 99 ? '99+' : badgeCount.toString(),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
+          const SizedBox(width: 8),
+        ],
+        Expanded(
+          child: Container(
+            height: 44,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.9),
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+            ),
+            child: TextField(
+              onChanged: onSearchChanged,
+              decoration: InputDecoration(
+                hintText: searchHint ?? 'ค้นหา...',
+                hintStyle: TextStyle(color: Colors.grey[600], fontSize: 14),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Colors.grey[600],
+                  size: 20,
                 ),
-                textAlign: TextAlign.center,
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
               ),
             ),
           ),
+        ),
+        const SizedBox(width: 12),
+        _buildActionButtons(context),
       ],
     );
   }
 
-  void _onCartPressed(BuildContext context) {
-    // TODO: Navigate to cart screen
-    // print('Cart pressed');
+  Widget _buildTitleRow(BuildContext context) {
+    return Row(
+      children: [
+        if (showBackButton) ...[
+          IconButton(
+            onPressed: onBackPressed ?? () => Navigator.pop(context),
+            icon: const Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
+        ],
+        Expanded(
+          child: title != null
+              ? Text(
+                  title!,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+              : const SizedBox.shrink(),
+        ),
+        _buildActionButtons(context),
+      ],
+    );
   }
 
-  void _onMessagePressed(BuildContext context) {
-    // TODO: Navigate to messages screen
-    // print('Message pressed');
+  Widget _buildActionButtons(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (showMessages) ...[
+          IconButton(
+            onPressed: onMessagesPressed,
+            icon: const Icon(
+              Icons.message_outlined,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
+        ],
+        if (showHeart) ...[
+          IconButton(
+            onPressed: onHeartPressed,
+            icon: const Icon(
+              Icons.favorite_border,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
+        ],
+        if (showShare) ...[
+          IconButton(
+            onPressed: onSharePressed,
+            icon: const Icon(
+              Icons.share_outlined,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
+        ],
+        if (showCart) ...[
+          Consumer<CartProvider>(
+            builder: (context, cartProvider, _) {
+              return Stack(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CartScreen(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.shopping_cart_outlined,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
+                  if (cartProvider.itemCount > 0)
+                    Positioned(
+                      right: 6,
+                      top: 6,
+                      child: Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 16,
+                          minHeight: 16,
+                        ),
+                        child: Text(
+                          '${cartProvider.itemCount}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
+          ),
+        ],
+      ],
+    );
   }
 }

@@ -27,6 +27,7 @@ class TermsProvider extends ChangeNotifier {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 20),
             Text(
               'การไม่ยอมรับหมายถึงต้องออกจากแอปพลิเคชั่น',
               style: Theme.of(

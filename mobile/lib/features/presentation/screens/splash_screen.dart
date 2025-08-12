@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:community_marketplace/features/presentation/screens/terms_screen.dart';
 import 'package:community_marketplace/features/presentation/screens/onboarding_screen.dart';
-import 'package:community_marketplace/features/auth/screens/login_screen.dart';
-import 'package:community_marketplace/screens/dashboard_screen.dart';
+import 'package:community_marketplace/features/auth/screens/sign_in_screen.dart';
+import 'package:community_marketplace/features/dashboard/screens/dashboard_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   final bool isFreshInstall;
@@ -19,7 +19,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   bool termsAccepted = false; // จำลองว่ายังไม่ยืนยัน terms
   bool onboardingSeen = false; // จำลองว่ายังไม่เคยเปิดหน้า onboarding
-  bool isLoggedIn = false; // จำลองว่ายังไม่ได้ login
+  bool isSignedIn = false; // จำลองว่ายังไม่ได้ SignIn
 
   @override
   void initState() {
@@ -48,10 +48,10 @@ class _SplashScreenState extends State<SplashScreen> {
           context,
           MaterialPageRoute(builder: (context) => const OnboardingScreen()),
         );
-      } else if (!isLoggedIn) {
+      } else if (!isSignedIn) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
+          MaterialPageRoute(builder: (context) => const SignInScreen()),
         );
       } else {
         Navigator.pushReplacement(

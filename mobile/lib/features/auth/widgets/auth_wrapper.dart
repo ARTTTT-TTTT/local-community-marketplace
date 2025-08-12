@@ -1,4 +1,4 @@
-import 'package:community_marketplace/features/auth/screens/login_screen.dart';
+import 'package:community_marketplace/features/auth/screens/sign_in_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,7 +18,7 @@ class AuthWrapper extends StatelessWidget {
           );
         }
 
-        // If user is signed in, show home screen (you can replace this with your home screen)
+        // If user is SignIn, show home screen (you can replace this with your home screen)
         if (snapshot.hasData && snapshot.data != null) {
           return Scaffold(
             appBar: AppBar(
@@ -69,8 +69,8 @@ class AuthWrapper extends StatelessWidget {
           );
         }
 
-        // If user is not signed in, show login screen
-        return const LoginScreen();
+        // If user is not SignIn in, show SignIn screen
+        return const SignInScreen();
       },
     );
   }

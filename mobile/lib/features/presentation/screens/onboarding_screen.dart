@@ -1,5 +1,5 @@
 import 'package:community_marketplace/features/presentation/providers/onboarding_provider.dart';
-import 'package:community_marketplace/features/auth/screens/login_screen.dart';
+import 'package:community_marketplace/features/auth/screens/sign_in_screen.dart';
 import 'package:community_marketplace/shared/theme/color_schemas.dart';
 import 'package:community_marketplace/features/presentation/models/onboarding_model.dart';
 
@@ -104,7 +104,7 @@ class _OnboardingScreenContent extends StatelessWidget {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => const LoginScreen(),
+                              builder: (_) => const SignInScreen(),
                             ),
                           );
                         } else {

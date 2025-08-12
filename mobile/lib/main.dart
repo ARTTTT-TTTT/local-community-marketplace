@@ -1,5 +1,9 @@
+import 'package:community_marketplace/features/cart/providers/cart_provider.dart';
+import 'package:community_marketplace/features/cart/screens/cart_screen.dart';
 import 'package:community_marketplace/features/presentation/screens/terms_screen.dart';
+import 'package:community_marketplace/features/categories/screens/categories_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -9,16 +13,15 @@ import 'package:community_marketplace/shared/constants/app_constants.dart';
 import 'package:community_marketplace/shared/theme/app_theme.dart';
 import 'package:community_marketplace/features/presentation/services/terms_service.dart';
 
-import 'package:community_marketplace/screens/add_item_screen.dart';
-import 'package:community_marketplace/features/auth/screens/login_screen.dart';
-import 'package:community_marketplace/features/auth/screens/register_screen.dart';
+import 'package:community_marketplace/features/sale/screens/sale_screen.dart';
+import 'package:community_marketplace/features/auth/screens/sign_in_screen.dart';
+import 'package:community_marketplace/features/auth/screens/sign_up_screen.dart';
 import 'package:community_marketplace/features/auth/screens/email_verification_screen.dart';
 import 'package:community_marketplace/features/presentation/screens/onboarding_screen.dart';
 import 'package:community_marketplace/features/presentation/screens/splash_screen.dart';
 import 'package:community_marketplace/shared/screens/error_screen.dart';
-import 'package:community_marketplace/screens/test/firebase_test_screen.dart';
-import 'package:community_marketplace/screens/dashboard_screen.dart';
-import 'package:community_marketplace/screens/item_search_screen.dart';
+import 'package:community_marketplace/features/dashboard/screens/dashboard_screen.dart';
+import 'package:community_marketplace/features/search/screens/search_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,11 +49,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: AppConstants.appName,
-      theme: AppTheme.light,
-      home: const HomeScreen(),
-      debugShowCheckedModeBanner: false,
+    return ChangeNotifierProvider(
+      create: (_) => CartProvider()..loadMockData(),
+      child: MaterialApp(
+        title: AppConstants.appName,
+        theme: AppTheme.light,
+        home: const HomeScreen(),
+        debugShowCheckedModeBanner: false,
+        routes: {'/categories': (context) => const CategoriesScreen()},
+      ),
     );
   }
 }
@@ -83,19 +90,14 @@ class HomeScreen extends StatelessWidget {
         'color': Colors.yellow,
       },
       {
-        'name': 'Register Screen',
-        'screen': const RegisterScreen(email: 'register@gmail.com'),
+        'name': 'SignUp Screen',
+        'screen': const SignUpScreen(email: 'register@gmail.com'),
         'color': Colors.orange,
       },
       {
-        'name': 'Login Screen',
-        'screen': const LoginScreen(),
+        'name': 'SignIn Screen',
+        'screen': const SignInScreen(),
         'color': Colors.purple,
-      },
-      {
-        'name': 'Firebase Test',
-        'screen': const FirebaseTestScreen(),
-        'color': Colors.cyan,
       },
       {
         'name': 'Email Verification Screen',
@@ -111,13 +113,18 @@ class HomeScreen extends StatelessWidget {
         'color': Colors.green,
       },
       {
-        'name': 'Item Search Screen',
-        'screen': const ItemSearchScreen(),
+        'name': 'Search Screen',
+        'screen': const SearchScreen(),
         'color': Colors.red,
       },
       {
-        'name': 'Add Item Screen',
-        'screen': const AddItemScreen(),
+        'name': 'Sale Screen',
+        'screen': const SaleScreen(),
+        'color': Colors.pink,
+      },
+      {
+        'name': 'Cart Screen',
+        'screen': const CartScreen(),
         'color': Colors.pink,
       },
     ];

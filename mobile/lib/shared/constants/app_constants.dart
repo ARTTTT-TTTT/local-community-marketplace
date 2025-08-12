@@ -14,7 +14,8 @@ class AppConstants {
   static const int maxPasswordLength = 20;
 
   // Regular Expressions
-  static const String emailRegex = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
+  static const String emailRegex =
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
   static const String phoneRegex = r'^[0-9]{10}$';
   // TODO: passwordRegex
 

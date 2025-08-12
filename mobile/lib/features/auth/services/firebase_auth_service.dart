@@ -9,36 +9,26 @@ class FirebaseAuthService {
   // Stream of auth state changes
   static Stream<User?> get authStateChanges => _auth.authStateChanges();
 
-  // Sign up with email and password
+  // SignUp with email and password
   static Future<UserCredential?> signUpWithEmail({
     required String email,
     required String password,
   }) async {
     try {
-      // print('🔥 FirebaseAuthService: Creating user with email: $email');
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
 
-      // print(
-      //   '✅ FirebaseAuthService: User created with UID: ${userCredential.user?.uid}',
-      // );
-
-      // Send email verification
-      // print('📧 FirebaseAuthService: Sending email verification...');
       await userCredential.user?.sendEmailVerification();
-          // print('📧 FirebaseAuthService: Email verification sent');
 
       return userCredential;
     } on FirebaseAuthException catch (e) {
-      // print('❌ FirebaseAuthService: Auth error: ${e.code} - ${e.message}');
       throw _handleAuthException(e);
     } catch (e) {
-      // print('❌ FirebaseAuthService: Unknown error: $e');
       throw 'เกิดข้อผิดพลาดที่ไม่คาดคิด: ${e.toString()}';
     }
   }
 
-  // Sign in with email and password
+  //  Regiter with email and password
   static Future<UserCredential?> signInWithEmail({
     required String email,
     required String password,
@@ -56,29 +46,21 @@ class FirebaseAuthService {
     }
   }
 
-  // Check if email exists by attempting to create account with temporary password
-  // This is the recommended approach after fetchSignInMethodsForEmail deprecation
   static Future<bool> checkEmailExists(String email) async {
     try {
-      // Try to create account with a temporary password
-      // If email exists, this will throw 'email-already-in-use' error
       await _auth.createUserWithEmailAndPassword(
         email: email,
-        password:
-            'temporary_password_123!@#', // This won't be used if email exists
+        password: 'temporary_password_123!@#',
       );
 
-      // If we reach here, email doesn't exist and account was created
-      // Delete the temporary account immediately
       await _auth.currentUser?.delete();
-      return false; // Email doesn't exist
+      return false;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
-        return true; // Email exists
+        return true;
       } else if (e.code == 'invalid-email') {
         throw 'รูปแบบอีเมลไม่ถูกต้อง';
       } else if (e.code == 'weak-password') {
-        // This shouldn't happen with our temp password, but just in case
         return false;
       }
       throw _handleAuthException(e);
@@ -87,7 +69,7 @@ class FirebaseAuthService {
     }
   }
 
-  // Sign out
+  // SignOut
   static Future<void> signOut() async {
     try {
       await _auth.signOut();
@@ -152,7 +134,7 @@ class FirebaseAuthService {
         return 'มีการพยายามเข้าสู่ระบบมากเกินไป กรุณาลองใหม่อีกครั้งในภายหลัง';
       case 'network-request-failed':
         return 'ไม่สามารถเชื่อมต่ออินเทอร์เน็ตได้ กรุณาตรวจสอบการเชื่อมต่อ';
-      case 'requires-recent-login':
+      case 'requires-recent-signIn':
         return 'กรุณาเข้าสู่ระบบใหม่เพื่อดำเนินการต่อ';
       default:
         return 'เกิดข้อผิดพลาด: ${e.message ?? e.code}';
