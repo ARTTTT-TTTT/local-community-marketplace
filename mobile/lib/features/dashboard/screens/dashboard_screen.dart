@@ -147,15 +147,18 @@ class _DashboardScreenContentState extends State<_DashboardScreenContent> {
     return Row(
       children: [
         const SizedBox(width: 8),
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.black87,
+        Expanded(
+          child: Text(
+            title,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
           ),
         ),
-        const Spacer(),
         if (showLocationButton)
           TextButton(
             onPressed: () {
@@ -166,11 +169,15 @@ class _DashboardScreenContentState extends State<_DashboardScreenContent> {
               children: [
                 Icon(Icons.location_on, size: 16, color: AppColors.primary),
                 const SizedBox(width: 4),
-                Text(
-                  'เทศบาลนครหาดใหญ่',
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w500,
+                Flexible(
+                  child: Text(
+                    'เทศบาลนครหาดใหญ่',
+                    style: TextStyle(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                 ),
               ],

@@ -14,6 +14,7 @@ class DashboardProvider extends ChangeNotifier {
   String _searchQuery = '';
   String _selectedFilter = 'ทั้งหมด';
   FilterSelection _currentFilters = FilterSelection();
+  String _currentLocation = 'อำเภอหาดใหญ่'; // Default location
 
   // Getters
   List<Product> get allProducts => _allProducts;
@@ -23,6 +24,7 @@ class DashboardProvider extends ChangeNotifier {
   String get searchQuery => _searchQuery;
   String get selectedFilter => _selectedFilter;
   FilterSelection get currentFilters => _currentFilters;
+  String get currentLocation => _currentLocation;
 
   // Load products from Firebase
   Future<void> loadProducts() async {
@@ -102,6 +104,22 @@ class DashboardProvider extends ChangeNotifier {
     _selectedFilter = 'ทั้งหมด';
     _filterProducts();
     notifyListeners();
+  }
+
+  // Change current location
+  void changeLocation(String newLocation) {
+    _currentLocation = newLocation;
+    // TODO: Reload products based on new location
+    notifyListeners();
+  }
+
+  // Get formatted location for display
+  String get formattedLocation {
+    // Shorten long district names for display
+    if (_currentLocation.length > 12) {
+      return '${_currentLocation.substring(0, 10)}...';
+    }
+    return _currentLocation;
   }
 
   // Search products

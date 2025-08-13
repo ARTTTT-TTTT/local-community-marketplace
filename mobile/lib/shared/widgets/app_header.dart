@@ -1,6 +1,7 @@
 import 'package:community_marketplace/shared/theme/color_schemas.dart';
 import 'package:community_marketplace/features/cart/providers/cart_provider.dart';
 import 'package:community_marketplace/features/cart/screens/cart_screen.dart';
+import 'package:community_marketplace/features/search/screens/search_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -74,28 +75,37 @@ class AppHeader extends StatelessWidget {
           const SizedBox(width: 8),
         ],
         Expanded(
-          child: Container(
-            height: 44,
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.9),
-              borderRadius: BorderRadius.circular(22),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
-            ),
-            child: TextField(
-              onChanged: onSearchChanged,
-              decoration: InputDecoration(
-                hintText: searchHint ?? 'ค้นหา...',
-                hintStyle: TextStyle(color: Colors.grey[600], fontSize: 14),
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Colors.grey[600],
-                  size: 20,
-                ),
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SearchScreen()),
+              );
+            },
+            child: Container(
+              height: 44,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.9),
+                borderRadius: BorderRadius.circular(22),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+              ),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Icon(
+                      Icons.search,
+                      color: Colors.grey[600],
+                      size: 20,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      searchHint ?? 'ค้นหา...',
+                      style: TextStyle(color: Colors.grey[600], fontSize: 14),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

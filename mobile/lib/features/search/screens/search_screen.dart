@@ -17,8 +17,23 @@ class SearchScreen extends StatelessWidget {
   }
 }
 
-class _SearchContent extends StatelessWidget {
+class _SearchContent extends StatefulWidget {
   const _SearchContent();
+
+  @override
+  State<_SearchContent> createState() => _SearchContentState();
+}
+
+class _SearchContentState extends State<_SearchContent> {
+  @override
+  void initState() {
+    super.initState();
+    // Auto focus search field เมื่อเปิดหน้า
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider = context.read<SearchProvider>();
+      provider.searchFocusNode.requestFocus();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
