@@ -186,36 +186,36 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           clearButtonText: 'รีเซ็ตทั้งหมด',
         ),
         Expanded(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              _buildFilterCategoryTile(
-                title: 'ราคา',
-                subtitle:
-                    _tempFilters.minPrice != null ||
-                        _tempFilters.maxPrice != null
-                    ? '${_tempFilters.minPrice?.toInt() ?? ''} - ${_tempFilters.maxPrice?.toInt() ?? ''}'
-                    : 'ทั้งหมด',
-                onTap: () => _navigateTo(FilterView.price),
-              ),
-              const Divider(height: 0),
-              _buildFilterCategoryTile(
-                title: 'สภาพ',
-                subtitle: _tempFilters.selectedStatuses.isNotEmpty
-                    ? _tempFilters.selectedStatuses.join(', ')
-                    : 'ทั้งหมด',
-                onTap: () => _navigateTo(FilterView.status),
-              ),
-              const Divider(height: 0),
-              _buildFilterCategoryTile(
-                title: 'ผู้ขาย',
-                subtitle: _tempFilters.selectedSellers.isNotEmpty
-                    ? _tempFilters.selectedSellers.join(', ')
-                    : 'ทั้งหมด',
-                onTap: () => _navigateTo(FilterView.seller),
-              ),
-              const Divider(height: 0),
-            ],
+          child: Container(
+            color: Colors.grey.shade50,
+            child: ListView(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              children: <Widget>[
+                _buildFilterCategoryTile(
+                  title: 'ราคา',
+                  subtitle:
+                      _tempFilters.minPrice != null ||
+                          _tempFilters.maxPrice != null
+                      ? '${_tempFilters.minPrice?.toInt() ?? ''} - ${_tempFilters.maxPrice?.toInt() ?? ''}'
+                      : 'ทั้งหมด',
+                  onTap: () => _navigateTo(FilterView.price),
+                ),
+                _buildFilterCategoryTile(
+                  title: 'สภาพ',
+                  subtitle: _tempFilters.selectedStatuses.isNotEmpty
+                      ? _tempFilters.selectedStatuses.join(', ')
+                      : 'ทั้งหมด',
+                  onTap: () => _navigateTo(FilterView.status),
+                ),
+                _buildFilterCategoryTile(
+                  title: 'ผู้ขาย',
+                  subtitle: _tempFilters.selectedSellers.isNotEmpty
+                      ? _tempFilters.selectedSellers.join(', ')
+                      : 'ทั้งหมด',
+                  onTap: () => _navigateTo(FilterView.seller),
+                ),
+              ],
+            ),
           ),
         ),
         _buildApplyButton(),
@@ -228,14 +228,52 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     required String subtitle,
     required VoidCallback onTap,
   }) {
-    return ListTile(
-      title: Text(title),
-      subtitle: Text(
-        subtitle,
-        style: const TextStyle(fontSize: 12, color: Colors.grey),
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade200, width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.05),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
-      trailing: const Icon(Icons.arrow_forward_ios),
-      onTap: onTap,
+      child: ListTile(
+        onTap: onTap,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: Colors.black87,
+          ),
+        ),
+        subtitle: Text(
+          subtitle,
+          style: TextStyle(
+            fontSize: 13,
+            color: subtitle == 'ทั้งหมด' ? Colors.grey.shade500 : Colors.blue.shade600,
+            fontWeight: subtitle == 'ทั้งหมด' ? FontWeight.w400 : FontWeight.w500,
+          ),
+        ),
+        trailing: Container(
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            color: Colors.grey.shade100,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(
+            Icons.arrow_forward_ios,
+            size: 14,
+            color: Colors.grey.shade600,
+          ),
+        ),
+      ),
     );
   }
 
@@ -312,39 +350,77 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           clearButtonText: 'รีเซ็ต',
         ),
         Expanded(
-          child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            children: [
-              CheckboxListTile(
-                title: const Text('ทั้งหมด'),
-                value: allStatusesSelected,
-                onChanged: (bool? newValue) {
-                  setState(() {
-                    if (newValue == true) {
-                      _tempFilters.selectedStatuses = List.from(_allStatuses);
-                    } else {
-                      _tempFilters.selectedStatuses.clear();
-                    }
-                  });
-                },
-              ),
-              const Divider(height: 0),
-              ..._allStatuses.map((status) {
-                return CheckboxListTile(
-                  title: Text(status),
-                  value: _tempFilters.selectedStatuses.contains(status),
-                  onChanged: (bool? newValue) {
-                    setState(() {
-                      if (newValue == true) {
-                        _tempFilters.selectedStatuses.add(status);
-                      } else {
-                        _tempFilters.selectedStatuses.remove(status);
-                      }
-                    });
-                  },
-                );
-              }),
-            ],
+          child: Container(
+            color: Colors.grey.shade50,
+            child: ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey.shade200, width: 1),
+                  ),
+                  child: CheckboxListTile(
+                    title: const Text(
+                      'ทั้งหมด',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black87,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                    value: allStatusesSelected,
+                    onChanged: (bool? newValue) {
+                      setState(() {
+                        if (newValue == true) {
+                          _tempFilters.selectedStatuses = List.from(_allStatuses);
+                        } else {
+                          _tempFilters.selectedStatuses.clear();
+                        }
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity.trailing,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                  ),
+                ),
+                ..._allStatuses.map((status) {
+                  return Container(
+                    margin: const EdgeInsets.symmetric(vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.grey.shade200, width: 1),
+                    ),
+                    child: CheckboxListTile(
+                      title: Text(
+                        status,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black87,
+                          decoration: TextDecoration.none,
+                        ),
+                      ),
+                      value: _tempFilters.selectedStatuses.contains(status),
+                      onChanged: (bool? newValue) {
+                        setState(() {
+                          if (newValue == true) {
+                            _tempFilters.selectedStatuses.add(status);
+                          } else {
+                            _tempFilters.selectedStatuses.remove(status);
+                          }
+                        });
+                      },
+                      controlAffinity: ListTileControlAffinity.trailing,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                    ),
+                  );
+                }),
+              ],
+            ),
           ),
         ),
         _buildApplyButton(),
@@ -368,39 +444,77 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           clearButtonText: 'รีเซ็ต',
         ),
         Expanded(
-          child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            children: [
-              CheckboxListTile(
-                title: const Text('ทั้งหมด'),
-                value: allSellersSelected,
-                onChanged: (bool? newValue) {
-                  setState(() {
-                    if (newValue == true) {
-                      _tempFilters.selectedSellers = List.from(_allSellers);
-                    } else {
-                      _tempFilters.selectedSellers.clear();
-                    }
-                  });
-                },
-              ),
-              const Divider(height: 0),
-              ..._allSellers.map((seller) {
-                return CheckboxListTile(
-                  title: Text(seller),
-                  value: _tempFilters.selectedSellers.contains(seller),
-                  onChanged: (bool? newValue) {
-                    setState(() {
-                      if (newValue == true) {
-                        _tempFilters.selectedSellers.add(seller);
-                      } else {
-                        _tempFilters.selectedSellers.remove(seller);
-                      }
-                    });
-                  },
-                );
-              }),
-            ],
+          child: Container(
+            color: Colors.grey.shade50,
+            child: ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey.shade200, width: 1),
+                  ),
+                  child: CheckboxListTile(
+                    title: const Text(
+                      'ทั้งหมด',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black87,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                    value: allSellersSelected,
+                    onChanged: (bool? newValue) {
+                      setState(() {
+                        if (newValue == true) {
+                          _tempFilters.selectedSellers = List.from(_allSellers);
+                        } else {
+                          _tempFilters.selectedSellers.clear();
+                        }
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity.trailing,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                  ),
+                ),
+                ..._allSellers.map((seller) {
+                  return Container(
+                    margin: const EdgeInsets.symmetric(vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.grey.shade200, width: 1),
+                    ),
+                    child: CheckboxListTile(
+                      title: Text(
+                        seller,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black87,
+                          decoration: TextDecoration.none,
+                        ),
+                      ),
+                      value: _tempFilters.selectedSellers.contains(seller),
+                      onChanged: (bool? newValue) {
+                        setState(() {
+                          if (newValue == true) {
+                            _tempFilters.selectedSellers.add(seller);
+                          } else {
+                            _tempFilters.selectedSellers.remove(seller);
+                          }
+                        });
+                      },
+                      controlAffinity: ListTileControlAffinity.trailing,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                    ),
+                  );
+                }),
+              ],
+            ),
           ),
         ),
         _buildApplyButton(),
@@ -417,31 +531,57 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     required String clearButtonText,
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border(
-          bottom: BorderSide(color: Colors.grey.shade300, width: 0.5),
+          bottom: BorderSide(color: Colors.grey.shade200, width: 1),
         ),
       ),
       child: Row(
         children: [
-          if (showBackButton)
-            IconButton(icon: const Icon(Icons.arrow_back), onPressed: onBack)
-          else
-            const SizedBox(width: 48),
+          // Left side - Back button or spacer
           Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: showBackButton
+                  ? IconButton(
+                      icon: const Icon(Icons.arrow_back_ios, size: 20),
+                      onPressed: onBack,
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                    )
+                  : const SizedBox.shrink(),
             ),
           ),
-          TextButton(
-            onPressed: onClearAction,
-            child: Text(
-              clearButtonText,
-              style: const TextStyle(color: Colors.blue),
+          // Center - Title
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: Colors.black87,
+            ),
+          ),
+          // Right side - Clear button
+          Expanded(
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: onClearAction,
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  minimumSize: Size.zero,
+                ),
+                child: Text(
+                  clearButtonText,
+                  style: const TextStyle(
+                    color: Colors.blue,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
             ),
           ),
         ],
@@ -475,10 +615,24 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double desiredHeight = screenHeight * 0.85;
 
-    return SizedBox(
+    return Container(
       height: desiredHeight,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       child: Column(
         children: [
+          // Handle bar indicator
+          Container(
+            margin: const EdgeInsets.only(top: 12, bottom: 8),
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
           if (_currentView == FilterView.categories)
             Expanded(child: _buildFilterCategoriesPage()),
           if (_currentView == FilterView.price)
@@ -504,6 +658,7 @@ Future<FilterSelection?> showFilterBottomSheet({
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.white,
+    barrierColor: Colors.black.withOpacity(0.5),
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),

@@ -61,7 +61,16 @@ class _DashboardFilterSectionState extends State<DashboardFilterSection> {
         curve: Curves.easeInOutCubic,
         height: _isVisible ? 70.0 : 0.0, // ความสูงคงที่เพื่อ animation ที่สมูท
         child: Container(
-          decoration: BoxDecoration(color: AppColors.primary),
+          decoration: BoxDecoration(
+            color: AppColors.primary.withValues(alpha: 0.9),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
             child: AnimatedOpacity(
@@ -203,7 +212,11 @@ class _DashboardFilterSectionState extends State<DashboardFilterSection> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
+      barrierColor: Colors.black.withValues(alpha:0.5),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       builder: (context) => FilterBottomSheet(
         initialFilters: FilterSelection(),
         onFiltersApplied: (filters) {
